@@ -6,8 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 
 public class TitleBar extends ToolBar {
-    public TitleBar(){
-        initTitleBar();
+    public TitleBar() {
         setStyle("-fx-border-width: 1;-fx-border-color: red");
 //        setHeight(20);
     }

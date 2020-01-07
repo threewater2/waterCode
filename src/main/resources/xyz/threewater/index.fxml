@@ -7,20 +7,23 @@
 <?import xyz.threewater.plugin.maven.MavenPlugin?>
 <?import xyz.threewater.console.Console?>
 <?import xyz.threewater.editor.Editor?>
-<BorderPane xmlns="http://javafx.com/javafx/10.0.2-internal">
+<?import xyz.threewater.bar.TitleBar?>
+<BorderPane xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="xyz.threewater.controller.IndexController">
     <top>
-        <ToolBar style="-fx-border-width: 1;-fx-border-color: black" />
+        <TitleBar fx:id="titleBar"/>
     </top>
     <left>
-        <NavTree/>
+        <NavTree fx:id="navTree"/>
     </left>
     <right>
-        <MavenPlugin/>
+        <MavenPlugin fx:id="mavenPlugin"/>
     </right>
     <bottom>
-        <Console/>
+        <Console fx:id="console"/>
     </bottom>
     <center>
-        <Editor/>
+        <TabPane fx:id="tabPane"/>
     </center>
 </BorderPane>
