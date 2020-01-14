@@ -3,6 +3,7 @@ package xyz.threewater.dir;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import lombok.AllArgsConstructor;
+import xyz.threewater.editor.JavaKeyWordEditor;
 import xyz.threewater.utils.FileUtil;
 
 import java.io.File;
@@ -47,7 +48,7 @@ public class DirectoryModel {
         fileLabel.setOnMouseClicked(mouseEvent -> {
             String name = fileLabel.getFile().getName();
             String fileContent= FileUtil.file2String(fileLabel.getFile());
-            Tab tab=new Tab(name,new TextArea(fileContent));
+            Tab tab=new Tab(name,new JavaKeyWordEditor(fileContent));
             tabPane.getTabs().addAll(tab);
             SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
             selectionModel.select(tab);

@@ -3,7 +3,8 @@ module xyz.threewater {
     requires javafx.fxml;
     requires lombok;
     requires org.apache.commons.io;
-
+    requires richtextfx;
+    requires reactfx;
 
     opens xyz.threewater to javafx.fxml;
     opens xyz.threewater.controller to javafx.fxml;
