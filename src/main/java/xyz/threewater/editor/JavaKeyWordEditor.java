@@ -3,22 +3,31 @@ package xyz.threewater.editor;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import lombok.Getter;
+import lombok.Setter;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
+import xyz.threewater.utils.FileUtil;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Getter
+@Setter
 public class JavaKeyWordEditor extends CodeArea {
 
-    public JavaKeyWordEditor(String javaCode) {
-        super(javaCode);
+    private String filePath;
+
+    public JavaKeyWordEditor(String javaCode,String filePath) {
+        this.filePath=filePath;
         hiLightJavaCode(javaCode);
+        addSaveEvent();
     }
 
     private static final String[] KEYWORDS = new String[] {
@@ -95,5 +104,17 @@ public class JavaKeyWordEditor extends CodeArea {
         }
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
         return spansBuilder.create();
+    }
+
+    private void addSaveEvent(){
+        this.setOnKeyPressed(keyEvent -> {
+            if(!keyEvent.isControlDown()) return;
+            if(keyEvent.getCode()!=KeyCode.S) return;
+            try {
+                FileUtil.saveFile(this.getText(),filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

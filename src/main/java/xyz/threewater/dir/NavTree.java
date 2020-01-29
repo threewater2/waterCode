@@ -11,7 +11,7 @@ public class NavTree extends TreeView<Node> {
     }
 
     public void initTree(TabPane tabPane){
-        String path="C:\\Users\\water\\OneDrive\\idea_project\\waterIde\\waterIde";
+        String path="C:\\Users\\water\\IdeaProjects\\waterIde";
         TreeItem<Node> treeItem=new DirectoryModel(tabPane).getTreeItem(path);
         setRoot(treeItem);
     }

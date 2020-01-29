@@ -48,7 +48,7 @@ public class DirectoryModel {
         fileLabel.setOnMouseClicked(mouseEvent -> {
             String name = fileLabel.getFile().getName();
             String fileContent= FileUtil.file2String(fileLabel.getFile());
-            Tab tab=new Tab(name,new JavaKeyWordEditor(fileContent));
+            Tab tab=new Tab(name,new JavaKeyWordEditor(fileContent,fileLabel.getFile().getPath()));
             tabPane.getTabs().addAll(tab);
             SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
             selectionModel.select(tab);

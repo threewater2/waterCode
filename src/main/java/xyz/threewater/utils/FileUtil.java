@@ -25,4 +25,10 @@ public class FileUtil {
             throw new UnsupportedFileException(e);
         }
     }
+
+    public static void saveFile(String content,String path) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path,false));
+        writer.write(content);
+        writer.close();
+    }
 }
