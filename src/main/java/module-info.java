@@ -5,6 +5,7 @@ module xyz.threewater {
     requires org.apache.commons.io;
     requires richtextfx;
     requires reactfx;
+    requires com.kodedu.terminalfx;
 
     opens xyz.threewater to javafx.fxml;
     opens xyz.threewater.controller to javafx.fxml;

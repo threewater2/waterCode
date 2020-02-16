@@ -10,6 +10,13 @@
         <javafx.version>13</javafx.version>
         <commons.io.version>2.6</commons.io.version>
     </properties>
+    <!-- JavaFx Terminal 仓库地址 -->
+    <repositories>
+        <repository>
+            <id>terminalfx-repo</id>
+            <url>https://github.com/javaterminal/terminalfx/raw/master/releases</url>
+        </repository>
+    </repositories>
     <dependencies>
         <!--java fx -->
         <dependency>
@@ -44,6 +51,12 @@
             <groupId>org.fxmisc.richtext</groupId>
             <artifactId>richtextfx</artifactId>
             <version>0.10.3</version>
+        </dependency>
+        <!--伪终端-->
+        <dependency>
+            <groupId>com.kodedu.terminalfx</groupId>
+            <artifactId>terminalfx</artifactId>
+            <version>1.1.0</version>
         </dependency>
     </dependencies>
     <build>
