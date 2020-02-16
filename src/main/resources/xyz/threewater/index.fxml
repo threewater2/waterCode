@@ -6,7 +6,6 @@
 <?import xyz.threewater.dir.NavTree?>
 <?import xyz.threewater.plugin.maven.MavenPlugin?>
 <?import xyz.threewater.console.Console?>
-<?import xyz.threewater.editor.Editor?>
 <?import xyz.threewater.bar.TitleBar?>
 <BorderPane xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
