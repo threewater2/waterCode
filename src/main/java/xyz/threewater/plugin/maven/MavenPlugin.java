@@ -1,6 +1,7 @@
 package xyz.threewater.plugin.maven;
 
-import javafx.scene.layout.Pane;
+import xyz.threewater.plugin.maven.praser.MavenTreePane;
 
-public class MavenPlugin extends Pane {
+public class MavenPlugin extends MavenTreePane {
+
 }

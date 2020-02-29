@@ -2,17 +2,17 @@ package xyz.threewater.dir;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import lombok.AllArgsConstructor;
 import xyz.threewater.editor.JavaKeyWordEditor;
 import xyz.threewater.utils.FileUtil;
 
 import java.io.File;
-@AllArgsConstructor
 public class DirectoryModel {
 
     private TabPane tabPane;
 
-
+    public DirectoryModel(TabPane tabPane) {
+        this.tabPane = tabPane;
+    }
 
     public TreeItem<Node> getTreeItem(String path){
         File rootDir=new File(path);

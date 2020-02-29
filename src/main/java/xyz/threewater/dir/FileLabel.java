@@ -1,12 +1,10 @@
 package xyz.threewater.dir;
 
 import javafx.scene.control.Label;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.File;
-@Getter
-@Setter
+
 public class FileLabel extends Label {
     private File file;
 
@@ -15,4 +13,11 @@ public class FileLabel extends Label {
         this.file=file;
     }
 
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
 }

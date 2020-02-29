@@ -1,11 +1,13 @@
 module xyz.threewater {
     requires javafx.controls;
     requires javafx.fxml;
-    requires lombok;
     requires org.apache.commons.io;
     requires richtextfx;
     requires reactfx;
     requires com.kodedu.terminalfx;
+    requires java.xml;
+    requires fastjson;
+    requires jsr305;
 
     opens xyz.threewater to javafx.fxml;
     opens xyz.threewater.controller to javafx.fxml;
