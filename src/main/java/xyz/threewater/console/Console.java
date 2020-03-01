@@ -1,9 +1,11 @@
 package xyz.threewater.console;
 
-import com.kodedu.terminalfx.TerminalBuilder;
-import com.kodedu.terminalfx.TerminalTab;
+import javafx.embed.swing.SwingNode;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import xyz.threewater.function.Resizeable;
+
+import javax.swing.*;
 
 public class Console extends TabPane implements Resizeable {
 
@@ -19,8 +21,9 @@ public class Console extends TabPane implements Resizeable {
     }
 
     private void openTerminalTab(){
-        TerminalBuilder builder=new TerminalBuilder();
-        TerminalTab terminalTab = builder.newTerminal();
-        this.getTabs().add(terminalTab);
+        SwingNode swingNode=new SwingNode();
+        this.getTabs().add(new Tab("terminal",swingNode));
+        JediTerminal jediTerminal = new JediTerminal();
+        SwingUtilities.invokeLater(() -> swingNode.setContent(jediTerminal.getSwingComponent()));
     }
 }
