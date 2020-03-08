@@ -31,4 +31,8 @@ public class FileUtil {
         writer.write(content);
         writer.close();
     }
+
+    public static boolean exist(String filePath){
+        return new File(filePath).exists();
+    }
 }

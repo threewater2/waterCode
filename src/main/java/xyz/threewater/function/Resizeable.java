@@ -70,18 +70,26 @@ public interface Resizeable {
 
     private void resize(Control control,boolean isX){
         control.setOnMouseDragged(mouseEvent -> {
+            double controlPos = getControlPos(control, isX);
+            double mousePos = getMousePos(mouseEvent, isX);
+            double resizeSize;
+            //左边距上边距
+            if(mousePos<controlPos/2){
+                resizeSize = controlPos-mousePos;
+            }else {//右边距下边距
+                resizeSize = mousePos;
+            }
             boolean clickStatus=isX?edgeClickStatus.getKey():edgeClickStatus.getValue();
             if(!clickStatus) return;
             if(isX){
-                control.setPrefWidth(mouseEvent.getX());
+                control.setPrefWidth(resizeSize);
             }else {
-                double newHeight=control.getScene().getHeight()-mouseEvent.getSceneY();
-                control.setPrefHeight(newHeight);
+                control.setPrefHeight(resizeSize);
             }
         });
     }
-
     private boolean isMouseAtEdge(double controlPos,double cursorPos,double scrollWeight) {
+        if(cursorPos>=0&&cursorPos<=scrollWeight) return true;
         return cursorPos <= controlPos && cursorPos > (controlPos - scrollWeight);
     }
 
