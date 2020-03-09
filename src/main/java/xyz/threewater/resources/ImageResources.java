@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.SVGPath;
 import xyz.threewater.utils.FileUtil;
+import xyz.threewater.utils.PathUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,5 +36,10 @@ public class ImageResources {
             }
         }
         return svgPathMap.get(imagePath);
+    }
+
+    public ImageView getImageViewFromRelativePath(String relativePath, boolean isNew){
+        String absolutePath = PathUtil.getResourceFromClassPath(relativePath);
+        return getImageView(absolutePath,isNew);
     }
 }

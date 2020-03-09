@@ -13,6 +13,7 @@ module xyz.threewater {
 
     opens xyz.threewater to javafx.fxml;
     opens xyz.threewater.controller to javafx.fxml;
+    opens xyz.threewater.common.component to javafx.fxml;
     exports xyz.threewater;
     exports xyz.threewater.dir;
     exports xyz.threewater.plugin.maven;

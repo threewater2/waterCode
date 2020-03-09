@@ -14,26 +14,13 @@ import xyz.threewater.utils.PathUtil;
 public class MavenTreePane extends TreeView<Node> {
     public MavenTreePane(){
         setStyle("-fx-border-width: 1;-fx-border-color: blue");
-        initTree();
     }
 
 
 
-    public void initTree(){
-        String path="C:\\Users\\water\\IdeaProjects\\waterIde\\pom.xml";
-        TreeItem<Node> treeItem = null;
-        try {
-            treeItem = getTreeItem(path);
-        } catch (XmlParseException e) {
-            e.printStackTrace();
-        }
-        setRoot(treeItem);
-    }
-
-
-    private TreeItem<Node> getTreeItem(String path) throws XmlParseException {
+    public TreeItem<Node> getDependencyTree(String path) throws XmlParseException {
         TreeNode<String> rootNode = MavenXmlParser.getInstance().parse(path);
-        TreeItem<Node> rootItem=new TreeItem<>(new Label("waterIde"));
+        TreeItem<Node> rootItem=new TreeItem<>(new Label("dependency"));
         resolveTreeNode(rootItem,rootNode);
         return rootItem;
     }

@@ -7,6 +7,8 @@
 <?import xyz.threewater.plugin.maven.MavenPlugin?>
 <?import xyz.threewater.console.Console?>
 <?import xyz.threewater.bar.TitleBar?>
+<?import xyz.threewater.common.component.ImageTextButton?>
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="xyz.threewater.controller.IndexController">
@@ -17,10 +19,22 @@
         <NavTree fx:id="navTree"/>
     </left>
     <right>
-        <MavenPlugin fx:id="mavenPlugin"/>
+        <MavenPlugin fx:id="mavenPlugin">
+
+        </MavenPlugin>
+
     </right>
     <bottom>
-        <Console fx:id="console"/>
+        <VBox>
+            <StackPane fx:id="bottomContent">
+                <Console fx:id="console"/>
+                <Label fx:id="buildResult" visible="false"/>
+            </StackPane>
+            <HBox fx:id="bottomToolBar">
+                <ImageTextButton imagePath="images/maven/terminal-black.png" text="terminal"/>
+                <ImageTextButton imagePath="images/maven/build-black.png" text="build"/>
+            </HBox>
+        </VBox>
     </bottom>
     <center>
         <TabPane fx:id="tabPane"/>

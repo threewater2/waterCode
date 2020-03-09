@@ -59,13 +59,13 @@ public interface Resizeable {
 
     private double getControlPos(Control control,boolean isX){
         return isX?control.getLayoutBounds().getWidth():
-                control.getScene().getHeight()-control.getLayoutY();
+                control.getHeight()-control.getLayoutY();
     }
 
     private double getMousePos(MouseEvent mouseEvent,boolean isX){
         Control control=(Control)mouseEvent.getSource();
         return isX?mouseEvent.getX():
-                control.getScene().getHeight()-mouseEvent.getSceneY();
+                control.getScene().getHeight()-mouseEvent.getY();
     }
 
     private void resize(Control control,boolean isX){

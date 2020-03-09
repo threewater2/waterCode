@@ -8,10 +8,10 @@ public class FileUtil {
     public static String file2String(File file){
         if(file.isDirectory())
             throw new UnsupportedFileException("不能打开一个目录");
-        try {
+        try (
             FileInputStream fileInputStream = new FileInputStream(file);
             Reader streamReader = new InputStreamReader(fileInputStream);
-            BufferedReader bufferedReader=new BufferedReader(streamReader);
+            BufferedReader bufferedReader=new BufferedReader(streamReader)){
             StringBuilder builder=new StringBuilder();
             String strLine=bufferedReader.readLine();
             while (strLine!=null){
