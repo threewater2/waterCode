@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane  xmlns="http://javafx.com/javafx/10.0.2-internal"
+             xmlns:fx="http://javafx.com/fxml/1"
+             fx:controller="xyz.threewater.controller.WaterCodeController"
+             stylesheets="@waterCode.css"
+             styleClass="main">
+   <top>
+       <MenuBar BorderPane.alignment="CENTER">
+           <Menu mnemonicParsing="false" text="File">
+               <Menu mnemonicParsing="false" text="New">
+                   <MenuItem mnemonicParsing="false" text="Project"/>
+               </Menu>
+               <MenuItem mnemonicParsing="false" text="Open" />
+               <MenuItem mnemonicParsing="false" text="Close" />
+           </Menu>
+           <Menu mnemonicParsing="false" text="Edit">
+               <MenuItem mnemonicParsing="false" text="Save" />
+               <MenuItem mnemonicParsing="false" text="Find" />
+               <MenuItem mnemonicParsing="false" text="Delete" />
+           </Menu>
+           <Menu mnemonicParsing="false" text="Help">
+               <MenuItem mnemonicParsing="false" text="About" />
+           </Menu>
+       </MenuBar>
+   </top>
+   <left>
+       <VBox prefHeight="374.0" prefWidth="177.0" BorderPane.alignment="CENTER">
+           <HBox prefHeight="22.0" prefWidth="178.0">
+               <MenuButton mnemonicParsing="false" text="MenuButton">
+                   <items>
+                       <MenuItem mnemonicParsing="false" text="Action 1" />
+                       <MenuItem mnemonicParsing="false" text="Action 2" />
+                   </items>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
+               </MenuButton>
+               <ImageView fitHeight="25.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
+               <ImageView fitHeight="25.0" fitWidth="37.0" layoutX="115.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+           </HBox>
+           <TreeView prefHeight="569.0" prefWidth="177.0" fx:id="dirTree"/>
+       </VBox>
+   </left>
+   <center>
+       <TabPane prefHeight="200.0" prefWidth="200.0"
+                fx:id="editorTabPane"
+                tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+           <Tab text="Untitled Tab 1" />
+           <Tab text="Untitled Tab 2" />
+       </TabPane>
+   </center>
+   <right>
+       <TabPane prefHeight="374.0" prefWidth="147.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+           <Tab text="Maven">
+               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+           </Tab>
+           <Tab text="DateBase">
+               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+           </Tab>
+       </TabPane>
+   </right>
+   <bottom>
+       <TabPane prefHeight="180.0" prefWidth="1182.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+           <Tab text="Ternimal">
+               <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                   <Tab text="Console 1" />
+                   <Tab text="Console 2" />
+               </TabPane>
+           </Tab>
+           <Tab text="OutPut">
+               <TextArea prefHeight="200.0" prefWidth="200.0" />
+           </Tab>
+           <Tab text="Git" />
+       </TabPane>
+   </bottom>
+</BorderPane>

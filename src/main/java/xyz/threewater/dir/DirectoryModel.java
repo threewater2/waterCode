@@ -2,19 +2,21 @@ package xyz.threewater.dir;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import xyz.threewater.controller.WaterCodeController;
 import xyz.threewater.editor.JavaKeyWordEditor;
 import xyz.threewater.utils.FileUtil;
 
 import java.io.File;
+@Component
 public class DirectoryModel {
 
-    private TabPane tabPane;
+    private TabPane editorTabPane;
 
-    public DirectoryModel(TabPane tabPane) {
-        this.tabPane = tabPane;
-    }
-
-    public TreeItem<Node> getTreeItem(String path){
+    public TreeItem<Node> getTreeItem(String path, TabPane tabPane){
+        this.editorTabPane=tabPane;
         File rootDir=new File(path);
         return initDirectoryTree(rootDir, null);
     }
@@ -49,8 +51,8 @@ public class DirectoryModel {
             String name = fileLabel.getFile().getName();
             String fileContent= FileUtil.file2String(fileLabel.getFile());
             Tab tab=new Tab(name,new JavaKeyWordEditor(fileContent,fileLabel.getFile().getPath()));
-            tabPane.getTabs().addAll(tab);
-            SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+            editorTabPane.getTabs().addAll(tab);
+            SingleSelectionModel<Tab> selectionModel = editorTabPane.getSelectionModel();
             selectionModel.select(tab);
         });
     }

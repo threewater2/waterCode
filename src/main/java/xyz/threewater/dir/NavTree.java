@@ -6,7 +6,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import xyz.threewater.function.Resizeable;
 
-public class NavTree extends TreeView<Node> implements Resizeable {
+public class NavTree extends TreeView<Node>{
 
     public NavTree(){
         setStyle("-fx-border-width: 1;-fx-border-color: green");
@@ -14,13 +14,8 @@ public class NavTree extends TreeView<Node> implements Resizeable {
 
     public void initTree(TabPane tabPane){
         String path="C:\\Users\\water\\IdeaProjects\\waterIde";
-        TreeItem<Node> treeItem=new DirectoryModel(tabPane).getTreeItem(path);
-        setRoot(treeItem);
-        initEvent();
+//        TreeItem<Node> treeItem=new DirectoryModel(tabPane).getTreeItem(path);
+//        setRoot(treeItem);
     }
 
-
-    private void initEvent(){
-        resizeableWidth(this,5);
-    }
 }
