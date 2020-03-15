@@ -8,11 +8,21 @@
     -fx-background-color: white;
     -fx-focus-color: white;
 }
+.slogan{
+    -fx-font-size: 30;
+    -fx-fill: gray;
+}
+.slogan.slogan-small{
+    -fx-font-size: 15;
+}
+.slogan.blue{
+    -fx-fill: #5974AB;
+}
 .tab-pane{
     -fx-border-width: 1;
     -fx-border-color: black;
     -fx-padding: 0;
-    -fx-tab-min-height: 21;
+    -fx-tab-min-height: 27;
 }
 .tab-header-area{
     /*-fx-border-width: 1;*/
@@ -34,6 +44,16 @@
 .tab-pane .tab-header-area .tab-header-background {
     -fx-background-color: white;
 }
+.styled-text-area .selection {
+    -fx-fill: #5974AB;
+}
+.styled-text-area .selection.text{
+    -fx-fill: white;
+}
+.styled-text-area .selection.text{
+    -fx-fill: white;
+}
+
 .styled-text-area .text {
     -fx-font-size: 15;
     -fx-font-family: "JetBrains Mono";
@@ -43,7 +63,7 @@
     -fx-pref-width: 1200;
 }
 
-#toolBar .button{
+#toolBar .button,.barButton{
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-width: 0;
@@ -52,7 +72,11 @@
     -fx-background-radius: 0;
     -fx-background-size: 16;
 }
-
+.iconButton{
+    -fx-pref-height: 30;
+    -fx-border-width: 30;
+    -fx-background-image: url("/images/waterCode.png");
+}
 #toolBar .max{
     -fx-background-image: url("/images/bar/max-black.svg");
 }
@@ -64,6 +88,13 @@
 }
 #toolBar .min:hover{
     -fx-background-color: #FFBD44;
+}
+
+.barButton.pos{
+    -fx-background-image: url("/images/bar/pos-black.svg");
+}
+.barButton.minimize{
+    -fx-background-image: url("/images/bar/min-black.svg");
 }
 
 #toolBar .close{

@@ -33,7 +33,12 @@ public class WaterCodeController {
     public Button maxButton;
     @FXML
     public Button closeButton;
-
+    @FXML
+    public Button pos;
+    @FXML
+    public Button minimize;
+    @FXML
+    public Button iconButton;
     private BooleanProperty stageInitialized =new SimpleBooleanProperty(false);
     private Stage stage;
 

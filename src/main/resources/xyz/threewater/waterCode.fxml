@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane styleClass="main" stylesheets="@waterCode.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.threewater.controller.WaterCodeController">
    <top>
        <HBox>
-           <ImageView fitHeight="30" fitWidth="30">
-               <Image url="/images/waterCode.png"/>
-           </ImageView>
+           <Button fx:id="iconButton" styleClass="barButton,iconButton" />
            <MenuBar>
                <Menu mnemonicParsing="false" text="File">
                    <Menu mnemonicParsing="false" styleClass="subMenu" text="New">
@@ -36,26 +34,35 @@
        </HBox>
    </top>
    <left>
-       <VBox prefHeight="374.0" prefWidth="177.0" BorderPane.alignment="CENTER" styleClass="left">
+       <VBox prefHeight="374.0" prefWidth="177.0" styleClass="left" BorderPane.alignment="CENTER">
            <HBox prefHeight="22.0" prefWidth="178.0">
-               <Pane HBox.hgrow="ALWAYS"/>
-               <ImageView fitHeight="25.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" >
-                   <Image url="/images/cmp/pos-black.png"/>
-               </ImageView>
-               <ImageView fitHeight="25.0" fitWidth="37.0"
-                          layoutX="115.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                   <Image url="/images/bar/min-black.svg"/>
-               </ImageView>
+               <Pane HBox.hgrow="ALWAYS" />
+               <Button fx:id="pos" prefHeight="30" prefWidth="40" styleClass="barButton,pos" />
+               <Button fx:id="minimize" prefHeight="30" prefWidth="40" styleClass="barButton,minimize" />
            </HBox>
            <TreeView fx:id="dirTree" prefHeight="569.0" prefWidth="177.0" />
        </VBox>
    </left>
    <center>
-       <TabPane fx:id="editorTabPane" prefHeight="200.0" prefWidth="200.0"
-                tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER" style="-fx-background-color: white">
-           <Tab text="Untitled Tab 1" />
-           <Tab text="Untitled Tab 2" />
-       </TabPane>
+       <StackPane>
+           <VBox StackPane.alignment="CENTER" alignment="CENTER">
+               <TextFlow textAlignment="CENTER">
+                   <Text styleClass="slogan" text="Welcome Use WaterCode!"/>
+               </TextFlow>
+               <TextFlow textAlignment="CENTER">
+                   <Text styleClass="slogan,slogan-small" text="Search Everything"/>
+                   <Text styleClass="slogan,slogan-small,blue" text=" Double Shift"/>
+               </TextFlow>
+               <TextFlow textAlignment="CENTER">
+                   <Text styleClass="slogan,slogan-small" text="Recent File"/>
+                   <Text styleClass="slogan,slogan-small,blue" text="Ctrl+E"/>
+               </TextFlow>
+           </VBox>
+           <TabPane fx:id="editorTabPane" prefHeight="200.0" prefWidth="200.0"
+                    style="-fx-background-color: transparent"
+                    tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER">
+           </TabPane>
+       </StackPane>
    </center>
    <right>
        <TabPane prefHeight="374.0" prefWidth="147.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
