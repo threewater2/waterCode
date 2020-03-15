@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xyz.threewater.controller.WaterCodeController;
+import xyz.threewater.editor.FileEditor;
 import xyz.threewater.editor.JavaKeyWordEditor;
 import xyz.threewater.utils.FileUtil;
 
@@ -14,6 +15,12 @@ import java.io.File;
 public class DirectoryModel {
 
     private TabPane editorTabPane;
+
+    private FileEditor fileEditor;
+
+    public DirectoryModel(FileEditor fileEditor) {
+        this.fileEditor = fileEditor;
+    }
 
     public TreeItem<Node> getTreeItem(String path, TabPane tabPane){
         this.editorTabPane=tabPane;
@@ -49,8 +56,7 @@ public class DirectoryModel {
     private void addLabelClickEvent(FileLabel fileLabel){
         fileLabel.setOnMouseClicked(mouseEvent -> {
             String name = fileLabel.getFile().getName();
-            String fileContent= FileUtil.file2String(fileLabel.getFile());
-            Tab tab=new Tab(name,new JavaKeyWordEditor(fileContent,fileLabel.getFile().getPath()));
+            Tab tab=new Tab(name,fileEditor.openFile(fileLabel.getFile()));
             editorTabPane.getTabs().addAll(tab);
             SingleSelectionModel<Tab> selectionModel = editorTabPane.getSelectionModel();
             selectionModel.select(tab);

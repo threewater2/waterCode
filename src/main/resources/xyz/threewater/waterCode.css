@@ -1,4 +1,151 @@
+@font-face {
+    src:url("editor/JetBrainsMono-Regular.ttf");
+}
+
+.root{
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 15;
+    -fx-background-color: white;
+    -fx-focus-color: white;
+}
+.tab-pane{
+    -fx-border-width: 1;
+    -fx-border-color: black;
+    -fx-padding: 0;
+    -fx-tab-min-height: 21;
+}
+.tab-header-area{
+    /*-fx-border-width: 1;*/
+    -fx-background-color: black;
+    -fx-padding: 0;
+}
+.tab{
+    -fx-border-radius: 0;
+    -fx-background-color: white;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+}
+.tab:selected,.tab:hover{
+    -fx-background-color: #CFCFCF;
+}
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: white;
+}
+.styled-text-area .text {
+    -fx-font-size: 15;
+    -fx-font-family: "JetBrains Mono";
+}
 .main{
     -fx-pref-height: 800;
     -fx-pref-width: 1200;
+}
+
+#toolBar .button{
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-border-width: 0;
+    -fx-background-color: white;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-background-size: 16;
+}
+
+#toolBar .max{
+    -fx-background-image: url("/images/bar/max-black.svg");
+}
+#toolBar .max:hover{
+    -fx-background-color: #00CA4E;
+}
+#toolBar .min{
+    -fx-background-image: url("/images/bar/min-black.svg");
+}
+#toolBar .min:hover{
+    -fx-background-color: #FFBD44;
+}
+
+#toolBar .close{
+    -fx-background-image: url("/images/bar/close-black.svg");
+
+}
+#toolBar .close:hover{
+    -fx-background-color: #FF605C;
+}
+
+.menu-bar{
+    -fx-background-color: white;
+}
+.menu-bar .menu:hover{
+    -fx-background-color: #1A7DC4;
+}
+.menu-bar .menu:showing{
+    -fx-background-color: #1A7DC4;
+}
+.menu-bar .menu:selected{
+    -fx-background-color: #1A7DC4;
+}
+.menu-bar .menu-item:hover{
+    -fx-background-color: #1A7DC4;
+}
+/*中部边框*/
+#editorTabPane{
+    -fx-border-width: 1 0 0 0;
+}
+/* The main scrollbar **track** CSS class  */
+.scroll-bar{
+    -fx-background-color: transparent;
+}
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color:transparent;
+    -fx-border-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius:2em;
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 0 10 0;
+
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 10 0 0;
+
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding:0;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color:#E3E3E3;
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+
+}
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color:#CFCFCF;
+}
+
+/*边框*/
+.left{
+    -fx-border-width: 1;
+    -fx-border-color: black;
 }

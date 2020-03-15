@@ -2,6 +2,9 @@ package xyz.threewater;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationEvent;

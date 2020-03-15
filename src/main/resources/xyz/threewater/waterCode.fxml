@@ -3,56 +3,56 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane  xmlns="http://javafx.com/javafx/10.0.2-internal"
-             xmlns:fx="http://javafx.com/fxml/1"
-             fx:controller="xyz.threewater.controller.WaterCodeController"
-             stylesheets="@waterCode.css"
-             styleClass="main">
+
+<BorderPane styleClass="main" stylesheets="@waterCode.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.threewater.controller.WaterCodeController">
    <top>
-       <MenuBar BorderPane.alignment="CENTER">
-           <Menu mnemonicParsing="false" text="File">
-               <Menu mnemonicParsing="false" text="New">
-                   <MenuItem mnemonicParsing="false" text="Project"/>
+       <HBox>
+           <ImageView fitHeight="30" fitWidth="30">
+               <Image url="/images/waterCode.png"/>
+           </ImageView>
+           <MenuBar>
+               <Menu mnemonicParsing="false" text="File">
+                   <Menu mnemonicParsing="false" styleClass="subMenu" text="New">
+                       <MenuItem mnemonicParsing="false" text="Project" />
+                   </Menu>
+                   <MenuItem mnemonicParsing="false" text="Open" />
+                   <MenuItem mnemonicParsing="false" text="Close" />
                </Menu>
-               <MenuItem mnemonicParsing="false" text="Open" />
-               <MenuItem mnemonicParsing="false" text="Close" />
-           </Menu>
-           <Menu mnemonicParsing="false" text="Edit">
-               <MenuItem mnemonicParsing="false" text="Save" />
-               <MenuItem mnemonicParsing="false" text="Find" />
-               <MenuItem mnemonicParsing="false" text="Delete" />
-           </Menu>
-           <Menu mnemonicParsing="false" text="Help">
-               <MenuItem mnemonicParsing="false" text="About" />
-           </Menu>
-       </MenuBar>
+               <Menu mnemonicParsing="false" text="Edit">
+                   <MenuItem mnemonicParsing="false" text="Save" />
+                   <MenuItem mnemonicParsing="false" text="Find" />
+                   <MenuItem mnemonicParsing="false" text="Delete" />
+               </Menu>
+               <Menu mnemonicParsing="false" text="Help">
+                   <MenuItem mnemonicParsing="false" text="About" />
+               </Menu>
+           </MenuBar>
+           <Pane HBox.hgrow="ALWAYS" />
+           <HBox fx:id="toolBar">
+               <Button fx:id="minButton" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
+               <Button fx:id="maxButton" prefHeight="30.0" prefWidth="40.0" styleClass="max" />
+               <Button fx:id="closeButton" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
+           </HBox>
+       </HBox>
    </top>
    <left>
-       <VBox prefHeight="374.0" prefWidth="177.0" BorderPane.alignment="CENTER">
+       <VBox prefHeight="374.0" prefWidth="177.0" BorderPane.alignment="CENTER" styleClass="left">
            <HBox prefHeight="22.0" prefWidth="178.0">
-               <MenuButton mnemonicParsing="false" text="MenuButton">
-                   <items>
-                       <MenuItem mnemonicParsing="false" text="Action 1" />
-                       <MenuItem mnemonicParsing="false" text="Action 2" />
-                   </items>
-               <contextMenu>
-                  <ContextMenu>
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                    </items>
-                  </ContextMenu>
-               </contextMenu>
-               </MenuButton>
-               <ImageView fitHeight="25.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" />
-               <ImageView fitHeight="25.0" fitWidth="37.0" layoutX="115.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" />
+               <Pane HBox.hgrow="ALWAYS"/>
+               <ImageView fitHeight="25.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true" >
+                   <Image url="/images/cmp/pos-black.png"/>
+               </ImageView>
+               <ImageView fitHeight="25.0" fitWidth="37.0"
+                          layoutX="115.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                   <Image url="/images/bar/min-black.svg"/>
+               </ImageView>
            </HBox>
-           <TreeView prefHeight="569.0" prefWidth="177.0" fx:id="dirTree"/>
+           <TreeView fx:id="dirTree" prefHeight="569.0" prefWidth="177.0" />
        </VBox>
    </left>
    <center>
-       <TabPane prefHeight="200.0" prefWidth="200.0"
-                fx:id="editorTabPane"
-                tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+       <TabPane fx:id="editorTabPane" prefHeight="200.0" prefWidth="200.0"
+                tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER" style="-fx-background-color: white">
            <Tab text="Untitled Tab 1" />
            <Tab text="Untitled Tab 2" />
        </TabPane>
