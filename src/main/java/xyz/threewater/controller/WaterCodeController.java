@@ -5,11 +5,15 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
 import xyz.threewater.bar.WindowBar;
+import xyz.threewater.console.TerminalInitializer;
 import xyz.threewater.dir.DirectoryInitializer;
+import xyz.threewater.function.ResizableInitializer;
 import xyz.threewater.plugin.maven.praser.MavenTreeInitializer;
 
 @Component
@@ -19,7 +23,21 @@ public class WaterCodeController {
     private DirectoryInitializer directoryInitializer;
     private WindowBar windowBar;
     private MavenTreeInitializer mavenTreeInitializer;
+    private TerminalInitializer terminalInitializer;
+    private ResizableInitializer resizableInitializer;
 
+    @FXML
+    public VBox leftPane;
+    @FXML
+    public TabPane rightTabPane;
+    @FXML
+    public TabPane bottomTabPane;
+    @FXML
+    public TabPane terminalTabPane;
+    @FXML
+    public AnchorPane terminalAnchorPane;
+    @FXML
+    public Button addTerminalButton;
     @FXML
     private TreeView<Node> dirTree;
     @FXML
@@ -47,10 +65,14 @@ public class WaterCodeController {
 
     public WaterCodeController(DirectoryInitializer directoryInitializer,
                                WindowBar windowBar,
-                               MavenTreeInitializer mavenTreeInitializer) {
+                               MavenTreeInitializer mavenTreeInitializer,
+                               TerminalInitializer terminalInitializer,
+                               ResizableInitializer resizableInitializer) {
         this.directoryInitializer = directoryInitializer;
         this.windowBar = windowBar;
         this.mavenTreeInitializer=mavenTreeInitializer;
+        this.terminalInitializer=terminalInitializer;
+        this.resizableInitializer = resizableInitializer;
     }
 
     /**
@@ -69,6 +91,8 @@ public class WaterCodeController {
         //初始化标题栏事件
         stageInitialized.addListener((observable, oldValue, newValue) ->
                 windowBar.initialToolBar(minButton,closeButton,maxButton,stage));
+        terminalInitializer.initialize(terminalAnchorPane,terminalTabPane,addTerminalButton);
+        resizableInitializer.initial(bottomTabPane,leftPane,rightTabPane);
     }
 
     public void setStage(Stage stage) {

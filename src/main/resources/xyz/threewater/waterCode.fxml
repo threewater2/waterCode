@@ -34,7 +34,9 @@
        </HBox>
    </top>
    <left>
-       <VBox prefHeight="374.0" prefWidth="177.0" styleClass="left" BorderPane.alignment="CENTER">
+       <VBox prefHeight="374.0" prefWidth="177.0"
+             fx:id="leftPane"
+             styleClass="left" BorderPane.alignment="CENTER">
            <HBox prefHeight="22.0" prefWidth="178.0">
                <Pane HBox.hgrow="ALWAYS" />
                <Button fx:id="pos" prefHeight="30" prefWidth="40" styleClass="barButton,pos" />
@@ -45,30 +47,30 @@
    </left>
    <center>
        <StackPane>
-           <VBox StackPane.alignment="CENTER" alignment="CENTER">
+           <VBox alignment="CENTER" StackPane.alignment="CENTER">
                <TextFlow textAlignment="CENTER">
-                   <Text styleClass="slogan" text="Welcome Use WaterCode!"/>
+                   <Text styleClass="slogan" text="Welcome Use WaterCode!" />
                </TextFlow>
                <TextFlow textAlignment="CENTER">
-                   <Text styleClass="slogan,slogan-small" text="Search Everything"/>
-                   <Text styleClass="slogan,slogan-small,blue" text=" Double Shift"/>
+                   <Text styleClass="slogan,slogan-small" text="Search Everything" />
+                   <Text styleClass="slogan,slogan-small,blue" text=" Double Shift" />
                </TextFlow>
                <TextFlow textAlignment="CENTER">
-                   <Text styleClass="slogan,slogan-small" text="Recent File"/>
-                   <Text styleClass="slogan,slogan-small,blue" text="Ctrl+E"/>
+                   <Text styleClass="slogan,slogan-small" text="Recent File" />
+                   <Text styleClass="slogan,slogan-small,blue" text="Ctrl+E" />
                </TextFlow>
            </VBox>
-           <TabPane fx:id="editorTabPane" prefHeight="200.0" prefWidth="200.0"
-                    style="-fx-background-color: transparent"
-                    tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER">
+           <TabPane fx:id="editorTabPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent" tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER">
            </TabPane>
        </StackPane>
    </center>
    <right>
-       <TabPane prefHeight="374.0" prefWidth="147.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+       <TabPane prefHeight="374.0" prefWidth="147.0" side="RIGHT"
+                fx:id="rightTabPane" styleClass="right"
+                tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
            <Tab text="Maven">
                <VBox>
-                   <TreeView fx:id="mavenTree"/>
+                   <TreeView fx:id="mavenTree" />
                </VBox>
            </Tab>
            <Tab text="DateBase">
@@ -76,15 +78,17 @@
        </TabPane>
    </right>
    <bottom>
-       <TabPane prefHeight="180.0" prefWidth="1182.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-           <Tab text="Ternimal">
-               <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
-                   <Tab text="Console 1" />
-                   <Tab text="Console 2" />
-               </TabPane>
+       <TabPane prefHeight="180.0" prefWidth="1182.0" side="BOTTOM"
+                fx:id="bottomTabPane" styleClass="bottom"
+                tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+           <Tab text="Terminal">
+               <AnchorPane fx:id="terminalAnchorPane" prefHeight="180" prefWidth="1182">
+                   <TabPane fx:id="terminalTabPane" prefHeight="180" prefWidth="1182" tabClosingPolicy="ALL_TABS" />
+                   <Button fx:id="addTerminalButton" styleClass="addTerminalButton" />
+               </AnchorPane>
            </Tab>
            <Tab text="OutPut">
-               <TextArea fx:id="output" prefHeight="200.0" prefWidth="200.0" editable="false"/>
+               <TextArea fx:id="output" editable="false" />
            </Tab>
            <Tab text="Git" />
        </TabPane>

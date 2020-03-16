@@ -1,7 +1,8 @@
 @font-face {
     src:url("editor/JetBrainsMono-Regular.ttf");
 }
-
+/*for blur textarea*/
+.popover > .border { -fx-stroke-width: 1; }
 .root{
     -fx-font-family: "JetBrains Mono";
     -fx-font-size: 15;
@@ -63,7 +64,7 @@
     -fx-pref-width: 1200;
 }
 
-#toolBar .button,.barButton{
+#toolBar .button,.barButton,.addTerminalButton{
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-width: 0;
@@ -71,6 +72,14 @@
     -fx-border-radius: 0;
     -fx-background-radius: 0;
     -fx-background-size: 16;
+}
+.addTerminalButton {
+    -fx-background-image: url("/images/bar/add-black.svg");
+    -fx-pref-width: 40;
+}
+.addTerminalButton:hover {
+    -fx-background-image: url("/images/bar/add-black.svg");
+    -fx-background-color: #CFCFCF;
 }
 .iconButton{
     -fx-pref-height: 30;
@@ -178,5 +187,22 @@
 /*边框*/
 .left{
     -fx-border-width: 1;
-    -fx-border-color: black;
+    -fx-border-color: blue;
+    -fx-padding: 0 5 0 0;
 }
+.right{
+    -fx-border-width: 1;
+    -fx-border-color: red;
+}
+.right > .tab-content-area > * {
+    -fx-padding: 0 0 0 5;
+}
+.bottom{
+    -fx-border-width: 1;
+    -fx-border-color: pink;
+}
+
+.bottom > .tab-content-area > * {
+    -fx-padding: 5 0 0 0;
+}
+/*边框用来调试*/

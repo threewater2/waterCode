@@ -16,6 +16,13 @@
         <javafx.version>13</javafx.version>
         <commons.io.version>2.6</commons.io.version>
     </properties>
+    <!--Java伪终端-->
+    <repositories>
+        <repository>
+            <id>terminalfx-repo</id>
+            <url>https://github.com/javaterminal/terminalfx/raw/master/releases</url>
+        </repository>
+    </repositories>
     <dependencies>
         <!--Spring Boot-->
         <dependency>
@@ -78,19 +85,12 @@
             <artifactId>richtextfx</artifactId>
             <version>0.10.3</version>
         </dependency>
-        <!-- Jedi伪终端 -->
+        <!--Java伪终端-->
         <dependency>
-            <groupId>org.jetbrains.jediterm</groupId>
-            <artifactId>jediterm-pty</artifactId>
-            <version>2.24</version>
+            <groupId>com.kodedu.terminalfx</groupId>
+            <artifactId>terminalfx</artifactId>
+            <version>1.1.0</version>
         </dependency>
-        <!-- Jedi伪终端所需依赖 -->
-        <dependency>
-            <groupId>org.jetbrains.pty4j</groupId>
-            <artifactId>pty4j</artifactId>
-            <version>0.9.6</version>
-        </dependency>
-
         <!--json解析-->
         <dependency>
             <groupId>com.alibaba</groupId>

@@ -1,24 +1,23 @@
 package xyz.threewater.plugin.maven.praser;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import xyz.threewater.resources.ImageResources;
-import xyz.threewater.utils.PathUtil;
 
 import java.io.IOException;
 
 @Component
 class MavenTreeBuilder {
+
+    private Logger logger= LoggerFactory.getLogger(this.getClass());
 
     @Value("classpath:images/bar/chart-black.svg")
     private Resource mavenIcon;
@@ -48,7 +47,9 @@ class MavenTreeBuilder {
 
     private Node getDependencyNode(String dependencyDes){
         try {
-            ImageView imageView=new ImageView(new Image(mavenIcon.getInputStream()));
+            ImageView imageView=new ImageView(new Image(mavenIcon.getInputStream(),
+                    16,16,false,true));
+            logger.debug("dependency description:{}",dependencyDes);
             return new HBox(imageView,new Label(dependencyDes));
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -10,6 +10,7 @@ class TreeNode<T> implements Iterable<TreeNode<T>>{
     private T value;
 
     public TreeNode(T value){
+        this.value=value;
         children=new LinkedList<>();
     }
 

@@ -1,13 +1,13 @@
 package xyz.threewater;
 
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
+import de.codecentric.centerdevice.javafxsvg.dimension.AttributeDimensionProvider;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -28,8 +28,6 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
 
     private CSSHolder cssFile;
 
-    private WindowBar windowBar;
-
     @Value("classpath:xyz/threewater/waterCode.fxml")
     private Resource indexResource;
 
@@ -45,14 +43,13 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
     public StageInitializer(ApplicationContext applicationContext, CSSHolder cssFile, WindowBar windowBar) {
         this.applicationContext=applicationContext;
         this.cssFile = cssFile;
-        this.windowBar = windowBar;
     }
 
     @Override
     public void onApplicationEvent(StageReadyEvent stageReadyEvent) {
         Stage stage = stageReadyEvent.getStage();
-        //svg支持
-        SvgImageLoaderFactory.install();
+        //svg支持,解决svg锯齿问题
+        SvgImageLoaderFactory.install(new AttributeDimensionProvider());
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(indexResource.getURL());
             fxmlLoader.setControllerFactory(applicationContext::getBean);
