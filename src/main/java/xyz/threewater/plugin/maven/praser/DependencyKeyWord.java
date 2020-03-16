@@ -1,6 +1,6 @@
 package xyz.threewater.plugin.maven.praser;
 
-public enum DependencyKeyWord {
+enum DependencyKeyWord {
 
     GROUP_ID("groupId"),
     ARTIFACT_ID("artifactId"),

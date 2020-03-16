@@ -10,7 +10,7 @@ import javax.xml.xpath.XPathExpressionException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MavenEnv {
+class MavenEnv {
     private Map<String,String> properties=new HashMap<>();
 
     private static final String exp="/project/properties";

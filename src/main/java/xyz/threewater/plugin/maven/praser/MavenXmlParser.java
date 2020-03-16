@@ -1,5 +1,9 @@
 package xyz.threewater.plugin.maven.praser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -18,27 +22,26 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 //针对Maven xml文件的解析器
-public class MavenXmlParser {
-
-    private static MavenXmlParser mavenXmlParser=new MavenXmlParser();
+@Component
+class MavenXmlParser {
+    private Logger logger= LoggerFactory.getLogger(this.getClass());
 
     private DocumentBuilder documentBuilder;
     private XPath xPath;
+
+    @Value("${maven.repo}")
+    private String repo;
 
     private MavenXmlParser(){
         try {
             xPath=XPathFactory.newInstance().newXPath();
             documentBuilder=DocumentBuilderFactory.newDefaultInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    public static MavenXmlParser getInstance(){
-        return mavenXmlParser;
-    }
-
-    private static String xpathExp="/project/dependencies/dependency";
+    private static final String xpathExp="/project/dependencies/dependency";
 
     public TreeNode<String> parse(TreeNode<String> root,InputStream inputStream,String xpathExp) throws XmlParseException {
         try{
@@ -71,12 +74,11 @@ public class MavenXmlParser {
             InputStream inputStream = new FileInputStream(path);
             return parse(root,inputStream,xpathExp);
         } catch (FileNotFoundException e) {
-            throw new XmlParseException("文件不存在");
+            throw new XmlParseException(path+"文件不存在");
         }
     }
 
-    public TreeNode<String> parse(String path) throws XmlParseException{
-        TreeNode<String> root=new TreeNode<>("waterIde");
+    public TreeNode<String> parse(TreeNode<String> root,String path) throws XmlParseException{
         return parse(root,path,xpathExp);
     }
 
@@ -139,7 +141,7 @@ public class MavenXmlParser {
 
     private String getPathFromNodeList(MavenEnv mavenEnv,Map<String,String> valueMap){
         String path= getPath(mavenEnv,valueMap)+getPomName(mavenEnv,valueMap);
-        System.out.println(path);
+        logger.debug("pom xml path:{}",path);
         return path;
     }
 
@@ -150,7 +152,7 @@ public class MavenXmlParser {
         artifactId=artifactId.replace(".","/");
         String version=valueMap.get(DependencyKeyWord.VERSION.toString());
         version=mavenEnv.getVersion(version);
-        return String.join("/",getMavenDefaultDir(),groupId,artifactId,version)+"/";
+        return String.join("/",repo,groupId,artifactId,version)+"/";
     }
 
     private String getPomName(MavenEnv mavenEnv,Map<String,String> valueMap){
@@ -159,17 +161,5 @@ public class MavenXmlParser {
         version=mavenEnv.getVersion(version);
 
         return String.join("-",artifactId,version)+".pom";
-    }
-
-    private String getMavenDefaultDir(){
-        return "C:/Users/water/.m2/repository";
-    }
-
-    public String getXpathExp() {
-        return xpathExp;
-    }
-
-    public void setXpathExp(String xpathExp) {
-        MavenXmlParser.xpathExp = xpathExp;
     }
 }

@@ -67,10 +67,11 @@
    <right>
        <TabPane prefHeight="374.0" prefWidth="147.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
            <Tab text="Maven">
-               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               <VBox>
+                   <TreeView fx:id="mavenTree"/>
+               </VBox>
            </Tab>
            <Tab text="DateBase">
-               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
            </Tab>
        </TabPane>
    </right>
@@ -83,7 +84,7 @@
                </TabPane>
            </Tab>
            <Tab text="OutPut">
-               <TextArea prefHeight="200.0" prefWidth="200.0" />
+               <TextArea fx:id="output" prefHeight="200.0" prefWidth="200.0" editable="false"/>
            </Tab>
            <Tab text="Git" />
        </TabPane>

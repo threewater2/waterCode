@@ -13,10 +13,6 @@ import xyz.threewater.bar.TitleBar;
 import xyz.threewater.common.component.ImageTextButton;
 import xyz.threewater.console.Console;
 import xyz.threewater.dir.NavTree;
-import xyz.threewater.plugin.maven.MavenPlugin;
-
-import javax.swing.text.html.ImageView;
-import java.util.function.Consumer;
 
 @Component
 public class IndexController {
@@ -27,10 +23,6 @@ public class IndexController {
     private TitleBar titleBar;
     @FXML
     private NavTree navTree;
-    @FXML
-    private MavenPlugin mavenPlugin;
-    @FXML
-    private Console console;
     @FXML
     private TabPane tabPane;
     @FXML

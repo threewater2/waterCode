@@ -4,15 +4,16 @@ import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-public class TreeNode<T> implements Iterable<TreeNode<T>>{
+class TreeNode<T> implements Iterable<TreeNode<T>>{
     private TreeNode<T> parent;
-    private List<TreeNode<T>> children;
+    private List<TreeNode<T>> children=new LinkedList<>();
     private T value;
 
     public TreeNode(T value){
-        this.value=value;
-        parent=null;
         children=new LinkedList<>();
+    }
+
+    public TreeNode(){
     }
 
     public void addChild(TreeNode<T> childNode){
