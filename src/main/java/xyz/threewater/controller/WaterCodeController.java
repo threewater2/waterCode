@@ -27,6 +27,8 @@ public class WaterCodeController {
     private ResizableInitializer resizableInitializer;
 
     @FXML
+    public HBox leftToolBar;
+    @FXML
     public VBox leftPane;
     @FXML
     public TabPane rightTabPane;
@@ -83,6 +85,7 @@ public class WaterCodeController {
         TreeItem<Node> treeItem = directoryInitializer.getTreeItem(editorTabPane);
         dirTree.setRoot(treeItem);
         mavenTreeInitializer.initialize(mavenTree,output);
+        //高度和宽度跟随父类
         //当stage准备好的时候
         onStageReady();
     }
@@ -91,8 +94,11 @@ public class WaterCodeController {
         //初始化标题栏事件
         stageInitialized.addListener((observable, oldValue, newValue) ->
                 windowBar.initialToolBar(minButton,closeButton,maxButton,stage));
+        //Java伪终端初始化
         terminalInitializer.initialize(terminalAnchorPane,terminalTabPane,addTerminalButton);
-        resizableInitializer.initial(bottomTabPane,leftPane,rightTabPane);
+        //窗口拖拽初始化
+        resizableInitializer.initial(bottomTabPane,leftPane,rightTabPane,
+                terminalTabPane,mavenTree,dirTree,leftToolBar);
     }
 
     public void setStage(Stage stage) {

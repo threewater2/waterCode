@@ -7,16 +7,30 @@ import org.springframework.stereotype.Component;
 @Component
 public class ResizableInitializer {
 
-    private void resizeRegionByPos(Position position, Region... regions){
-        WindowResize windowResize=new WindowResize(position);
+    private AutoResize autoResize;
+
+    public ResizableInitializer(AutoResize autoResize){
+        this.autoResize=autoResize;
+    }
+
+    private void dragResizable(Position position, Region... regions){
+        DragResize dragResize =new DragResize(position);
         for(Region region:regions){
-            windowResize.resizable(region);
+            dragResize.resizable(region);
         }
     }
 
-    public void initial(Region bottom,Region left,Region right) {
-        resizeRegionByPos(Position.TOP,bottom);
-        resizeRegionByPos(Position.RIGHT,left);
-        resizeRegionByPos(Position.LEFT,right);
+    public void initial(Region bottom,Region left,Region right,
+                        Region terminal,Region mavenTreeView,Region dirTreeView,Region leftBar) {
+        dragResizable(Position.TOP,bottom);
+        dragResizable(Position.RIGHT,left);
+        dragResizable(Position.LEFT,right);
+
+        //auto
+       autoResize.resizeRegion(bottom,terminal);
+       autoResize.resizeRegion(right,mavenTreeView);
+       autoResize.resizeRegion(left,dirTreeView);
+       //cursor recover
+       CursorRecover.forChild(terminal,mavenTreeView,dirTreeView,leftBar);
     }
 }

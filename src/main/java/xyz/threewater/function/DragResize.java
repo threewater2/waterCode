@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class WindowResize {
+public class DragResize {
 
     private Logger logger= LoggerFactory.getLogger(this.getClass());
 
@@ -19,7 +19,7 @@ public class WindowResize {
     //每一个Region都有自己的拖拽状态
     private Map<Region,Boolean> dragEdge =new HashMap<>();
 
-    public WindowResize(Position resizePosition) {
+    public DragResize(Position resizePosition) {
         this.resizePosition = resizePosition;
     }
 
@@ -43,8 +43,10 @@ public class WindowResize {
                 region.setCursor(Cursor.DEFAULT);
                 logger.debug("edge exited");
             }
+            logger.debug("edge exited2");
         });
         region.setOnMouseMoved(e->{
+            logger.debug("event target:{}",e.getTarget());
             if(isAtEdge(region,e)){
                 changeCursor(region);
                 logger.debug("cursor at edge:[{},{}] [{},{}]",e.getX(),e.getY(),region.getWidth(),region.getHeight());
@@ -64,6 +66,8 @@ public class WindowResize {
                 }
             }
         });
+        //当鼠标进入儿子节点时恢复
+        CursorRecover.forChild(region);
     }
 
     private void changeCursor(Region region){
@@ -96,6 +100,5 @@ public class WindowResize {
         }
         return false;
     }
-
 
 }

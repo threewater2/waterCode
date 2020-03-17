@@ -37,7 +37,7 @@
        <VBox prefHeight="374.0" prefWidth="177.0"
              fx:id="leftPane"
              styleClass="left" BorderPane.alignment="CENTER">
-           <HBox prefHeight="22.0" prefWidth="178.0">
+           <HBox prefHeight="22.0" prefWidth="178.0" fx:id="leftToolBar">
                <Pane HBox.hgrow="ALWAYS" />
                <Button fx:id="pos" prefHeight="30" prefWidth="40" styleClass="barButton,pos" />
                <Button fx:id="minimize" prefHeight="30" prefWidth="40" styleClass="barButton,minimize" />
