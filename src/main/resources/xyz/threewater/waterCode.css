@@ -84,7 +84,7 @@
 .iconButton{
     -fx-pref-height: 30;
     -fx-border-width: 30;
-    -fx-background-image: url("/images/waterCode.png");
+    -fx-background-image: url("/images/logo.png");
 }
 #toolBar .max{
     -fx-background-image: url("/images/bar/max-black.svg");

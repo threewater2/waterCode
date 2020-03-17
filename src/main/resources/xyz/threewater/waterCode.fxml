@@ -25,7 +25,7 @@
                    <MenuItem mnemonicParsing="false" text="About" />
                </Menu>
            </MenuBar>
-           <Pane HBox.hgrow="ALWAYS" />
+           <Pane HBox.hgrow="ALWAYS" fx:id="titleBar"/>
            <HBox fx:id="toolBar">
                <Button fx:id="minButton" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
                <Button fx:id="maxButton" prefHeight="30.0" prefWidth="40.0" styleClass="max" />

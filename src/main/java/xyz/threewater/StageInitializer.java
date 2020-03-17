@@ -31,7 +31,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
     @Value("classpath:xyz/threewater/waterCode.fxml")
     private Resource indexResource;
 
-    @Value("classpath:images/waterCode.png")
+    @Value("classpath:images/logo.png")
     private Resource icon;
 
     @Value("${window.width}")

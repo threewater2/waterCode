@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,8 @@ public class WaterCodeController {
     private TerminalInitializer terminalInitializer;
     private ResizableInitializer resizableInitializer;
 
+    @FXML
+    public Pane titleBar;
     @FXML
     public HBox leftToolBar;
     @FXML
@@ -93,7 +96,7 @@ public class WaterCodeController {
     public void onStageReady(){
         //初始化标题栏事件
         stageInitialized.addListener((observable, oldValue, newValue) ->
-                windowBar.initialToolBar(minButton,closeButton,maxButton,stage));
+                windowBar.initialToolBar(minButton,closeButton,maxButton,stage,titleBar));
         //Java伪终端初始化
         terminalInitializer.initialize(terminalAnchorPane,terminalTabPane,addTerminalButton);
         //窗口拖拽初始化
