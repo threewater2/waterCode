@@ -4,6 +4,10 @@ code editor for java
 ========================
 ![waterCode](build/images/watercode1.png)
 
+DownLoad
+========================
+[Latest release](https://github.com/threewater2/waterCode/releases/latest)
+
 Build
 ========================
 
