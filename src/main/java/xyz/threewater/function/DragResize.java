@@ -59,10 +59,18 @@ public class DragResize {
             logger.debug("edge move value:{}", dragEdge.getOrDefault(region,false));
             if(dragEdge.getOrDefault(region,false)) {
                 switch (resizePosition) {
-                    case TOP -> region.setPrefHeight(region.getHeight() - e.getY());
-                    case BOTTOM -> region.setPrefHeight(e.getY());
-                    case LEFT -> region.setPrefWidth(region.getWidth() - e.getX());
-                    case RIGHT -> region.setPrefWidth(e.getX());
+                    case TOP:
+                        region.setPrefHeight(region.getHeight() - e.getY());
+                        break;
+                    case BOTTOM:
+                        region.setPrefHeight(e.getY());
+                        break;
+                    case LEFT:
+                        region.setPrefWidth(region.getWidth() - e.getX());
+                        break;
+                    case RIGHT:
+                        region.setPrefWidth(e.getX());
+                        break;
                 }
             }
         });
@@ -72,9 +80,17 @@ public class DragResize {
 
     private void changeCursor(Region region){
         switch (resizePosition){
-            case TOP,BOTTOM->region.setCursor(Cursor.N_RESIZE);
-            case LEFT,RIGHT->region.setCursor(Cursor.W_RESIZE);
-            case CENTER->region.setCursor(Cursor.DEFAULT);
+            case TOP:
+            case BOTTOM:
+                region.setCursor(Cursor.N_RESIZE);
+                break;
+            case LEFT:
+            case RIGHT:
+                region.setCursor(Cursor.W_RESIZE);
+                break;
+            case CENTER:
+                region.setCursor(Cursor.DEFAULT);
+                break;
         }
     }
 
@@ -85,18 +101,14 @@ public class DragResize {
         double width = region.getWidth();
         double margin = 5;
         switch (resizePosition){
-            case TOP -> {
+            case TOP:
                 return y < margin;
-            }
-            case BOTTOM -> {
+            case BOTTOM:
                 return y<height&&y>(height- margin);
-            }
-            case LEFT -> {
+            case LEFT:
                 return x < margin;
-            }
-            case RIGHT -> {
+            case RIGHT :
                 return x < width && x > (width - margin);
-            }
         }
         return false;
     }

@@ -35,14 +35,12 @@ public class WindowBar {
             deltaX = stage.getX()-e.getScreenX();
             deltaY = stage.getY()-e.getScreenY();
             titleBar.setCursor(Cursor.MOVE);
-            String marker= """
-
-                    title bar mouse pressed
-                    delta  [{},{}]
-                    stage  [{},{}] sence[{},{}]
-                    screen [{},{}]
-                    mouse  [{},{}]
-                    """;
+            String marker= "\n" +
+                           "title bar mouse pressed\n" +
+                           "delta  [{},{}]\n" +
+                           "stage  [{},{}] sence[{},{}]\n" +
+                           "screen [{},{}]\n" +
+                           "mouse  [{},{}]\n";
             logger.debug(marker,deltaX,deltaY,stage.getX(),stage.getY(),stage.getScene().getX(),stage.getScene().getY(),e.getScreenX(),e.getScreenY(),e.getX(),e.getY());
         });
         titleBar.setOnMouseReleased(e->{

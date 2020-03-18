@@ -12,8 +12,6 @@
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>13</maven.compiler.release>
-        <javafx.version>13</javafx.version>
         <commons.io.version>2.6</commons.io.version>
     </properties>
     <!--Java伪终端-->
@@ -61,18 +59,18 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
+            <version>14</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>${javafx.version}</version>
+            <version>14</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-swing -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
-            <version>${javafx.version}</version>
+            <version>14</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -91,11 +89,11 @@
             <artifactId>richtextfx</artifactId>
             <version>0.10.3</version>
         </dependency>
-        <!--Java伪终端-->
+        <!--Java伪终端 for java8-->
         <dependency>
             <groupId>com.kodedu.terminalfx</groupId>
             <artifactId>terminalfx</artifactId>
-            <version>1.1.0</version>
+            <version>1.0.8</version>
         </dependency>
         <!--json解析-->
         <dependency>
@@ -137,27 +135,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <release>${maven.compiler.release}</release>
-                    <source>13</source>
-                    <target>13</target>
-                    <compilerArgs>
-                        --enable-preview
-                    </compilerArgs>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>--enable-preview</argLine>
-                </configuration>
             </plugin>
             <plugin>
-                <groupId>org.openjfx</groupId>
+                <groupId>com.zenjava</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.3</version>
+                <version>8.8.3</version>
                 <configuration>
+                    <vendor>ThreeWater</vendor>
                     <mainClass>xyz.threewater.WaterCode</mainClass>
                 </configuration>
             </plugin>
