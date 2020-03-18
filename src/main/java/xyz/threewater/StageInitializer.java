@@ -19,7 +19,7 @@ import xyz.threewater.style.CSSHolder;
 
 import java.io.IOException;
 
-import static xyz.threewater.WaterCodeApplication.*;
+import static xyz.threewater.WaterCode.*;
 
 @Component
 public class StageInitializer implements ApplicationListener<StageReadyEvent> {

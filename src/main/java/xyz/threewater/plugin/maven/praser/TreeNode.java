@@ -1,6 +1,5 @@
 package xyz.threewater.plugin.maven.praser;
 
-import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +22,6 @@ class TreeNode<T> implements Iterable<TreeNode<T>>{
 
 
     @Override
-    @Nonnull
     public Iterator<TreeNode<T>> iterator() {
         return children.iterator();
     }

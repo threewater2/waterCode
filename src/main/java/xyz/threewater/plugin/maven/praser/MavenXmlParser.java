@@ -10,7 +10,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import xyz.threewater.utils.FileUtil;
 
-import javax.annotation.Nullable;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -35,7 +34,7 @@ class MavenXmlParser {
     private MavenXmlParser(){
         try {
             xPath=XPathFactory.newInstance().newXPath();
-            documentBuilder=DocumentBuilderFactory.newDefaultInstance().newDocumentBuilder();
+            documentBuilder=DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
         }
@@ -86,7 +85,6 @@ class MavenXmlParser {
      * 解析每一个依赖
      * @param node dependency节点
      */
-    @Nullable
     private TreeNode<String> resolveNode(Node node,MavenEnv mavenEnv) throws XmlParseException {
         if(!node.hasChildNodes()) return new TreeNode<>("unknown");
         NodeList childNodes = node.getChildNodes();
