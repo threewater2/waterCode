@@ -15,6 +15,7 @@ import xyz.threewater.bar.WindowBar;
 import xyz.threewater.console.TerminalInitializer;
 import xyz.threewater.dir.DirectoryInitializer;
 import xyz.threewater.function.ResizableInitializer;
+import xyz.threewater.plugin.git.GitLogInitializer;
 import xyz.threewater.plugin.maven.praser.MavenTreeInitializer;
 
 @Component
@@ -26,7 +27,10 @@ public class WaterCodeController {
     private MavenTreeInitializer mavenTreeInitializer;
     private TerminalInitializer terminalInitializer;
     private ResizableInitializer resizableInitializer;
+    private GitLogInitializer gitLogInitializer;
 
+    @FXML
+    public Tab gitTab;
     @FXML
     public Pane titleBar;
     @FXML
@@ -72,12 +76,14 @@ public class WaterCodeController {
                                WindowBar windowBar,
                                MavenTreeInitializer mavenTreeInitializer,
                                TerminalInitializer terminalInitializer,
-                               ResizableInitializer resizableInitializer) {
+                               ResizableInitializer resizableInitializer,
+                               GitLogInitializer gitLogInitializer) {
         this.directoryInitializer = directoryInitializer;
         this.windowBar = windowBar;
         this.mavenTreeInitializer=mavenTreeInitializer;
         this.terminalInitializer=terminalInitializer;
         this.resizableInitializer = resizableInitializer;
+        this.gitLogInitializer=gitLogInitializer;
     }
 
     /**
@@ -102,6 +108,8 @@ public class WaterCodeController {
         //窗口拖拽初始化
         resizableInitializer.initial(bottomTabPane,leftPane,rightTabPane,
                 terminalTabPane,mavenTree,dirTree,leftToolBar);
+        //初始化git面板
+        gitLogInitializer.initial(gitTab);
     }
 
     public void setStage(Stage stage) {

@@ -90,7 +90,7 @@
            <Tab text="OutPut">
                <TextArea fx:id="output" editable="false" />
            </Tab>
-           <Tab text="Git" />
+           <Tab text="Git" fx:id="gitTab"/>
        </TabPane>
    </bottom>
 </BorderPane>
