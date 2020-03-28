@@ -2,6 +2,7 @@ package xyz.threewater.plugin.maven.praser;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,10 +28,10 @@ public class MavenTreeInitializer {
     }
 
     @SuppressWarnings("unchecked")
-    public void initialize(TreeView<Node> treeView,Node showResultPane){
+    public void initialize(TreeView<Node> treeView, Node showResultPane, TabPane bottomTabPane){
         try {
             TreeItem<Node> dependencyTree = treeBuilder.getDependencyTree(getProjectPath());
-            TreeItem<Node> toolTree = toolTreeBuilder.build(showResultPane);
+            TreeItem<Node> toolTree = toolTreeBuilder.build(showResultPane,bottomTabPane);
             TreeItem<Node> root=new TreeItem<>(new Label(projectName));
             root.getChildren().addAll(toolTree,dependencyTree);
             treeView.setRoot(root);

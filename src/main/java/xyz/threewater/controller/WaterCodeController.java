@@ -93,7 +93,7 @@ public class WaterCodeController {
         //初始化文件目录树
         TreeItem<Node> treeItem = directoryInitializer.getTreeItem(editorTabPane);
         dirTree.setRoot(treeItem);
-        mavenTreeInitializer.initialize(mavenTree,output);
+        mavenTreeInitializer.initialize(mavenTree,output,bottomTabPane);
         //高度和宽度跟随父类
         //当stage准备好的时候
         onStageReady();

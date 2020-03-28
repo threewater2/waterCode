@@ -2,8 +2,7 @@
 
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextArea?>
-<VBox xmlns="http://javafx.com/javafx/10.0.2-internal"
-      xmlns:fx="http://javafx.com/fxml/1">
+<VBox xmlns="http://javafx.com/javafx/10.0.2-internal">
 
     <TextArea id="textArea">
 

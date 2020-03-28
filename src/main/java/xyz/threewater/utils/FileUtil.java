@@ -11,7 +11,8 @@ public class FileUtil {
         try (
             FileInputStream fileInputStream = new FileInputStream(file);
             Reader streamReader = new InputStreamReader(fileInputStream);
-            BufferedReader bufferedReader=new BufferedReader(streamReader)){
+            BufferedReader bufferedReader=new BufferedReader(streamReader)
+        ) {
             StringBuilder builder=new StringBuilder();
             String strLine=bufferedReader.readLine();
             while (strLine!=null){
@@ -26,10 +27,14 @@ public class FileUtil {
         }
     }
 
-    public static void saveFile(String content,String path) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(path,false));
+    public static void saveFile(String content,File file) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file,false));
         writer.write(content);
         writer.close();
+    }
+
+    public static void saveFile(String content,String path) throws IOException {
+        saveFile(content,new File(path));
     }
 
     public static boolean exist(String filePath){

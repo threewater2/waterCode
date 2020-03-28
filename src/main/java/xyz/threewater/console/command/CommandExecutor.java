@@ -1,10 +1,12 @@
 package xyz.threewater.console.command;
 
+import org.springframework.stereotype.Component;
 import xyz.threewater.exception.CommandExcuteException;
 import xyz.threewater.utils.StreamUtil;
 
 import java.io.IOException;
 
+@Component
 public class CommandExecutor {
     public CommandResult executeCmd(String cmd) throws CommandExcuteException {
         try {
