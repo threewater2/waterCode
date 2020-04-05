@@ -5,15 +5,14 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
 import xyz.threewater.bar.WindowBar;
 import xyz.threewater.console.TerminalInitializer;
 import xyz.threewater.dir.DirectoryInitializer;
+//import xyz.threewater.editor.AutoCompletion;
+import xyz.threewater.enviroment.JavaFxComponent;
 import xyz.threewater.function.ResizableInitializer;
 import xyz.threewater.plugin.git.GitLogInitializer;
 import xyz.threewater.plugin.maven.praser.MavenTreeInitializer;
@@ -28,7 +27,15 @@ public class WaterCodeController {
     private TerminalInitializer terminalInitializer;
     private ResizableInitializer resizableInitializer;
     private GitLogInitializer gitLogInitializer;
+    private JavaFxComponent javaFxComponent;
+//    private AutoCompletion autoCompletion;
 
+    @FXML
+    public ListView codeCompletion;
+    @FXML
+    public Pane root;
+    @FXML
+    public BorderPane main;
     @FXML
     public Tab gitTab;
     @FXML
@@ -77,13 +84,16 @@ public class WaterCodeController {
                                MavenTreeInitializer mavenTreeInitializer,
                                TerminalInitializer terminalInitializer,
                                ResizableInitializer resizableInitializer,
-                               GitLogInitializer gitLogInitializer) {
+                               GitLogInitializer gitLogInitializer,
+                               JavaFxComponent javaFxComponent) {
         this.directoryInitializer = directoryInitializer;
         this.windowBar = windowBar;
         this.mavenTreeInitializer=mavenTreeInitializer;
         this.terminalInitializer=terminalInitializer;
         this.resizableInitializer = resizableInitializer;
         this.gitLogInitializer=gitLogInitializer;
+        this.javaFxComponent=javaFxComponent;
+//        this.autoCompletion=autoCompletion;
     }
 
     /**
@@ -97,6 +107,8 @@ public class WaterCodeController {
         //高度和宽度跟随父类
         //当stage准备好的时候
         onStageReady();
+        //add to JavaFxComponent
+        addJavaFxComponent();
     }
 
     public void onStageReady(){
@@ -106,15 +118,32 @@ public class WaterCodeController {
         //Java伪终端初始化
         terminalInitializer.initialize(terminalAnchorPane,terminalTabPane,addTerminalButton);
         //窗口拖拽初始化
-        resizableInitializer.initial(bottomTabPane,leftPane,rightTabPane,
+        resizableInitializer.initial(root,main,bottomTabPane,leftPane,rightTabPane,
                 terminalTabPane,mavenTree,dirTree,leftToolBar);
         //初始化git面板
         gitLogInitializer.initial(gitTab);
+        //初始化代码提示组件
+//        autoCompletion.setCodeCompletion(codeCompletion);
     }
 
     public void setStage(Stage stage) {
         this.stage=stage;
         //stage初始化完毕
         stageInitialized.setValue(true);
+    }
+
+
+    //getter setter
+
+    public ListView getCodeCompletion() {
+        return codeCompletion;
+    }
+
+    public void setCodeCompletion(ListView codeCompletion) {
+        this.codeCompletion = codeCompletion;
+    }
+
+    private void addJavaFxComponent(){
+        javaFxComponent.set("codeCompletion",codeCompletion);
     }
 }

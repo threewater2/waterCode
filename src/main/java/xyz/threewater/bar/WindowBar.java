@@ -23,7 +23,10 @@ public class WindowBar {
     public void initialToolBar(Button minButton, Button closeButton, Button maxButton, Stage stage, Pane titleBar) {
         minButton.setOnMouseClicked(e-> stage.setIconified(true));
         maxButton.setOnMouseClicked(e-> stage.setMaximized(isMaximized=!isMaximized));
-        closeButton.setOnMouseClicked(e->Platform.exit());
+        closeButton.setOnMouseClicked(e->{
+            Platform.exit();
+            System.exit(0);
+        });
         //直接调用会使Scene为null
         stage.setOnShown(e-> resizeStage(stage,titleBar));
     }

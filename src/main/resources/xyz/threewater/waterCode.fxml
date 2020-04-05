@@ -3,94 +3,100 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<BorderPane styleClass="main" stylesheets="@waterCode.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xyz.threewater.controller.WaterCodeController">
-   <top>
-       <HBox>
-           <Button fx:id="iconButton" styleClass="barButton,iconButton" />
-           <MenuBar>
-               <Menu mnemonicParsing="false" text="File">
-                   <Menu mnemonicParsing="false" styleClass="subMenu" text="New">
-                       <MenuItem mnemonicParsing="false" text="Project" />
+<Pane styleClass="root"
+      stylesheets="@waterCode.css"
+      xmlns="http://javafx.com/javafx/10.0.2-internal"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="xyz.threewater.controller.WaterCodeController"
+      fx:id="root">
+    <BorderPane fx:id="main" styleClass="main">
+       <top>
+           <HBox>
+               <Button fx:id="iconButton" styleClass="barButton,iconButton" />
+               <MenuBar>
+                   <Menu mnemonicParsing="false" text="File">
+                       <Menu mnemonicParsing="false" styleClass="subMenu" text="New">
+                           <MenuItem mnemonicParsing="false" text="Project" />
+                       </Menu>
+                       <MenuItem mnemonicParsing="false" text="Open" />
+                       <MenuItem mnemonicParsing="false" text="Close" />
                    </Menu>
-                   <MenuItem mnemonicParsing="false" text="Open" />
-                   <MenuItem mnemonicParsing="false" text="Close" />
-               </Menu>
-               <Menu mnemonicParsing="false" text="Edit">
-                   <MenuItem mnemonicParsing="false" text="Save" />
-                   <MenuItem mnemonicParsing="false" text="Find" />
-                   <MenuItem mnemonicParsing="false" text="Delete" />
-               </Menu>
-               <Menu mnemonicParsing="false" text="Help">
-                   <MenuItem mnemonicParsing="false" text="About" />
-               </Menu>
-           </MenuBar>
-           <Pane HBox.hgrow="ALWAYS" fx:id="titleBar"/>
-           <HBox fx:id="toolBar">
-               <Button fx:id="minButton" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
-               <Button fx:id="maxButton" prefHeight="30.0" prefWidth="40.0" styleClass="max" />
-               <Button fx:id="closeButton" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
+                   <Menu mnemonicParsing="false" text="Edit">
+                       <MenuItem mnemonicParsing="false" text="Save" />
+                       <MenuItem mnemonicParsing="false" text="Find" />
+                       <MenuItem mnemonicParsing="false" text="Delete" />
+                   </Menu>
+                   <Menu mnemonicParsing="false" text="Help">
+                       <MenuItem mnemonicParsing="false" text="About" />
+                   </Menu>
+               </MenuBar>
+               <Pane HBox.hgrow="ALWAYS" fx:id="titleBar"/>
+               <HBox fx:id="toolBar">
+                   <Button fx:id="minButton" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
+                   <Button fx:id="maxButton" prefHeight="30.0" prefWidth="40.0" styleClass="max" />
+                   <Button fx:id="closeButton" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
+               </HBox>
            </HBox>
-       </HBox>
-   </top>
-   <left>
-       <VBox prefHeight="374.0" prefWidth="177.0"
-             fx:id="leftPane"
-             styleClass="left" BorderPane.alignment="CENTER">
-           <HBox prefHeight="22.0" prefWidth="178.0" fx:id="leftToolBar">
-               <Pane HBox.hgrow="ALWAYS" />
-               <Button fx:id="pos" prefHeight="30" prefWidth="40" styleClass="barButton,pos" />
-               <Button fx:id="minimize" prefHeight="30" prefWidth="40" styleClass="barButton,minimize" />
-           </HBox>
-           <TreeView fx:id="dirTree" prefHeight="569.0" prefWidth="177.0" />
-       </VBox>
-   </left>
-   <center>
-       <StackPane>
-           <VBox alignment="CENTER" StackPane.alignment="CENTER">
-               <TextFlow textAlignment="CENTER">
-                   <Text styleClass="slogan" text="Welcome Use WaterCode!" />
-               </TextFlow>
-               <TextFlow textAlignment="CENTER">
-                   <Text styleClass="slogan,slogan-small" text="Search Everything" />
-                   <Text styleClass="slogan,slogan-small,blue" text=" Double Shift" />
-               </TextFlow>
-               <TextFlow textAlignment="CENTER">
-                   <Text styleClass="slogan,slogan-small" text="Recent File" />
-                   <Text styleClass="slogan,slogan-small,blue" text="Ctrl+E" />
-               </TextFlow>
+       </top>
+       <left>
+           <VBox fx:id="leftPane" prefHeight="374.0" prefWidth="177.0" styleClass="left" BorderPane.alignment="CENTER">
+               <HBox fx:id="leftToolBar" prefHeight="22.0" prefWidth="178.0">
+                   <Pane HBox.hgrow="ALWAYS" />
+                   <Button fx:id="pos" prefHeight="30" prefWidth="40" styleClass="barButton,pos" />
+                   <Button fx:id="minimize" prefHeight="30" prefWidth="40" styleClass="barButton,minimize" />
+               </HBox>
+               <TreeView fx:id="dirTree" prefHeight="569.0" prefWidth="177.0" />
            </VBox>
-           <TabPane fx:id="editorTabPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent" tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER">
-           </TabPane>
-       </StackPane>
-   </center>
-   <right>
-       <TabPane prefHeight="374.0" prefWidth="147.0" side="RIGHT"
-                fx:id="rightTabPane" styleClass="right"
-                tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-           <Tab text="Maven">
-               <VBox>
-                   <TreeView fx:id="mavenTree" />
+       </left>
+       <center>
+           <StackPane>
+               <VBox alignment="CENTER" StackPane.alignment="CENTER">
+                   <TextFlow textAlignment="CENTER">
+                       <Text styleClass="slogan" text="Welcome Use WaterCode!" />
+                   </TextFlow>
+                   <TextFlow textAlignment="CENTER">
+                       <Text styleClass="slogan,slogan-small" text="Search Everything" />
+                       <Text styleClass="slogan,slogan-small,blue" text=" Double Shift" />
+                   </TextFlow>
+                   <TextFlow textAlignment="CENTER">
+                       <Text styleClass="slogan,slogan-small" text="Recent File" />
+                       <Text styleClass="slogan,slogan-small,blue" text="Ctrl+E" />
+                   </TextFlow>
                </VBox>
-           </Tab>
-           <Tab text="DateBase">
-           </Tab>
-       </TabPane>
-   </right>
-   <bottom>
-       <TabPane prefHeight="180.0" prefWidth="1182.0" side="BOTTOM"
-                fx:id="bottomTabPane" styleClass="bottom"
-                tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-           <Tab text="Terminal">
-               <AnchorPane fx:id="terminalAnchorPane" prefHeight="180" prefWidth="1182">
-                   <TabPane fx:id="terminalTabPane" prefHeight="180" prefWidth="1182" tabClosingPolicy="ALL_TABS" />
-                   <Button fx:id="addTerminalButton" styleClass="addTerminalButton" />
-               </AnchorPane>
-           </Tab>
-           <Tab text="OutPut">
-               <TextArea fx:id="output" editable="false" />
-           </Tab>
-           <Tab text="Git" fx:id="gitTab"/>
-       </TabPane>
-   </bottom>
-</BorderPane>
+               <TabPane fx:id="editorTabPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent" tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER">
+               </TabPane>
+           </StackPane>
+       </center>
+       <right>
+           <TabPane prefHeight="374.0" prefWidth="147.0" side="RIGHT"
+                    fx:id="rightTabPane" styleClass="right"
+                    tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+               <Tab text="Maven">
+                   <VBox>
+                       <TreeView fx:id="mavenTree" />
+                   </VBox>
+               </Tab>
+               <Tab text="DateBase">
+               </Tab>
+           </TabPane>
+       </right>
+       <bottom>
+           <TabPane prefHeight="180.0" prefWidth="1182.0" side="BOTTOM"
+                    fx:id="bottomTabPane" styleClass="bottom"
+                    tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+               <Tab text="Terminal">
+                   <AnchorPane fx:id="terminalAnchorPane" prefHeight="180" prefWidth="1182">
+                       <TabPane fx:id="terminalTabPane" prefHeight="180" prefWidth="1182" tabClosingPolicy="ALL_TABS" />
+                       <Button fx:id="addTerminalButton" styleClass="addTerminalButton" />
+                   </AnchorPane>
+               </Tab>
+               <Tab text="OutPut">
+                   <TextArea fx:id="output" editable="false" />
+               </Tab>
+               <Tab text="Git" fx:id="gitTab"/>
+           </TabPane>
+       </bottom>
+    </BorderPane>
+    <ListView styleClass="code-completion" fx:id="codeCompletion" visible="false" id="codeCompletion">
+    </ListView>
+</Pane>

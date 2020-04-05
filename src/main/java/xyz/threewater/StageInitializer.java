@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -15,6 +16,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import xyz.threewater.bar.WindowBar;
 import xyz.threewater.controller.WaterCodeController;
+import xyz.threewater.enviroment.JavaFxComponent;
 import xyz.threewater.style.CSSHolder;
 
 import java.io.IOException;
@@ -28,6 +30,8 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
 
     private CSSHolder cssFile;
 
+    private JavaFxComponent component;
+
     @Value("classpath:xyz/threewater/waterCode.fxml")
     private Resource indexResource;
 
@@ -40,9 +44,10 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
     @Value("${window.height}")
     private double height;
 
-    public StageInitializer(ApplicationContext applicationContext, CSSHolder cssFile, WindowBar windowBar) {
+    public StageInitializer(ApplicationContext applicationContext, CSSHolder cssFile, WindowBar windowBar, JavaFxComponent component) {
         this.applicationContext=applicationContext;
         this.cssFile = cssFile;
+        this.component = component;
     }
 
     @Override
@@ -62,6 +67,8 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
             stage.initStyle(StageStyle.UNDECORATED);
             stage.getIcons().add(new Image(icon.getInputStream()));
             stage.show();
+            //add to JavaFxComponent
+            component.set("stage",stage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
