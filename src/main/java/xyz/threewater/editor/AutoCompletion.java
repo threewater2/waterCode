@@ -9,9 +9,11 @@ import org.fxmisc.richtext.CodeArea;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import xyz.threewater.editor.parse.SourceCodeKeyWord;
+import xyz.threewater.editor.parse.Trie;
 import xyz.threewater.enviroment.JavaFxComponent;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,7 +30,14 @@ public class AutoCompletion {
 
     private ListView<String> listView;
 
-    public AutoCompletion(JavaFxComponent javaFxComponent) {
+    private Trie<String> trie=new Trie<>();
+
+    private SourceCodeKeyWord sourceCodeKeyWord;
+
+    private InputCache inputCache =new InputCache();
+
+    public AutoCompletion(JavaFxComponent javaFxComponent,SourceCodeKeyWord sourceCodeKeyWord) {
+        this.sourceCodeKeyWord=sourceCodeKeyWord;
         this.javaFxComponent = javaFxComponent;
     }
 
@@ -40,19 +49,40 @@ public class AutoCompletion {
     public void showPopup(CodeArea codeArea){
         stage=javaFxComponent.get("stage",Stage.class);
         listView = javaFxComponent.get("codeCompletion", ListView.class);
-        listView.getItems().addAll(Arrays.asList("111","11111"));
+        initialKeyWord(codeArea.getText());
         initialKeyEvent(codeArea);
     }
 
+    private void initialKeyWord(String text) {
+        for(String keyWord:sourceCodeKeyWord.getKeyWords(text)){
+            trie.add(keyWord,null);
+        }
+    }
+
+    private void reloadSuggestion(){
+        Optional<String> cache = inputCache.getCache();
+        if(!cache.isPresent()){
+            listView.setVisible(false);
+            return;
+        }
+        List<String> suggestions = trie.startWith(cache.get());
+        suggestions.addAll(trie.startWith(cache.get()));
+        listView.getItems().removeAll();
+        logger.debug("suggestion size:{}",suggestions.size());
+        if(suggestions.size()==0){
+            suggestions.add("No Suggestions");
+        }
+        listView.getItems().setAll(suggestions);
+        listView.setVisible(true);
+    }
 
     private void initialKeyEvent(CodeArea codeArea){
+        //control visible
         codeArea.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             boolean visible = listView.isVisible();
             if(listView.isVisible()){
                 if(KeyCode.ENTER==event.getCode()&&visible){
-                    String firstTip = listView.getItems().get(0);
-                    codeArea.insertText(codeArea.getCaretPosition(),firstTip);
-                    listView.setVisible(false);
+                    insertSelect(codeArea);
                     event.consume();
                 }
                 int index=0;
@@ -76,49 +106,77 @@ public class AutoCompletion {
             }
         });
         codeArea.setOnKeyPressed(event -> {
-            Optional<Bounds> caretBounds = codeArea.getCaretBounds();
+            //ignore functional key
             KeyCode code = event.getCode();
             if(KeyCode.ESCAPE==code){
                 listView.setVisible(false);
                 event.consume();
                 return;
             }
-            if(KeyCode.ENTER==code&&!listView.isVisible()){
-                return;
-            }
+            //delete word happened
             if(KeyCode.BACK_SPACE==code){
                 listView.setVisible(false);
-                return;
-            }
-            if(code.isFunctionKey()||
-               code.isWhitespaceKey()||
-               code.isMediaKey()||
-               code.isModifierKey()||
-               code.isArrowKey()|| KeyCode.TAB==code) {
-                return;
-            }
-            if(caretBounds.isPresent()){
-                double maxX = caretBounds.get().getMaxX();
-                double maxY = caretBounds.get().getMaxY();
-                logger.debug("caret x,y:[{},{}]",maxX,maxY);
-                logger.debug("codeArea input word:{}",event.getCode().getName());
-                listView.setLayoutX(maxX-stage.getX());
-                listView.setLayoutY(maxY-stage.getY());
-                listView.setVisible(true);
-                listView.getSelectionModel().select(0);
+                inputCache.deleteCache();
             }
         });
+
+        codeArea.setOnKeyTyped(event->{
+            Optional<Bounds> caretBounds = codeArea.getCaretBounds();
+            if(!caretBounds.isPresent()) return;
+            String newChar=event.getCharacter();
+            //TODO
+            if(newChar.equals(".")||newChar.equals(" ")||newChar.equals("\n")||newChar.equals("\r")){
+                inputCache.clearCache();
+                return;
+            }
+            if(!isLetterOrDigital(newChar)) return;
+            double maxX = caretBounds.get().getMaxX();
+            double maxY = caretBounds.get().getMaxY();
+            logger.debug("caret x,y:[{},{}]",maxX,maxY);
+            logger.debug("codeArea input word:{}",newChar);
+            listView.setLayoutX(maxX-stage.getX());
+            listView.setLayoutY(maxY-stage.getY());
+            inputCache.addCache(event.getCharacter());
+            reloadSuggestion();
+            listView.getSelectionModel().select(0);
+        });
+        //select suggestion
         listView.setOnKeyPressed(e->{
             if(KeyCode.ESCAPE==e.getCode()&&listView.isFocused()){
                 listView.setVisible(false);
                 codeArea.requestFocus();
             }
+            //suggestion selected
             if(KeyCode.ENTER==e.getCode()&&listView.isFocused()){
-                String selected = listView.getFocusModel().focusedItemProperty().get();
-                codeArea.insertText(codeArea.getCaretPosition(),selected);
-                listView.setVisible(false);
-                codeArea.requestFocus();
+                insertSelect(codeArea);
             }
         });
+    }
+
+    private boolean isLetterOrDigital(String str){
+        boolean isValid=true;
+        for(char c:str.toCharArray()){
+            isValid=Character.isLetterOrDigit(c);
+        }
+        return isValid;
+    }
+
+    private void insertSelect(CodeArea codeArea){
+        String selected = listView.getFocusModel().focusedItemProperty().get();
+        deleteTmpInput(codeArea);
+        codeArea.insertText(codeArea.getCaretPosition(),selected);
+        listView.setVisible(false);
+        codeArea.requestFocus();
+        inputCache.clearCache();
+    }
+
+    private void deleteTmpInput(CodeArea codeArea){
+        Optional<String> cache = inputCache.getCache();
+        if(cache.isPresent()){
+            int caretPos=codeArea.getCaretPosition();
+            logger.debug("tmp text delete:cache{},caret pos:{}",cache.get(),caretPos);
+            int size=cache.get().length();
+            codeArea.deleteText(codeArea.getCaretPosition()-size,caretPos);
+        }
     }
 }
