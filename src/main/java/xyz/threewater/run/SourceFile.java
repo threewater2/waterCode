@@ -26,8 +26,6 @@ public class SourceFile {
     @Value("classpath:project/source-file-list.txt")
     private Resource sourceListFile;
 
-    private List<String> sourceFile=new ArrayList<>();
-
     public SourceFile(FileSearch fileSearch, ProjectStatus projectStatus) {
         this.fileSearch = fileSearch;
         this.projectStatus = projectStatus;
@@ -35,7 +33,10 @@ public class SourceFile {
 
     public String getSourceFileString(){
         if(projectStatus.isChangeBeforeLastBuild()){
-            sourceFile=fileSearch.RegexSearch(projectPath,".+\\.java","test");
+            List<String> sourceFile = fileSearch.fileSearch(projectPath, file -> {
+                if (file.isDirectory()) return !file.getName().contains("test");
+                else return file.getName().matches(".+\\.java");
+            });
             return Strings.join(sourceFile, ' ');
         }
         return "";

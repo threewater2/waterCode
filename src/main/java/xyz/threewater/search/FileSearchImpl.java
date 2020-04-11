@@ -6,50 +6,50 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component
 public class FileSearchImpl implements FileSearch {
 
-    private List<String> filePath=new ArrayList<>();
-    private Pattern fileNamePattern;
-    private String ignoreDir;
-
-    public FileSearchImpl() {
-    }
-
     @Override
-    public List<String> RegexSearch(String basePath, String fileNameRegex,String ignoreDir) {
-        fileNamePattern =Pattern.compile(fileNameRegex);
-        this.ignoreDir=ignoreDir;
+    public List<String> RegexSearch(String basePath,String regex) {
+        List<String> filePath=new ArrayList<>();
         File root=new File(basePath);
-        filePath.clear();
-        fileSearch(root);
+        search(root,file -> file.getName().matches(regex),filePath);
         return filePath;
     }
 
+    @Override
+    public List<String> fileSearch(File file,ValidFile validFile){
+        List<String> filePath=new ArrayList<>();
+        search(file,validFile,filePath);
+        return filePath;
+    }
 
-    private void fileSearch(File file){
-        if(file.isFile()){
-            Matcher matcher = fileNamePattern.matcher(file.getName());
-            if(matcher.matches()){
-                filePath.add(file.getAbsolutePath());
-            }
-        }else {
-            for(File child: Objects.requireNonNull(file.listFiles())){
-                if(child.getName().equals(ignoreDir)) continue;
-                fileSearch(child);
-            }
-        }
+    @Override
+    public List<String> fileSearch(String basePath,ValidFile validFile){
+        return fileSearch(new File(basePath),validFile);
     }
 
     @Override
     public List<String> keywordSearch(String basePath, String keyword) {
-        String regex=".*"+keyword+".*";
-        fileNamePattern =Pattern.compile(regex);
-        filePath.clear();
-        fileSearch(new File(basePath));
+        List<String> filePath=new ArrayList<>();
+        search(new File(basePath), file -> {
+            if(file.isDirectory()) return false;
+            else return file.getName().contains(keyword);
+        },filePath);
         return filePath;
+    }
+
+    private void search(File file,ValidFile validFile,List<String> filePath){
+        if(!validFile.isValidFile(file)) return;
+        if(file.isFile()){
+            filePath.add(file.getAbsolutePath());
+        }else {
+            File[] files = file.listFiles();
+            if(files==null) return;
+            for(File child: files){
+                search(child,validFile,filePath);
+            }
+        }
     }
 }

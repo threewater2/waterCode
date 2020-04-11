@@ -13,7 +13,7 @@ public interface Project {
 
     public void build();
 
-    void copyResource();
+
 
     public void run(String className);
 }

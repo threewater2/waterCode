@@ -4,6 +4,8 @@ import fr.dutra.tools.maven.deptree.core.InputType;
 import fr.dutra.tools.maven.deptree.core.Node;
 import fr.dutra.tools.maven.deptree.core.ParseException;
 import fr.dutra.tools.maven.deptree.core.Parser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,8 @@ import java.io.*;
 
 @Component("MavenProjectClassPath")
 public class MavenProjectClassPath extends ClassPath {
+
+    private Logger logger= LoggerFactory.getLogger(MavenProjectClassPath.class);
 
     @Value("classpath:project/maven-class-path.txt")
     private Resource mavenClassPathFile;
@@ -50,13 +54,14 @@ public class MavenProjectClassPath extends ClassPath {
                     mvn,"dependency:build-classpath",
                     "-Dmdep.outputFile="+mavenClassPathFile.getFile().getAbsolutePath(),
                     "-f",projectPath);
+            logger.debug("maven classPath command:{}",command);
             CommandResult commandResult = commandExecutor.executeCmd(command);
+            logger.debug("maven classPath execute code {},result:{}",commandResult.getExitCode(),commandResult.getOutPut());
             String classPath = FileUtil.file2String(mavenClassPathFile.getFile());
             classPath = classPath.replace("\\", "/");
             classPath = classPath.replace("\n", " ");
             classPath="\""+classPath+"\"";
             FileUtil.saveFile(classPath,mavenClassPathFile.getFile());
-            System.out.println(commandResult.getOutPut());
             return mavenClassPathFile.getFile();
         } catch (IOException | CommandExcuteException e) {
             throw new RuntimeException(e);
