@@ -64,7 +64,7 @@
     -fx-font-family: "JetBrains Mono";
 }
 
-#toolBar .button,.barButton,.addTerminalButton{
+.toolBar .button,.barButton,.addTerminalButton{
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-border-width: 0;
@@ -86,16 +86,16 @@
     -fx-border-width: 30;
     -fx-background-image: url("/images/logo.png");
 }
-#toolBar .max{
+.toolBar .max{
     -fx-background-image: url("/images/bar/max-black.svg");
 }
-#toolBar .max:hover{
+.toolBar .max:hover{
     -fx-background-color: #00CA4E;
 }
-#toolBar .min{
+.toolBar .min{
     -fx-background-image: url("/images/bar/min-black.svg");
 }
-#toolBar .min:hover{
+.toolBar .min:hover{
     -fx-background-color: #FFBD44;
 }
 
@@ -106,11 +106,20 @@
     -fx-background-image: url("/images/bar/min-black.svg");
 }
 
-#toolBar .close{
+.toolBar .close{
     -fx-background-image: url("/images/bar/close-black.svg");
 
 }
-#toolBar .close:hover{
+
+.toolBar .run{
+    -fx-background-image: url("/images/bar/run-black.svg");
+}
+
+.toolBar .debug{
+    -fx-background-image: url("/images/bar/debug-black.svg");
+
+}
+.toolBar .close:hover{
     -fx-background-color: #FF605C;
 }
 

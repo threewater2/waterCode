@@ -12,7 +12,9 @@
     <BorderPane fx:id="main" styleClass="main">
        <top>
            <HBox>
+               <!--图标-->
                <Button fx:id="iconButton" styleClass="barButton,iconButton" />
+               <!--工具栏-->
                <MenuBar>
                    <Menu mnemonicParsing="false" text="File">
                        <Menu mnemonicParsing="false" styleClass="subMenu" text="New">
@@ -30,8 +32,15 @@
                        <MenuItem mnemonicParsing="false" text="About" />
                    </Menu>
                </MenuBar>
+               <!--间隔条-->
                <Pane HBox.hgrow="ALWAYS" fx:id="titleBar"/>
-               <HBox fx:id="toolBar">
+               <!--java运行，调试按键-->
+               <HBox fx:id="runAndDebug" styleClass="toolBar">
+                   <Button fx:id="runProject" prefHeight="30.0" prefWidth="40.0" styleClass="run" />
+                   <Button fx:id="debugProject" prefHeight="30.0" prefWidth="40.0" styleClass="debug" />
+               </HBox>
+               <!--三大金刚键-->
+               <HBox fx:id="toolBar" styleClass="toolBar">
                    <Button fx:id="minButton" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
                    <Button fx:id="maxButton" prefHeight="30.0" prefWidth="40.0" styleClass="max" />
                    <Button fx:id="closeButton" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
