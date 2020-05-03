@@ -7,4 +7,8 @@ public class CommandExcuteException extends Exception{
     public CommandExcuteException(String message) {
         super(message);
     }
+
+    public CommandExcuteException(Throwable cause) {
+        super(cause);
+    }
 }

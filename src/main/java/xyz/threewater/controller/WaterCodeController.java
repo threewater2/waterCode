@@ -8,11 +8,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
+import xyz.threewater.action.FocusAction;
 import xyz.threewater.bar.WindowBar;
 import xyz.threewater.console.TerminalInitializer;
+import xyz.threewater.console.command.CommandLineWindow;
 import xyz.threewater.dir.DirectoryInitializer;
 //import xyz.threewater.editor.AutoCompletion;
 import xyz.threewater.enviroment.JavaFxComponent;
+import xyz.threewater.enviroment.MainClassList;
 import xyz.threewater.function.ResizableInitializer;
 import xyz.threewater.plugin.git.GitLogInitializer;
 import xyz.threewater.plugin.maven.praser.MavenTreeInitializer;
@@ -28,10 +31,17 @@ public class WaterCodeController {
     private ResizableInitializer resizableInitializer;
     private GitLogInitializer gitLogInitializer;
     private JavaFxComponent javaFxComponent;
+    private CommandLineWindow commandLineWindow;
+    private FocusAction focusAction;
+    private MainClassList mainClassList;
 //    private AutoCompletion autoCompletion;
 
     @FXML
+    public ChoiceBox<String> mainClassChoiceBox;
+    @FXML
     public ListView codeCompletion;
+    @FXML
+    public ListView rightClickMenu;
     @FXML
     public Pane root;
     @FXML
@@ -85,7 +95,10 @@ public class WaterCodeController {
                                TerminalInitializer terminalInitializer,
                                ResizableInitializer resizableInitializer,
                                GitLogInitializer gitLogInitializer,
-                               JavaFxComponent javaFxComponent) {
+                               JavaFxComponent javaFxComponent,
+                               CommandLineWindow commandLineWindow,
+                               FocusAction focusAction,
+                               MainClassList mainClassList) {
         this.directoryInitializer = directoryInitializer;
         this.windowBar = windowBar;
         this.mavenTreeInitializer=mavenTreeInitializer;
@@ -93,6 +106,9 @@ public class WaterCodeController {
         this.resizableInitializer = resizableInitializer;
         this.gitLogInitializer=gitLogInitializer;
         this.javaFxComponent=javaFxComponent;
+        this.commandLineWindow=commandLineWindow;
+        this.focusAction=focusAction;
+        this.mainClassList=mainClassList;
 //        this.autoCompletion=autoCompletion;
     }
 
@@ -104,6 +120,11 @@ public class WaterCodeController {
         TreeItem<Node> treeItem = directoryInitializer.getTreeItem(editorTabPane);
         dirTree.setRoot(treeItem);
         mavenTreeInitializer.initialize(mavenTree,output,bottomTabPane);
+        //outPut 输出绑定 命令行输出
+        commandLineWindow.makeCommandLineWindow(output);
+        //action 初始化
+        focusAction.initial(bottomTabPane);
+        mainClassList.initial(mainClassChoiceBox);
         //高度和宽度跟随父类
         //当stage准备好的时候
         onStageReady();
@@ -145,5 +166,7 @@ public class WaterCodeController {
 
     private void addJavaFxComponent(){
         javaFxComponent.set("codeCompletion",codeCompletion);
+        javaFxComponent.set("rightClickMenu",rightClickMenu);
+        javaFxComponent.set("dirTree",dirTree);
     }
 }

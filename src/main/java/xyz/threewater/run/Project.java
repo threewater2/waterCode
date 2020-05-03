@@ -13,7 +13,5 @@ public interface Project {
 
     public void build();
 
-
-
     public void run(String className);
 }

@@ -79,6 +79,10 @@ public class MavenToolTreeBuilder {
         });
     }
 
+    /**
+     * 聚焦于输出结果面板
+     * @param commandResult 输出结果
+     */
     private void showResult(CommandResult commandResult){
         TextArea textArea=(TextArea) showResultNode;
         textArea.setText(commandResult.getOutPut());

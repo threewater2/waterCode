@@ -34,7 +34,9 @@
                </MenuBar>
                <!--间隔条-->
                <Pane HBox.hgrow="ALWAYS" fx:id="titleBar"/>
-               <!--java运行，调试按键-->
+               <!--可运行的主类列表-->
+               <ChoiceBox fx:id="mainClassChoiceBox"/>
+               <!--java运行，调试运行按键-->
                <HBox fx:id="runAndDebug" styleClass="toolBar">
                    <Button fx:id="runProject" prefHeight="30.0" prefWidth="40.0" styleClass="run" />
                    <Button fx:id="debugProject" prefHeight="30.0" prefWidth="40.0" styleClass="debug" />
@@ -107,5 +109,9 @@
        </bottom>
     </BorderPane>
     <ListView styleClass="code-completion" fx:id="codeCompletion" visible="false" id="codeCompletion">
+    </ListView>
+    <ListView fx:id="rightClickMenu" visible="false" id="rightClickMenu">
+        <Label>run</Label>
+        <Label>debug</Label>
     </ListView>
 </Pane>

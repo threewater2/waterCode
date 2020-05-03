@@ -2,14 +2,8 @@ package xyz.threewater.dir;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import xyz.threewater.controller.WaterCodeController;
 import xyz.threewater.editor.FileEditor;
-import xyz.threewater.editor.JavaKeyWordEditor;
-import xyz.threewater.event.FileSaver;
-import xyz.threewater.utils.FileUtil;
 
 import java.io.File;
 @Component

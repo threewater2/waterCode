@@ -18,11 +18,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class JavaKeyWordEditor extends CodeArea {
+public class JavaEditor extends CodeArea {
 
     private String filePath;
 
-    public JavaKeyWordEditor(String javaCode,String filePath) {
+    public JavaEditor(String javaCode, String filePath) {
         this.filePath=filePath;
         hiLightJavaCode(javaCode);
         addSaveEvent();
@@ -113,5 +113,13 @@ public class JavaKeyWordEditor extends CodeArea {
                 e.printStackTrace();
             }
         });
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }
