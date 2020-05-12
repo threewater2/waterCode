@@ -73,6 +73,9 @@
     -fx-background-radius: 0;
     -fx-background-size: 16;
 }
+.toolBar .button:hover{
+    -fx-cursor: hand;
+}
 .addTerminalButton {
     -fx-background-image: url("/images/bar/add-black.svg");
     -fx-pref-width: 40;
@@ -118,6 +121,22 @@
 .toolBar .debug{
     -fx-background-image: url("/images/bar/debug-black.svg");
 
+}
+.toolBar .rerunProgramButton{
+    -fx-background-image: url("/images/bar/rerun-black.svg");
+}
+
+.toolBar .resumeProgramButton{
+    -fx-background-image: url("/images/bar/resume-black.svg");
+}
+.toolBar .stepOverButton{
+    -fx-background-image: url("/images/bar/step-over-black.svg");
+}
+.toolBar .stepIntoButton{
+    -fx-background-image: url("/images/bar/step-into-black.svg");
+}
+.toolBar .evaluateExpButton{
+    -fx-background-image: url("/images/bar/evaluate-exp-black.svg");
 }
 .toolBar .close:hover{
     -fx-background-color: #FF605C;
@@ -220,3 +239,25 @@
     -fx-pref-width: 200;
 }
 
+.debugVarListView {
+    -fx-pref-width: 400;
+}
+
+.debugOutPut {
+    -fx-pref-width: 800;
+}
+
+/*编辑器某行高亮*/
+.line-highlight{
+    -fx-background-color: #b2a6d9;
+}
+.break-point{
+    -fx-background-color: #e8cad2;
+}
+/*编辑器右侧颜色按钮背景代码*/
+.editor-leftBar-bg{
+    -fx-background-color: #DDDDDD;
+}
+.editor-leftBar-debug-bg{
+    -fx-background-image: url("/images/bar/debug-black.svg");;
+}

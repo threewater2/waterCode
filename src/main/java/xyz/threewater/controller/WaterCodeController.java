@@ -24,18 +24,8 @@ import xyz.threewater.plugin.maven.praser.MavenTreeInitializer;
 public class WaterCodeController {
 
 
-    private DirectoryInitializer directoryInitializer;
-    private WindowBar windowBar;
-    private MavenTreeInitializer mavenTreeInitializer;
-    private TerminalInitializer terminalInitializer;
-    private ResizableInitializer resizableInitializer;
-    private GitLogInitializer gitLogInitializer;
-    private JavaFxComponent javaFxComponent;
-    private CommandLineWindow commandLineWindow;
-    private FocusAction focusAction;
-    private MainClassList mainClassList;
-//    private AutoCompletion autoCompletion;
-
+    @FXML
+    public Button rerunProgramButton;
     @FXML
     public ChoiceBox<String> mainClassChoiceBox;
     @FXML
@@ -48,6 +38,8 @@ public class WaterCodeController {
     public BorderPane main;
     @FXML
     public Tab gitTab;
+    @FXML
+    public Tab DebugToolPane;
     @FXML
     public Pane titleBar;
     @FXML
@@ -64,6 +56,18 @@ public class WaterCodeController {
     public AnchorPane terminalAnchorPane;
     @FXML
     public Button addTerminalButton;
+    @FXML
+    public Button resumeProgramButton;
+    @FXML
+    public Button stepOverButton;
+    @FXML
+    public Button stepIntoButton;
+    @FXML
+    public Button evaluateExpButton;
+    @FXML
+    public ListView debugVarListView;
+    @FXML
+    public TextArea debugOutPut;
     @FXML
     private TreeView<Node> dirTree;
     @FXML
@@ -88,6 +92,18 @@ public class WaterCodeController {
     public TextArea output;
     private BooleanProperty stageInitialized =new SimpleBooleanProperty(false);
     private Stage stage;
+
+    private DirectoryInitializer directoryInitializer;
+    private WindowBar windowBar;
+    private MavenTreeInitializer mavenTreeInitializer;
+    private TerminalInitializer terminalInitializer;
+    private ResizableInitializer resizableInitializer;
+    private GitLogInitializer gitLogInitializer;
+    private JavaFxComponent javaFxComponent;
+    private CommandLineWindow commandLineWindow;
+    private FocusAction focusAction;
+    private MainClassList mainClassList;
+    //    private AutoCompletion autoCompletion;
 
     public WaterCodeController(DirectoryInitializer directoryInitializer,
                                WindowBar windowBar,

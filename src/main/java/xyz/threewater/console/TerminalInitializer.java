@@ -32,6 +32,10 @@ public class TerminalInitializer {
         TerminalTab terminal = terminalBuilder.newTerminal();
         terminalTabPane.getTabs().add(terminal);
     }
+
+    /**
+     * 终端标签页名字生成器，但有新标签页打开时，采用这个生成器生成
+     */
     public void initialNameGenerator(){
         terminalBuilder.setNameGenerator(new TabNameGenerator() {
             String name="Console ";
@@ -43,6 +47,9 @@ public class TerminalInitializer {
         });
     }
 
+    /**
+     * 自定义Terminal样式
+     */
     public void configTerminal(){
         TerminalConfig terminalConfig=new TerminalConfig();
         terminalConfig.setFontSize(16);

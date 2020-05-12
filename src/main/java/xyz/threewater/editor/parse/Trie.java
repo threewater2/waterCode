@@ -5,10 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Trie树，用来保存关键字，以及对关键字进行搜索
+ */
 public class Trie<V> {
 
     private Node<V> root=new Node<>();
 
+    /**
+     * 获取单词
+     */
     public V get(String key){
         Node<V> node = findNode(root, key);
         if(node!=null){
@@ -17,6 +23,9 @@ public class Trie<V> {
         return null;
     }
 
+    /**
+     * 根据输入的单词前缀，找出所有与之匹配的单词列表
+     */
     public List<String> startWith(String prefix){
         List<String> list=new ArrayList<>();
         Node<V> prefixNode = findNode(root, prefix);
@@ -88,6 +97,10 @@ public class Trie<V> {
         }
     }
 
+    /**
+     * 单词节点，每个单词都保存在这里
+     * @param <V>
+     */
     private static class Node<V> {
         private V value=null;
         private boolean isWord=false;

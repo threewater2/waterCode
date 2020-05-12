@@ -26,6 +26,7 @@ public class JavaEditor extends CodeArea {
         this.filePath=filePath;
         hiLightJavaCode(javaCode);
         addSaveEvent();
+        DebuggerUI.initial(this);
     }
 
     private static final String[] KEYWORDS = new String[] {

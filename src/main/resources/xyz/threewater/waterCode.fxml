@@ -105,6 +105,34 @@
                    <TextArea fx:id="output" editable="false" />
                </Tab>
                <Tab text="Git" fx:id="gitTab"/>
+               <Tab text="Debug" fx:id="DebugToolPane">
+                   <HBox>
+                       <!-- 最右边按钮组-->
+                       <VBox styleClass="toolBar">
+                           <!-- 重新运行-->
+                           <Button fx:id="rerunProgramButton" prefHeight="30.0" prefWidth="40.0" styleClass="rerunProgramButton" />
+                           <!-- 回复运行-->
+                           <Button fx:id="resumeProgramButton" prefHeight="30.0" prefWidth="40.0" styleClass="resumeProgramButton" />
+                       </VBox>
+                       <VBox>
+                           <!-- 最上面竖排状态栏-->
+                           <HBox styleClass="toolBar">
+                               <!-- step over-->
+                               <Button fx:id="stepOverButton" prefHeight="30.0" prefWidth="40.0" styleClass="stepOverButton" />
+                               <!-- step into -->
+                               <Button fx:id="stepIntoButton" prefHeight="30.0" prefWidth="40.0" styleClass="stepIntoButton" />
+                               <!-- evaluate exp-->
+                               <Button fx:id="evaluateExpButton" prefHeight="30.0" prefWidth="40.0" styleClass="evaluateExpButton" />
+                           </HBox>
+                           <HBox>
+                               <!-- 变量查看器-->
+                               <ListView fx:id="debugVarListView" styleClass="debugVarListView"/>
+                               <!-- debug输出-->
+                               <TextArea fx:id="debugOutPut" styleClass="debugOutPut"/>
+                           </HBox>
+                       </VBox>
+                   </HBox>
+               </Tab>
            </TabPane>
        </bottom>
     </BorderPane>
