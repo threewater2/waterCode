@@ -20,12 +20,12 @@ import java.util.Map;
 import java.util.function.IntFunction;
 
 public class DebuggerUI {
-    private static Logger logger= LoggerFactory.getLogger(DebuggerUI.class);
+    private static final Logger logger= LoggerFactory.getLogger(DebuggerUI.class);
 
 
     public static void initial(JavaEditor JavaEditor){
         //设置某行高亮
-        JavaEditor.setParagraphStyle(19, Collections.singleton("line-highlight"));
+//        JavaEditor.setParagraphStyle(19, Collections.singleton("line-highlight"));
         IntFunction<Node> lineNumberFactory = LineNumberFactory.get(JavaEditor);
         BreakPointFactory breakPointFactory= new BreakPointFactory(JavaEditor);
         RunButtonFactory runButtonFactory=new RunButtonFactory(JavaEditor);

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+<Pane xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="xyz.threewater.controller.WelcomeController"
+      stylesheets="@waterCode.css"
+      styleClass="welcome-root"
+      prefHeight="400.0" prefWidth="600.0">
+    <!-- 三大金刚键-->
+    <BorderPane prefHeight="400" prefWidth="600">
+        <top>
+            <!--无限延长间隔条-->
+            <HBox fx:id="toolBar" styleClass="toolBar">
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button fx:id="minButton" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
+                <Button fx:id="maxButton" prefHeight="30.0" prefWidth="40.0" styleClass="max" />
+                <Button fx:id="closeButton" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
+            </HBox>
+        </top>
+        <center>
+            <VBox styleClass="welcome-menu">
+                <Text styleClass="slogan" text="Welcome Use WaterCode!" />
+                <Button fx:id="create">create a new project</Button>
+                <Button fx:id="open">open existing project</Button>
+                <Button fx:id="config">config water code</Button>
+            </VBox>
+        </center>
+    </BorderPane>
+</Pane>

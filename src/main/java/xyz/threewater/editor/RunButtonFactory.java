@@ -1,5 +1,7 @@
 package xyz.threewater.editor;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
@@ -8,7 +10,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.threewater.build.JavaProjectBuilder;
+import xyz.threewater.build.SourceCodeAnalysis;
+import xyz.threewater.run.JavaProjectRunner;
+import xyz.threewater.utils.SpringUtil;
 
+import java.io.File;
 import java.util.function.IntFunction;
 
 /**
@@ -16,7 +23,7 @@ import java.util.function.IntFunction;
  */
 public class RunButtonFactory implements IntFunction<Node> {
 
-    private Logger logger= LoggerFactory.getLogger(RunButtonFactory.class);
+    private final Logger logger= LoggerFactory.getLogger(RunButtonFactory.class);
     private final JavaEditor javaEditor;
 
     public RunButtonFactory(JavaEditor javaEditor) {
@@ -31,6 +38,7 @@ public class RunButtonFactory implements IntFunction<Node> {
         Polygon run = new Polygon(0.0, 0.0, 18.0, 9.0, 0.0, 18.0);
         String text=lineNumber>0?javaEditor.getText(lineNumber):"";
         String main="public static void main(String[]";
+        //当前类是Java Main类
         if(text.contains(main)&&!text.startsWith("//")){
             run.setFill(Color.GREEN);
             run.setCursor(Cursor.HAND);
@@ -50,6 +58,21 @@ public class RunButtonFactory implements IntFunction<Node> {
 
 
     public void runClicked(JavaEditor javaEditor){
-        logger.debug("运行回调函数被调用了：javaEditor{}",javaEditor);
+        JavaProjectBuilder builder = SpringUtil.getBean(JavaProjectBuilder.class);
+        JavaProjectRunner runner = SpringUtil.getBean(JavaProjectRunner.class);
+        SourceCodeAnalysis codeAnalysis = new SourceCodeAnalysis(new File(javaEditor.getFilePath()));
+        String fullClassName = codeAnalysis.getFullClassName();
+        Thread subThread=new Thread(new Task<Void>() {
+            @Override
+            protected Void call() {
+                logger.debug("build started!");
+                builder.buildProject();
+                logger.debug("run started: fullClassName is:{}",fullClassName);
+                runner.runProject(fullClassName);
+                return null;
+            }
+        });
+        subThread.setDaemon(true);
+        subThread.start();
     }
 }

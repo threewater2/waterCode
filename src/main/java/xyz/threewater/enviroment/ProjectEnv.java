@@ -24,6 +24,15 @@ public class ProjectEnv {
     @Value("${project.compilePath}")
     private String outPutPath;
 
+    @Value("${project.name}")
+    private String projectName;
+
+    private boolean isMavenProject;
+
+    private boolean isGitProject;
+
+
+
     public String getJavac() {
         return javac;
     }
@@ -57,7 +66,7 @@ public class ProjectEnv {
     }
 
     public String getOutPutPath() {
-        return outPutPath;
+        return getProjectPath()+"/out";
     }
 
     public void setOutPutPath(String outPutPath) {
@@ -70,5 +79,33 @@ public class ProjectEnv {
 
     public void setJava(String java) {
         this.java = java;
+    }
+
+    public String getGitCmd() {
+        return getGit()+" -C \""+getProjectPath()+"\" log --pretty=format:\"%an%x09%ad%x09%s\" --date=format:%c";
+    }
+
+    public boolean isMavenProject() {
+        return isMavenProject;
+    }
+
+    public void setMavenProject(boolean mavenProject) {
+        isMavenProject = mavenProject;
+    }
+
+    public boolean isGitProject() {
+        return isGitProject;
+    }
+
+    public void setGitProject(boolean gitProject) {
+        isGitProject = gitProject;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

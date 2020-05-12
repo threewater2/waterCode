@@ -6,6 +6,10 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 用来保存可以运行的java类
+ * 存储新形式为全限定类名，绝对路径
+ */
 @Component
 public class MainClassList {
     private final Map<String,String> classNameMap=new HashMap<>();

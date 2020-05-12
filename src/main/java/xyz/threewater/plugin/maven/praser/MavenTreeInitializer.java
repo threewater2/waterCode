@@ -5,34 +5,41 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import xyz.threewater.enviroment.ProjectEnv;
 import xyz.threewater.plugin.maven.cmd.MavenToolTreeBuilder;
+
+import java.io.File;
 
 @Component
 public class MavenTreeInitializer {
 
-    @Value("${project.path}")
-    private String projectPath;
-
-    @Value("${project.name}")
-    private String projectName;
+    private final ProjectEnv projectEnv;
 
     private MavenTreeBuilder treeBuilder;
     private MavenToolTreeBuilder toolTreeBuilder;
 
-    public MavenTreeInitializer(MavenTreeBuilder treeBuilder,
+    public MavenTreeInitializer(ProjectEnv projectEnv, MavenTreeBuilder treeBuilder,
                                 MavenToolTreeBuilder toolTreeBuilder){
+        this.projectEnv = projectEnv;
         this.treeBuilder =treeBuilder;
         this.toolTreeBuilder=toolTreeBuilder;
     }
 
     @SuppressWarnings("unchecked")
     public void initialize(TreeView<Node> treeView, Node showResultPane, TabPane bottomTabPane){
+        //不是一个maven项目
+        if(!isMavenProject()){
+            TreeItem<Node> root=new TreeItem<>(new Label("not a maven project"));
+            treeView.setRoot(root);
+            return;
+        }
         try {
             TreeItem<Node> dependencyTree = treeBuilder.getDependencyTree(getProjectPath());
+            //maven命令树
             TreeItem<Node> toolTree = toolTreeBuilder.build(showResultPane,bottomTabPane);
-            TreeItem<Node> root=new TreeItem<>(new Label(projectName));
+            //maven依赖树
+            TreeItem<Node> root=new TreeItem<>(new Label(projectEnv.getProjectName()));
             root.getChildren().addAll(toolTree,dependencyTree);
             treeView.setRoot(root);
         } catch (XmlParseException e) {
@@ -41,6 +48,15 @@ public class MavenTreeInitializer {
     }
 
     public String getProjectPath(){
-        return projectPath+"/pom.xml";
+        return projectEnv.getProjectPath()+"/pom.xml";
+    }
+
+
+    /**
+     * 判断是不是maven项目
+     */
+    private boolean isMavenProject(){
+        File file=new File(getProjectPath());
+        return file.exists();
     }
 }

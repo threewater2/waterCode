@@ -136,8 +136,6 @@ public class WaterCodeController {
         TreeItem<Node> treeItem = directoryInitializer.getTreeItem(editorTabPane);
         dirTree.setRoot(treeItem);
         mavenTreeInitializer.initialize(mavenTree,output,bottomTabPane);
-        //outPut 输出绑定 命令行输出
-        commandLineWindow.makeCommandLineWindow(output);
         //action 初始化
         focusAction.initial(bottomTabPane);
         mainClassList.initial(mainClassChoiceBox);
@@ -184,5 +182,6 @@ public class WaterCodeController {
         javaFxComponent.set("codeCompletion",codeCompletion);
         javaFxComponent.set("rightClickMenu",rightClickMenu);
         javaFxComponent.set("dirTree",dirTree);
+        javaFxComponent.set("outPutTextArea",output);
     }
 }

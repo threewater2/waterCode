@@ -261,3 +261,34 @@
 .editor-leftBar-debug-bg{
     -fx-background-image: url("/images/bar/debug-black.svg");;
 }
+
+/**********************************************************************************************************************/
+
+/*欢迎页CSS*/
+.welcome-root{
+    -fx-font-family: "JetBrains Mono";
+    -fx-font-size: 15;
+    -fx-background-color: white;
+    -fx-focus-color: white;
+    -fx-pref-height: 400;
+    -fx-pref-width: 600;
+    /*-fx-border-width: 1;*/
+    -fx-border-color: #00CA4E;
+}
+
+.welcome-menu {
+    /*-fx-border-width: 1;*/
+    -fx-border-color: #00CA4E;
+    -fx-alignment: center;
+
+}
+.welcome-menu .button{
+    -fx-pref-width: 250;
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
+    -fx-text-alignment: left;
+}
+.welcome-menu .button:hover{
+    -fx-background-color: #CFCFCF;
+}

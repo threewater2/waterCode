@@ -16,9 +16,7 @@ import xyz.threewater.exception.BuildFailedException;
         String buildSourceFile(String sourceFile,String outPutPath) throws BuildFailedException;
 
         /**
-         * @param projectRootPath 项目路径
-         * @param outPutPath 指定生成的目录 如果为空则默认和源代码文件目录相同
-         * @return 编译后的项目路径
+         * 编译当前项目，所有环境都包含在了ProjectEnv中
          */
-        String buildProject(String projectRootPath,String outPutPath);
+        void buildProject();
     }
