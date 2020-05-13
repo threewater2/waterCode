@@ -3,6 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <Pane styleClass="root"
       stylesheets="@waterCode.css"
       xmlns="http://javafx.com/javafx/10.0.2-internal"
@@ -34,12 +36,12 @@
                </MenuBar>
                <!--间隔条-->
                <Pane HBox.hgrow="ALWAYS" fx:id="titleBar"/>
-               <!--可运行的主类列表-->
-               <ChoiceBox fx:id="mainClassChoiceBox"/>
+               <!--可运行的Main Class-->
+               <Button fx:id="mainClassButton" styleClass="main-class-button">no runnable class</Button>
                <!--java运行，调试运行按键-->
                <HBox fx:id="runAndDebug" styleClass="toolBar">
-                   <Button fx:id="runProject" prefHeight="30.0" prefWidth="40.0" styleClass="run" />
-                   <Button fx:id="debugProject" prefHeight="30.0" prefWidth="40.0" styleClass="debug" />
+                   <Button fx:id="runProjectButton" prefHeight="30.0" prefWidth="40.0" styleClass="run" />
+                   <Button fx:id="debugProjectButton" prefHeight="30.0" prefWidth="40.0" styleClass="debug" />
                </HBox>
                <!--三大金刚键-->
                <HBox fx:id="toolBar" styleClass="toolBar">
@@ -136,10 +138,15 @@
            </TabPane>
        </bottom>
     </BorderPane>
+    <!--自由定位区，手动定位到任意位置-->
+    <!--智能提示-->
     <ListView styleClass="code-completion" fx:id="codeCompletion" visible="false" id="codeCompletion">
     </ListView>
+    <!--右键菜单-->
     <ListView fx:id="rightClickMenu" visible="false" id="rightClickMenu">
         <Label>run</Label>
         <Label>debug</Label>
     </ListView>
+    <!--主类候选列表-->
+    <VBox fx:id="mainClassGroup" visible="false" id="mainClassGroup" styleClass="main-class-group"/>
 </Pane>

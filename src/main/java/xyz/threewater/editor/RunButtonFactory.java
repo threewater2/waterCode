@@ -1,7 +1,5 @@
 package xyz.threewater.editor;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
@@ -10,9 +8,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.threewater.build.JavaProjectBuilder;
+import xyz.threewater.action.RunAndBuildAction;
 import xyz.threewater.build.SourceCodeAnalysis;
-import xyz.threewater.run.JavaProjectRunner;
+import xyz.threewater.enviroment.MainClassList;
 import xyz.threewater.utils.SpringUtil;
 
 import java.io.File;
@@ -57,22 +55,23 @@ public class RunButtonFactory implements IntFunction<Node> {
     }
 
 
-    public void runClicked(JavaEditor javaEditor){
-        JavaProjectBuilder builder = SpringUtil.getBean(JavaProjectBuilder.class);
-        JavaProjectRunner runner = SpringUtil.getBean(JavaProjectRunner.class);
+    private void runClicked(JavaEditor javaEditor){
         SourceCodeAnalysis codeAnalysis = new SourceCodeAnalysis(new File(javaEditor.getFilePath()));
         String fullClassName = codeAnalysis.getFullClassName();
-        Thread subThread=new Thread(new Task<Void>() {
-            @Override
-            protected Void call() {
-                logger.debug("build started!");
-                builder.buildProject();
-                logger.debug("run started: fullClassName is:{}",fullClassName);
-                runner.runProject(fullClassName);
-                return null;
-            }
-        });
-        subThread.setDaemon(true);
-        subThread.start();
+        //加入右上角运行菜单中
+        addToMainClassList(new File(javaEditor.getFilePath()),fullClassName);
+        //开始运行
+        RunAndBuildAction runAndBuildAction = SpringUtil.getBean(RunAndBuildAction.class);
+        runAndBuildAction.runAndBuildProject(fullClassName);
+    }
+
+    private void addToMainClassList(File file,String fullClassName){
+        MainClassList classList = SpringUtil.getBean(MainClassList.class);
+        String fileName = file.getName();
+        classList.addMainClass(fileName,fullClassName);
+    }
+
+    public static void main(String[] args) {
+
     }
 }

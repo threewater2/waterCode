@@ -19,6 +19,7 @@ import xyz.threewater.enviroment.MainClassList;
 import xyz.threewater.function.ResizableInitializer;
 import xyz.threewater.plugin.git.GitLogInitializer;
 import xyz.threewater.plugin.maven.praser.MavenTreeInitializer;
+import xyz.threewater.run.RunProjectUI;
 
 @Component
 public class WaterCodeController {
@@ -26,8 +27,7 @@ public class WaterCodeController {
 
     @FXML
     public Button rerunProgramButton;
-    @FXML
-    public ChoiceBox<String> mainClassChoiceBox;
+
     @FXML
     public ListView codeCompletion;
     @FXML
@@ -69,6 +69,14 @@ public class WaterCodeController {
     @FXML
     public TextArea debugOutPut;
     @FXML
+    public Button mainClassButton;
+    @FXML
+    public VBox mainClassGroup;
+    @FXML
+    public Button runProjectButton;
+    @FXML
+    public Button debugProjectButton;
+    @FXML
     private TreeView<Node> dirTree;
     @FXML
     public TreeView<Node> mavenTree;
@@ -90,19 +98,19 @@ public class WaterCodeController {
     public Button iconButton;
     @FXML
     public TextArea output;
-    private BooleanProperty stageInitialized =new SimpleBooleanProperty(false);
+    private final BooleanProperty stageInitialized =new SimpleBooleanProperty(false);
     private Stage stage;
 
-    private DirectoryInitializer directoryInitializer;
-    private WindowBar windowBar;
-    private MavenTreeInitializer mavenTreeInitializer;
-    private TerminalInitializer terminalInitializer;
-    private ResizableInitializer resizableInitializer;
-    private GitLogInitializer gitLogInitializer;
-    private JavaFxComponent javaFxComponent;
-    private CommandLineWindow commandLineWindow;
-    private FocusAction focusAction;
-    private MainClassList mainClassList;
+    private final DirectoryInitializer directoryInitializer;
+    private final WindowBar windowBar;
+    private final MavenTreeInitializer mavenTreeInitializer;
+    private final TerminalInitializer terminalInitializer;
+    private final ResizableInitializer resizableInitializer;
+    private final GitLogInitializer gitLogInitializer;
+    private final JavaFxComponent javaFxComponent;
+    private final FocusAction focusAction;
+    private final MainClassList mainClassList;
+    private final RunProjectUI runProjectUI;
     //    private AutoCompletion autoCompletion;
 
     public WaterCodeController(DirectoryInitializer directoryInitializer,
@@ -114,7 +122,7 @@ public class WaterCodeController {
                                JavaFxComponent javaFxComponent,
                                CommandLineWindow commandLineWindow,
                                FocusAction focusAction,
-                               MainClassList mainClassList) {
+                               MainClassList mainClassList, RunProjectUI runProjectUI) {
         this.directoryInitializer = directoryInitializer;
         this.windowBar = windowBar;
         this.mavenTreeInitializer=mavenTreeInitializer;
@@ -122,28 +130,28 @@ public class WaterCodeController {
         this.resizableInitializer = resizableInitializer;
         this.gitLogInitializer=gitLogInitializer;
         this.javaFxComponent=javaFxComponent;
-        this.commandLineWindow=commandLineWindow;
         this.focusAction=focusAction;
         this.mainClassList=mainClassList;
 //        this.autoCompletion=autoCompletion;
+        this.runProjectUI = runProjectUI;
     }
 
     /**
      * 初始化各个组件
      */
     public void initialize(){
+        //add to JavaFxComponent
+        addJavaFxComponent();
+        //高度和宽度跟随父类
         //初始化文件目录树
         TreeItem<Node> treeItem = directoryInitializer.getTreeItem(editorTabPane);
         dirTree.setRoot(treeItem);
         mavenTreeInitializer.initialize(mavenTree,output,bottomTabPane);
         //action 初始化
         focusAction.initial(bottomTabPane);
-        mainClassList.initial(mainClassChoiceBox);
-        //高度和宽度跟随父类
+        mainClassList.initial(mainClassButton,mainClassGroup);
         //当stage准备好的时候
         onStageReady();
-        //add to JavaFxComponent
-        addJavaFxComponent();
     }
 
     public void onStageReady(){
@@ -157,6 +165,7 @@ public class WaterCodeController {
                 terminalTabPane,mavenTree,dirTree,leftToolBar);
         //初始化git面板
         gitLogInitializer.initial(gitTab);
+        runProjectUI.initial();
         //初始化代码提示组件
 //        autoCompletion.setCodeCompletion(codeCompletion);
     }
@@ -183,5 +192,8 @@ public class WaterCodeController {
         javaFxComponent.set("rightClickMenu",rightClickMenu);
         javaFxComponent.set("dirTree",dirTree);
         javaFxComponent.set("outPutTextArea",output);
+        javaFxComponent.set("mainClassListView",mainClassGroup);
+        javaFxComponent.set("mainClassButton",mainClassButton);
+        javaFxComponent.set("runProjectButton",runProjectButton);
     }
 }
