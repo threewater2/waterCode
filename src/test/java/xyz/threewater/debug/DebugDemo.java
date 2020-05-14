@@ -18,6 +18,7 @@ public class DebugDemo {
         System.out.println(debugDemo);
         int i = debugDemo.myDemoMethod(1);
         System.out.println(i);
+        MainClass mainClass=new MainClass();
     }
 
     public int myDemoMethod(int value){

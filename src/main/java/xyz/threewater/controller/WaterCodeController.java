@@ -12,6 +12,7 @@ import xyz.threewater.action.FocusAction;
 import xyz.threewater.bar.WindowBar;
 import xyz.threewater.console.TerminalInitializer;
 import xyz.threewater.console.command.CommandLineWindow;
+import xyz.threewater.debug.JavaProjectDebuggerUI;
 import xyz.threewater.dir.DirectoryInitializer;
 //import xyz.threewater.editor.AutoCompletion;
 import xyz.threewater.enviroment.JavaFxComponent;
@@ -111,6 +112,7 @@ public class WaterCodeController {
     private final FocusAction focusAction;
     private final MainClassList mainClassList;
     private final RunProjectUI runProjectUI;
+    private final JavaProjectDebuggerUI javaProjectDebuggerUI;
     //    private AutoCompletion autoCompletion;
 
     public WaterCodeController(DirectoryInitializer directoryInitializer,
@@ -122,7 +124,7 @@ public class WaterCodeController {
                                JavaFxComponent javaFxComponent,
                                CommandLineWindow commandLineWindow,
                                FocusAction focusAction,
-                               MainClassList mainClassList, RunProjectUI runProjectUI) {
+                               MainClassList mainClassList, RunProjectUI runProjectUI, JavaProjectDebuggerUI javaProjectDebuggerUI) {
         this.directoryInitializer = directoryInitializer;
         this.windowBar = windowBar;
         this.mavenTreeInitializer=mavenTreeInitializer;
@@ -134,6 +136,7 @@ public class WaterCodeController {
         this.mainClassList=mainClassList;
 //        this.autoCompletion=autoCompletion;
         this.runProjectUI = runProjectUI;
+        this.javaProjectDebuggerUI = javaProjectDebuggerUI;
     }
 
     /**
@@ -166,6 +169,7 @@ public class WaterCodeController {
         //初始化git面板
         gitLogInitializer.initial(gitTab);
         runProjectUI.initial();
+        javaProjectDebuggerUI.initialUI();
         //初始化代码提示组件
 //        autoCompletion.setCodeCompletion(codeCompletion);
     }
@@ -195,5 +199,7 @@ public class WaterCodeController {
         javaFxComponent.set("mainClassListView",mainClassGroup);
         javaFxComponent.set("mainClassButton",mainClassButton);
         javaFxComponent.set("runProjectButton",runProjectButton);
+        javaFxComponent.set("debugProjectButton",debugProjectButton);
+        javaFxComponent.set("debugOutPut",debugOutPut);
     }
 }

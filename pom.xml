@@ -98,7 +98,7 @@
             <artifactId>javafxsvg</artifactId>
             <version>1.3.0</version>
         </dependency>
-        <!--for javaDebugger-->
+        <!--for javaProjectDebugger-->
         <dependency>
             <groupId>sun.jdk</groupId>
             <artifactId>tools</artifactId>

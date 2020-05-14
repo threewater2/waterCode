@@ -1,5 +1,6 @@
 package xyz.threewater.run;
 
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -36,10 +37,11 @@ public class JavaProjectRunner {
     }
 
     /**
-     * 运行当前项目
+     * 运行当前项目，支持传递jvm参数
      * @param fullClassName 全限定类名
+     * @param jvmArg jvm参数
      */
-    public void runProject(String fullClassName){
+    public void runProject(String fullClassName,String... jvmArg){
         String classPathFilePath = classPath.buildClasspathFile().getAbsolutePath();
         String classPath="";
         if(!classPath.isEmpty()){
@@ -47,8 +49,12 @@ public class JavaProjectRunner {
         }else {
             classPath="-classpath "+projectEnv.getOutPutPath();
         }
+        String arg="";
+        if(jvmArg!=null&&jvmArg.length!=0){
+            arg= String.join(" ",jvmArg);
+        }
         String command=String.join(" ",
-                projectEnv.getJava(),
+                projectEnv.getJava(),arg,
                 "-Dfile.encoding=utf-8",
                 classPath,fullClassName);
         logger.debug("run cmd is:{}",command);

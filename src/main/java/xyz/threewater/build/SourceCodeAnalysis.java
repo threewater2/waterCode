@@ -27,6 +27,7 @@ public class SourceCodeAnalysis {
         if(matcher1.find()){
             className=matcher1.group(1);
         }else return null;
-        return packageName+"."+className;
+        String result=packageName+"."+className;
+        return result.trim();
     }
 }

@@ -17,7 +17,15 @@ public class FocusAction {
     }
 
     public void outPutWindowsFocus(){
+        focusPane(1);
+    }
+
+    public void debugWindowsFocus(){
+        focusPane(3);
+    }
+
+    private void focusPane(int index){
         SingleSelectionModel<Tab> selectionModel = bottomTabPane.getSelectionModel();
-        selectionModel.select(1);
+        selectionModel.select(index);
     }
 }

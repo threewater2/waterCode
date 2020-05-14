@@ -130,7 +130,7 @@
                                <!-- 变量查看器-->
                                <ListView fx:id="debugVarListView" styleClass="debugVarListView"/>
                                <!-- debug输出-->
-                               <TextArea fx:id="debugOutPut" styleClass="debugOutPut"/>
+                               <TextArea fx:id="debugOutPut" styleClass="debugOutPut" editable="false"/>
                            </HBox>
                        </VBox>
                    </HBox>
