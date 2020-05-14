@@ -97,8 +97,8 @@ public class JavaProjectDebugger {
 
 
 
-    public void nextStep() {
-
+    public void stepOver() {
+        jvmEventHandler.stepOver();
     }
 
 

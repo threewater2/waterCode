@@ -19,9 +19,15 @@ public class JavaProjectDebuggerUI {
 
     public void initialUI(){
         Button debugProjectButton = javaFxComponent.get("debugProjectButton", Button.class);
+        //debug 开始按钮
         debugProjectButton.setOnMouseClicked(e->{
            javaProjectDebugger.startDebug();
            focusAction.debugWindowsFocus();
+        });
+        //debug 下一步按钮
+        Button stepOverButton=javaFxComponent.get("stepOverButton",Button.class);
+        stepOverButton.setOnMouseClicked(e->{
+            javaProjectDebugger.stepOver();
         });
     }
 }

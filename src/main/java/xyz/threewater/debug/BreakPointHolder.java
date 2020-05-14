@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import xyz.threewater.action.BreakPointCenter;
+import xyz.threewater.action.VMCenter;
+import xyz.threewater.action.VmListener;
 
 import java.util.*;
 
@@ -18,8 +20,9 @@ public class BreakPointHolder {
     //事件中心
     private final BreakPointCenter breakPointCenter;
 
-    public BreakPointHolder(BreakPointCenter breakPointCenter) {
+    public BreakPointHolder(BreakPointCenter breakPointCenter, VMCenter vmCenter) {
         this.breakPointCenter = breakPointCenter;
+        vmCenter.addVmListener(this::recoverBreakPoints);
     }
 
     public void addBreakPoint(String fullClassName,int lineNumber){
@@ -49,6 +52,11 @@ public class BreakPointHolder {
         });
         logger.debug("waiting {} breakPoints count:{}",fullClassName,breakPointBeans.size());
         return breakPointBeans;
+    }
+
+    public void recoverBreakPoints(){
+        breakPoints.forEach(breakPointBean -> breakPointBean.setUsed(false));
+        logger.debug("all breakpoints are reseted, size{}",breakPoints.size());
     }
 
     public Set<BreakPointBean> getAllBreakPoint(){

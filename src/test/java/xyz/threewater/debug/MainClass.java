@@ -11,4 +11,11 @@ public class MainClass {
         Thread.sleep(5000);
         System.out.println("sleep finished");
     }
+
+
+    public String getA(){
+        System.out.println("aaaaa");
+        return value;
+
+    }
 }

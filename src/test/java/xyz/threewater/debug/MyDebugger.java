@@ -132,6 +132,7 @@ public class MyDebugger {
                     StepRequest.STEP_LINE,
                     StepRequest.STEP_OVER);
             request.addCountFilter(1);  // next step only
+            request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
             request.enable();
             eventSet.resume();
         } else if(event instanceof StepEvent){

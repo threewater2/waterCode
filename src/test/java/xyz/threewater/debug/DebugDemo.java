@@ -1,5 +1,6 @@
 package xyz.threewater.debug;
 
+
 public class DebugDemo {
     private static String a="static value string";
     private String b="object value string";
@@ -14,11 +15,14 @@ public class DebugDemo {
         String fieldA="field a";
         int fieldB=2;
         DebugDemo debugDemo=new DebugDemo();
+        System.out.println("qweqwewqewqewqe");
         System.out.println(fieldA+fieldB);
         System.out.println(debugDemo);
         int i = debugDemo.myDemoMethod(1);
         System.out.println(i);
         MainClass mainClass=new MainClass();
+        String a = mainClass.getA();
+        System.out.println(a);
     }
 
     public int myDemoMethod(int value){

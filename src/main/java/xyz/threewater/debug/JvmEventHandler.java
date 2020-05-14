@@ -5,11 +5,13 @@ import com.sun.jdi.event.*;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.ClassPrepareRequest;
 import com.sun.jdi.request.EventRequest;
+import com.sun.jdi.request.StepRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import xyz.threewater.action.BreakPointCenter;
 import xyz.threewater.action.DebugCenter;
+import xyz.threewater.action.VMCenter;
 
 import java.util.List;
 
@@ -24,11 +26,13 @@ public class JvmEventHandler {
     private EventSet eventSet;
     private final BreakPointCenter breakPointCenter;
     private final DebugCenter debugCenter;
+    private final VMCenter vmCenter;
     private final BreakPointHolder breakPointHolder;
 
-    public JvmEventHandler(BreakPointCenter breakPointCenter, DebugCenter debugCenter, BreakPointHolder breakPointHolder) {
+    public JvmEventHandler(BreakPointCenter breakPointCenter, DebugCenter debugCenter, VMCenter vmCenter, BreakPointHolder breakPointHolder) {
         this.breakPointCenter = breakPointCenter;
         this.debugCenter = debugCenter;
+        this.vmCenter = vmCenter;
         this.breakPointHolder = breakPointHolder;
     }
 
@@ -47,7 +51,9 @@ public class JvmEventHandler {
      */
     public void listeningEvent() throws Exception {
         EventQueue eventQueue = vm.eventQueue();
+        //当有类准备好时，应该停止运行，让我们有足够的时间来打断点
         ClassPrepareRequest classPrepareRequest = vm.eventRequestManager().createClassPrepareRequest();
+        classPrepareRequest.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         classPrepareRequest.enable();
         while (!vmExit) {
             //从事件队列中取出一个事件集，事件集是事件发生的最小单位
@@ -66,6 +72,7 @@ public class JvmEventHandler {
     private void execute(Event event) {
         if (event instanceof VMStartEvent) {
             logger.debug("VMStarted!");
+            eventSet.resume();
         } else if (event instanceof ClassPrepareEvent) {
             //当有类装载时，从等待队列中获取等待的断点加入
             ClassPrepareEvent classPrepareEvent = (ClassPrepareEvent) event;
@@ -74,17 +81,29 @@ public class JvmEventHandler {
             List<BreakPointBean> waitingBreakPoints = breakPointHolder.getWaitingBreakPoints(mainClassName);
             //当类准备好时，重新设置断点
             waitingBreakPoints.forEach(this::addBreakPoint);
+            //断点设置好了就继续执行
+            eventSet.resume();
         } else if (event instanceof BreakpointEvent) {
             BreakpointEvent breakpointEvent=(BreakpointEvent)event;
             int lineNumber = breakpointEvent.location().lineNumber();
             String name = breakpointEvent.location().declaringType().name();
             logger.debug("breakPoint stopped:{},{}",lineNumber,name);
+        } else if (event instanceof StepEvent){
+            //下一步事件触发
+            StepEvent stepEvent=(StepEvent)event;
+            String fullClassName = stepEvent.location().declaringType().name();
+            int line=stepEvent.location().lineNumber();
+            logger.debug("StepEvent Triggered:{},{}",fullClassName,line);
+            //删除下一步请求
+            vm.eventRequestManager().deleteEventRequest(event.request());
         } else if(event instanceof VMDisconnectEvent){
             vmExit = true;
             debugCenter.debugFinished();
+            vmCenter.VmExited();
             logger.debug("vm Exited");
+            vm.eventRequestManager().deleteAllBreakpoints();
+            eventSet.resume();
         }
-        eventSet.resume();
     }
 
     /**
@@ -129,5 +148,33 @@ public class JvmEventHandler {
         breakpointRequest.enable();
         breakPointBean.setUsed(true);
         logger.debug("breakPoint added to jvm:{}",breakPointBean);
+    }
+
+    public void stepOver(){
+        //执行下一步
+        List<ThreadReference> threadReferences = vm.allThreads();
+        ThreadReference mainThead=null;
+        for(ThreadReference threadReference:threadReferences){
+            if(threadReference.name().equals("main")){
+                mainThead=threadReference;
+            }
+        }
+        if(mainThead==null){
+            logger.warn("mainThread is Null!");
+            return;
+        }
+        logger.debug("stepOver Request send Thread :{},",mainThead);
+        StepRequest request = vm.eventRequestManager().createStepRequest(mainThead, StepRequest.STEP_LINE, StepRequest.STEP_OVER);
+        //这个表示多少步之后停下来
+        request.addCountFilter(1);  // next step only
+        request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
+        request.enable();
+        //发送请求之后，再恢复vm执行
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        vm.resume();
     }
 }

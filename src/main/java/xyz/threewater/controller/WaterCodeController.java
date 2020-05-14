@@ -201,5 +201,7 @@ public class WaterCodeController {
         javaFxComponent.set("runProjectButton",runProjectButton);
         javaFxComponent.set("debugProjectButton",debugProjectButton);
         javaFxComponent.set("debugOutPut",debugOutPut);
+        //debug 按钮
+        javaFxComponent.set("stepOverButton",stepOverButton);
     }
 }

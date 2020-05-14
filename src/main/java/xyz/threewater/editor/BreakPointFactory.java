@@ -35,7 +35,6 @@ public class BreakPointFactory implements IntFunction<Node> {
 
     @Override
     public Node apply(int lineNumber) {
-        String fullClassName = sourceCodeAnalysis.getFullClassName();
         isRedMap.putIfAbsent(lineNumber,false);
         Boolean isRed = isRedMap.get(lineNumber);
         HBox hbox=new HBox();
@@ -76,7 +75,7 @@ public class BreakPointFactory implements IntFunction<Node> {
      */
     public void breakPointCancel(int lineNumber){
         //从断点库中取消断点
-        breakPointHolder.removeBreakPoint(sourceCodeAnalysis.getFullClassName(),lineNumber);
+        breakPointHolder.removeBreakPoint(sourceCodeAnalysis.getFullClassName(),lineNumber+1);
     }
 
     /**
@@ -84,6 +83,6 @@ public class BreakPointFactory implements IntFunction<Node> {
      */
     public void breakPointAdd(int lineNumber){
         //从断点库中添加断点
-        breakPointHolder.addBreakPoint(sourceCodeAnalysis.getFullClassName(),lineNumber);
+        breakPointHolder.addBreakPoint(sourceCodeAnalysis.getFullClassName(),lineNumber+1);
     }
 }

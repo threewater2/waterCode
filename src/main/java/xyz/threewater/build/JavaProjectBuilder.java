@@ -95,7 +95,7 @@ public class JavaProjectBuilder{
             filePath=filePath.replace("\\","/");
             String desPath=projectEnv.getOutPutPath()+"/"+filePath.substring(projectEnv.getProjectPath().length()+1);
             try {
-                logger.debug("normal file copy :from {}, to {}",filePath,desPath);
+                logger.info("normal file copy :from {}, to {}",filePath,desPath);
                 FileUtils.copyFile(new File(filePath),new File(desPath));
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -110,7 +110,7 @@ public class JavaProjectBuilder{
     private void copyMavenResource(){
         String searchPath=projectEnv.getProjectPath()+"/src/main";
         List<String> filePath = this.fileSearch.fileSearch(searchPath,new JavaFileFilter());
-        logger.debug("maven resource :{}",filePath);
+        logger.info("maven resource :{}",filePath);
         filePath.forEach(fileStr->{
             fileStr=fileStr.replace("\\","/");
             String innerResource=projectEnv.getProjectPath()+"/src/main/java/";
@@ -149,6 +149,5 @@ public class JavaProjectBuilder{
     private void clearOutDir(){
         File file=new File(projectEnv.getOutPutPath());
         file.deleteOnExit();
-        file.mkdir();
     }
 }
