@@ -6,11 +6,18 @@ package xyz.threewater.debug;
 public class BreakPointBean {
     private String fullClassName;
     private int line;
+    private String fileName;
     private boolean isUsed=false;
 
     public BreakPointBean(String fullClassName, int line) {
         this.fullClassName = fullClassName;
         this.line = line;
+    }
+
+    public BreakPointBean(int line,String fullClassName,String fileName) {
+        this.fullClassName = fullClassName;
+        this.line = line;
+        this.fileName=fileName;
     }
 
     public void setUsed(boolean used) {
@@ -46,6 +53,14 @@ public class BreakPointBean {
 
     public boolean isUsed() {
         return isUsed;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     @Override

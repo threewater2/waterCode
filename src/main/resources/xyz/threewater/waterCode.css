@@ -248,11 +248,11 @@
 }
 
 /*编辑器某行高亮*/
-.line-highlight{
-    -fx-background-color: #b2a6d9;
-}
 .break-point{
     -fx-background-color: #e8cad2;
+}
+.line-highlight{
+    -fx-background-color: #b2a6d9;
 }
 /*编辑器右侧颜色按钮背景代码*/
 .editor-leftBar-bg{

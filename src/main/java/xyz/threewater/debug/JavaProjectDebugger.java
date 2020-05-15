@@ -101,6 +101,10 @@ public class JavaProjectDebugger {
         jvmEventHandler.stepOver();
     }
 
+    public void resume(){
+        jvmEventHandler.resume();
+    }
+
 
     public CodePosition currentPosition() {
         return null;

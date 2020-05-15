@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import xyz.threewater.action.BreakPointCenter;
 import xyz.threewater.action.DebugCenter;
+import xyz.threewater.action.StepCenter;
 import xyz.threewater.action.VMCenter;
 
 import java.util.List;
@@ -27,12 +28,14 @@ public class JvmEventHandler {
     private final BreakPointCenter breakPointCenter;
     private final DebugCenter debugCenter;
     private final VMCenter vmCenter;
+    private final StepCenter stepCenter;
     private final BreakPointHolder breakPointHolder;
 
-    public JvmEventHandler(BreakPointCenter breakPointCenter, DebugCenter debugCenter, VMCenter vmCenter, BreakPointHolder breakPointHolder) {
+    public JvmEventHandler(BreakPointCenter breakPointCenter, DebugCenter debugCenter, VMCenter vmCenter, StepCenter stepCenter, BreakPointHolder breakPointHolder) {
         this.breakPointCenter = breakPointCenter;
         this.debugCenter = debugCenter;
         this.vmCenter = vmCenter;
+        this.stepCenter = stepCenter;
         this.breakPointHolder = breakPointHolder;
     }
 
@@ -86,16 +89,31 @@ public class JvmEventHandler {
         } else if (event instanceof BreakpointEvent) {
             BreakpointEvent breakpointEvent=(BreakpointEvent)event;
             int lineNumber = breakpointEvent.location().lineNumber();
-            String name = breakpointEvent.location().declaringType().name();
-            logger.debug("breakPoint stopped:{},{}",lineNumber,name);
+            String fullClassName = breakpointEvent.location().declaringType().name();
+            String fileName=null;
+            try {
+                fileName=breakpointEvent.location().sourceName();
+            } catch (AbsentInformationException e) {
+                logger.error("cannot get breakPoint fileName",e);
+            }
+            breakPointCenter.breakPointPaused(new BreakPointBean(lineNumber,fullClassName,fileName));
+            logger.debug("breakPoint stopped:{},{}",lineNumber,fullClassName);
         } else if (event instanceof StepEvent){
             //下一步事件触发
             StepEvent stepEvent=(StepEvent)event;
-            String fullClassName = stepEvent.location().declaringType().name();
-            int line=stepEvent.location().lineNumber();
-            logger.debug("StepEvent Triggered:{},{}",fullClassName,line);
+            Location location = stepEvent.location();
+            String fullClassName = location.declaringType().name();
+            int line= location.lineNumber();
             //删除下一步请求
             vm.eventRequestManager().deleteEventRequest(event.request());
+            //通知UI组件，下一步执行完成
+            try {
+                stepCenter.stepOver(line,fullClassName,location.sourcePath());
+            } catch (AbsentInformationException e) {
+                stepCenter.stepOver(line,fullClassName,null);
+            }
+            breakPointCenter.breakPointPaused(new BreakPointBean(fullClassName,line));
+            logger.debug("StepEvent Triggered:{},{}",fullClassName,line);
         } else if(event instanceof VMDisconnectEvent){
             vmExit = true;
             debugCenter.debugFinished();
@@ -150,6 +168,10 @@ public class JvmEventHandler {
         logger.debug("breakPoint added to jvm:{}",breakPointBean);
     }
 
+    /**
+     * 下一步
+     * @return true表示需要移动到下一行
+     */
     public void stepOver(){
         //执行下一步
         List<ThreadReference> threadReferences = vm.allThreads();
@@ -161,20 +183,28 @@ public class JvmEventHandler {
         }
         if(mainThead==null){
             logger.warn("mainThread is Null!");
-            return;
+            return ;
         }
         logger.debug("stepOver Request send Thread :{},",mainThead);
+        List<StepRequest> stepRequests = vm.eventRequestManager().stepRequests();
+        logger.debug("step requests size:{}",stepRequests.size());
+        System.out.println(stepRequests.size());
+        //如果当前还含有step请求，就不添加新的step请求
+        //上一个线程阻塞的原因可能是因为上一行执行时间太久，或者线程被阻塞
+        if(stepRequests.size()!=0) return;
         StepRequest request = vm.eventRequestManager().createStepRequest(mainThead, StepRequest.STEP_LINE, StepRequest.STEP_OVER);
         //这个表示多少步之后停下来
-        request.addCountFilter(1);  // next step only
+        request.addCountFilter(1);
         request.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         request.enable();
         //发送请求之后，再恢复vm执行
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         vm.resume();
+    }
+
+    public void resume(){
+        logger.debug("project resume: vmStatus:{}",vmExit);
+        if(!vmExit){
+            vm.resume();
+        }
     }
 }
