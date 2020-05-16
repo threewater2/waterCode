@@ -8,11 +8,13 @@ import org.fxmisc.richtext.model.Paragraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.threewater.action.BreakPointCenter;
+import xyz.threewater.action.ResumListener;
 import xyz.threewater.action.StepCenter;
+import xyz.threewater.action.VMCenter;
+import xyz.threewater.debug.CodePosition;
 import xyz.threewater.utils.SpringUtil;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.function.IntFunction;
 
@@ -34,6 +36,9 @@ public class DebuggerUI {
         });
         BreakPointCenter pointCenter = SpringUtil.getBean(BreakPointCenter.class);
         pointCenter.addBreakPointPausedListener(breakPointBean -> addLineColor(javaEditor,breakPointBean.getLine()));
+        VMCenter vmCenter=SpringUtil.getBean(VMCenter.class);
+        //当点击resume按钮时，移除蓝线
+        vmCenter.addResumeListener(codePosition -> removeLineColor(javaEditor,codePosition.getLine()));
     }
 
     public static void addLineColor(JavaEditor javaEditor,int line){

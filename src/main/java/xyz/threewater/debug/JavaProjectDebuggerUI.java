@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import xyz.threewater.action.FocusAction;
 import xyz.threewater.action.StepCenter;
 import xyz.threewater.action.StepOverListener;
+import xyz.threewater.action.VMCenter;
 import xyz.threewater.enviroment.JavaFxComponent;
 
 import javax.annotation.Nullable;
@@ -14,12 +15,16 @@ public class JavaProjectDebuggerUI {
     private final JavaFxComponent javaFxComponent;
     private final JavaProjectDebugger javaProjectDebugger;
     private final FocusAction focusAction;
+    private final DebugStatus debugStatus;
+    private final VMCenter vmCenter;
     private final StepCenter stepCenter;
 
-    public JavaProjectDebuggerUI(JavaFxComponent javaFxComponent, JavaProjectDebugger javaProjectDebugger, FocusAction focusAction, StepCenter stepCenter) {
+    public JavaProjectDebuggerUI(JavaFxComponent javaFxComponent, JavaProjectDebugger javaProjectDebugger, FocusAction focusAction, DebugStatus debugStatus, VMCenter vmCenter, StepCenter stepCenter) {
         this.javaFxComponent = javaFxComponent;
         this.javaProjectDebugger = javaProjectDebugger;
         this.focusAction = focusAction;
+        this.debugStatus = debugStatus;
+        this.vmCenter = vmCenter;
         this.stepCenter = stepCenter;
     }
 
@@ -45,6 +50,10 @@ public class JavaProjectDebuggerUI {
         stepOverButton.setOnMouseClicked(e-> javaProjectDebugger.stepOver());
         //恢复运行按钮
         Button resumeProgramButton=javaFxComponent.get("resumeProgramButton",Button.class);
-        resumeProgramButton.setOnMouseClicked(e-> javaProjectDebugger.resume());
+        resumeProgramButton.setOnMouseClicked(e-> {
+            javaProjectDebugger.resume();
+            CodePosition codePosition = debugStatus.getCodePosition();
+            vmCenter.resume(codePosition);
+        });
     }
 }

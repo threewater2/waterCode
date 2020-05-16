@@ -23,7 +23,7 @@ import java.util.List;
 public class JvmEventHandler {
     private VirtualMachine vm;
     private final Logger logger= LoggerFactory.getLogger(JvmEventHandler.class);
-    private boolean vmExit=true;
+    private final DebugStatus debugStatus;
     private EventSet eventSet;
     private final BreakPointCenter breakPointCenter;
     private final DebugCenter debugCenter;
@@ -31,7 +31,8 @@ public class JvmEventHandler {
     private final StepCenter stepCenter;
     private final BreakPointHolder breakPointHolder;
 
-    public JvmEventHandler(BreakPointCenter breakPointCenter, DebugCenter debugCenter, VMCenter vmCenter, StepCenter stepCenter, BreakPointHolder breakPointHolder) {
+    public JvmEventHandler(DebugStatus debugStatus, BreakPointCenter breakPointCenter, DebugCenter debugCenter, VMCenter vmCenter, StepCenter stepCenter, BreakPointHolder breakPointHolder) {
+        this.debugStatus = debugStatus;
         this.breakPointCenter = breakPointCenter;
         this.debugCenter = debugCenter;
         this.vmCenter = vmCenter;
@@ -44,7 +45,8 @@ public class JvmEventHandler {
      */
     public void jvmIsReady(VirtualMachine virtualMachine) {
         this.vm = virtualMachine;
-        vmExit=false;
+        debugStatus.setVmExit(false);
+        debugStatus.setStopped(false);
         breakPointCenter.addBreakPointRemoveListener(this::removeBreakPoint);
         breakPointCenter.addBreakPointAddListener(this::addBreakPoint);
     }
@@ -58,7 +60,7 @@ public class JvmEventHandler {
         ClassPrepareRequest classPrepareRequest = vm.eventRequestManager().createClassPrepareRequest();
         classPrepareRequest.setSuspendPolicy(EventRequest.SUSPEND_ALL);
         classPrepareRequest.enable();
-        while (!vmExit) {
+        while (!debugStatus.isVmExit()) {
             //从事件队列中取出一个事件集，事件集是事件发生的最小单位
             eventSet = eventQueue.remove();
             EventIterator eventIterator = eventSet.eventIterator();
@@ -97,6 +99,7 @@ public class JvmEventHandler {
                 logger.error("cannot get breakPoint fileName",e);
             }
             breakPointCenter.breakPointPaused(new BreakPointBean(lineNumber,fullClassName,fileName));
+            debugStatus.setCodePosition(new CodePosition(null,fullClassName,lineNumber));
             logger.debug("breakPoint stopped:{},{}",lineNumber,fullClassName);
         } else if (event instanceof StepEvent){
             //下一步事件触发
@@ -113,9 +116,11 @@ public class JvmEventHandler {
                 stepCenter.stepOver(line,fullClassName,null);
             }
             breakPointCenter.breakPointPaused(new BreakPointBean(fullClassName,line));
+            debugStatus.setCodePosition(new CodePosition(null,fullClassName,line));
             logger.debug("StepEvent Triggered:{},{}",fullClassName,line);
         } else if(event instanceof VMDisconnectEvent){
-            vmExit = true;
+            debugStatus.setVmExit(true);
+            debugStatus.setStopped(true);
             debugCenter.debugFinished();
             vmCenter.VmExited();
             logger.debug("vm Exited");
@@ -144,7 +149,7 @@ public class JvmEventHandler {
      */
     public void addBreakPoint(BreakPointBean breakPointBean) {
         logger.debug("start to add breakPoint to jvm {}",breakPointBean);
-        if(vmExit){
+        if(debugStatus.isVmExit()){
             logger.debug("start to add breakPoint to jvm vmExit:true");
             return;
         }
@@ -202,8 +207,8 @@ public class JvmEventHandler {
     }
 
     public void resume(){
-        logger.debug("project resume: vmStatus:{}",vmExit);
-        if(!vmExit){
+        logger.debug("project resume: vmStatus:{}",debugStatus.isVmExit());
+        if(!debugStatus.isVmExit()){
             vm.resume();
         }
     }
