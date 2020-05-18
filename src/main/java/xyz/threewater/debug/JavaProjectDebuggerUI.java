@@ -1,17 +1,21 @@
 package xyz.threewater.debug;
 
+import com.sun.jdi.*;
+import com.sun.jdi.event.LocatableEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import xyz.threewater.action.FocusAction;
-import xyz.threewater.action.StepCenter;
-import xyz.threewater.action.StepOverListener;
-import xyz.threewater.action.VMCenter;
+import xyz.threewater.action.*;
 import xyz.threewater.enviroment.JavaFxComponent;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 @Component
 public class JavaProjectDebuggerUI {
+    private final Logger logger= LoggerFactory.getLogger(JavaProjectDebuggerUI.class);
     private final JavaFxComponent javaFxComponent;
     private final JavaProjectDebugger javaProjectDebugger;
     private final FocusAction focusAction;
@@ -37,6 +41,7 @@ public class JavaProjectDebuggerUI {
         });
     }
 
+    @SuppressWarnings("unchecked")
     public void initialUI(){
         initialListener();
         Button debugProjectButton = javaFxComponent.get("debugProjectButton", Button.class);
@@ -54,6 +59,12 @@ public class JavaProjectDebuggerUI {
             javaProjectDebugger.resume();
             CodePosition codePosition = debugStatus.getCodePosition();
             vmCenter.resume(codePosition);
+        });
+        ListView<String> debugVarListView=javaFxComponent.get("debugVarListView",ListView.class);
+        //每当断点停止的时候，或者step event停止的时候，应该展示局部变量
+        vmCenter.addVariablesChangedListener(variables -> {
+            debugVarListView.getItems().clear();
+            debugVarListView.getItems().addAll(variables);
         });
     }
 }

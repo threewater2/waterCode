@@ -14,6 +14,7 @@ import xyz.threewater.action.DebugCenter;
 import xyz.threewater.action.StepCenter;
 import xyz.threewater.action.VMCenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -100,6 +101,7 @@ public class JvmEventHandler {
             }
             breakPointCenter.breakPointPaused(new BreakPointBean(lineNumber,fullClassName,fileName));
             debugStatus.setCodePosition(new CodePosition(null,fullClassName,lineNumber));
+            vmCenter.variablesChanged(watchVariables(breakpointEvent));
             logger.debug("breakPoint stopped:{},{}",lineNumber,fullClassName);
         } else if (event instanceof StepEvent){
             //下一步事件触发
@@ -117,6 +119,7 @@ public class JvmEventHandler {
             }
             breakPointCenter.breakPointPaused(new BreakPointBean(fullClassName,line));
             debugStatus.setCodePosition(new CodePosition(null,fullClassName,line));
+            vmCenter.variablesChanged(watchVariables(stepEvent));
             logger.debug("StepEvent Triggered:{},{}",fullClassName,line);
         } else if(event instanceof VMDisconnectEvent){
             debugStatus.setVmExit(true);
@@ -211,5 +214,30 @@ public class JvmEventHandler {
         if(!debugStatus.isVmExit()){
             vm.resume();
         }
+    }
+
+    /**
+     * throws AbsentInformationException
+     * 我找不到产生这个错误的原因
+     * @return 当前栈帧所有可以访问的变量
+     */
+    public List<String> watchVariables(LocatableEvent event){
+        List<String> list=new ArrayList<>();
+        //TODO 无法解决 AbsentInformationException
+//        try {
+//            StackFrame frame = event.thread().frame (0);
+//            List<LocalVariable> localVariables = frame.visibleVariables();
+//            StringBuilder logBuilder=new StringBuilder();
+//            for(LocalVariable localVariable:localVariables){
+//                Value value = frame.getValue(localVariable);
+//                String valueString = value.toString();
+//                list.add(valueString);
+//                logBuilder.append(valueString).append("\n");
+//            }
+//            logger.debug("localVariables:{}",logBuilder);
+//        } catch (IncompatibleThreadStateException | AbsentInformationException e) {
+//            logger.error("can not get localVariables",e);
+//        }
+        return list;
     }
 }

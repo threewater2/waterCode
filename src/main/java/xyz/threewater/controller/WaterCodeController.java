@@ -66,7 +66,7 @@ public class WaterCodeController {
     @FXML
     public Button evaluateExpButton;
     @FXML
-    public ListView debugVarListView;
+    public ListView<String> debugVarListView;
     @FXML
     public TextArea debugOutPut;
     @FXML
@@ -204,5 +204,6 @@ public class WaterCodeController {
         //debug 按钮
         javaFxComponent.set("stepOverButton",stepOverButton);
         javaFxComponent.set("resumeProgramButton",resumeProgramButton);
+        javaFxComponent.set("debugVarListView",debugVarListView);
     }
 }

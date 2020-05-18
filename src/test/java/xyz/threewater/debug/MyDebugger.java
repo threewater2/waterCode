@@ -106,11 +106,11 @@ public class MyDebugger {
             //获取栈帧
             StackFrame stackFrame = threadReference.frame(0);
             //获取静态成员变量
-            Value a = location.declaringType().getValue(location.declaringType().fieldByName("a"));
+//            Value a = location.declaringType().getValue(location.declaringType().fieldByName("a"));
             //获取成员变量
 //            Value b = location.declaringType().getValue(location.declaringType().fieldByName("b"));
             //静态整形变量
-            Value c = location.declaringType().getValue(location.declaringType().fieldByName("c"));
+//            Value c = location.declaringType().getValue(location.declaringType().fieldByName("c"));
             //整形变量
 //            Value d = location.declaringType().getValue(location.declaringType().fieldByName("d"));
 //            System.out.println("静态成员变量是："+((StringReference)a).value()+"成员变量："+((StringReference)b).value());
