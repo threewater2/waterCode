@@ -6,26 +6,32 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xyz.threewater.action.MouseAction;
 import xyz.threewater.enviroment.JavaFxComponent;
 
-import java.io.File;
 import java.util.Optional;
 
 @Component
 public class EventHandler {
 
     JavaFxComponent javaFxComponent;
+    private final MouseAction mouseAction;
 
-    public EventHandler(JavaFxComponent javaFxComponent) {
+    public EventHandler(JavaFxComponent javaFxComponent, MouseAction mouseAction) {
         this.javaFxComponent = javaFxComponent;
+        this.mouseAction = mouseAction;
     }
 
+    /**
+     * 当鼠标点击的是否触发
+     * @param javaEditor
+     */
     @SuppressWarnings("unchecked")
     public void handleMouseClickEvent(JavaEditor javaEditor){
         javaEditor.setOnMouseClicked(mouseEvent->{
             ListView<String> rightClickMenu = javaFxComponent.get("rightClickMenu", ListView.class);
+            mouseAction.blackClick(mouseEvent);
             if(mouseEvent.getButton()== MouseButton.SECONDARY){
                 showPopupAtCodeArea(javaEditor,rightClickMenu);
             }

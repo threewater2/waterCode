@@ -51,14 +51,23 @@
                </HBox>
            </HBox>
        </top>
+<!--        左侧目录树-->
        <left>
-           <VBox fx:id="leftPane" prefHeight="374.0" prefWidth="177.0" styleClass="left" BorderPane.alignment="CENTER">
-               <HBox fx:id="leftToolBar" prefHeight="22.0" prefWidth="178.0">
+           <VBox fx:id="leftPane" prefHeight="374.0" prefWidth="177.0" styleClass="left" BorderPane.alignment="CENTER"
+            style="-fx-border-color: #00CA4E;-fx-border-width: 1"
+           >
+<!--               定位按钮和最小化按钮-->
+               <HBox fx:id="leftToolBar" prefHeight="22.0" prefWidth="178.0"
+                style="-fx-border-color: #1A7DC4;-fx-border-width: 1"
+               >
                    <Pane HBox.hgrow="ALWAYS" />
                    <Button fx:id="pos" prefHeight="30" prefWidth="40" styleClass="barButton,pos" />
                    <Button fx:id="minimize" prefHeight="30" prefWidth="40" styleClass="barButton,minimize" />
                </HBox>
-               <TreeView fx:id="dirTree" prefHeight="569.0" prefWidth="177.0" />
+<!--               目录树-->
+               <TreeView fx:id="dirTree" prefHeight="569.0" prefWidth="177.0"
+                style="-fx-border-width: 1;-fx-border-color: black"
+               />
            </VBox>
        </left>
        <center>
@@ -149,4 +158,19 @@
     </ListView>
     <!--主类候选列表-->
     <VBox fx:id="mainClassGroup" visible="false" id="mainClassGroup" styleClass="main-class-group"/>
+    <!--目录功能菜单-->
+    <VBox fx:id="dirMenu" visible="false" styleClass="dirMenu">
+        <HBox styleClass="dirMenu-item-container">
+            <Label fx:id="addFile">add file</Label>
+        </HBox>
+        <HBox styleClass="dirMenu-item-container">
+            <Label fx:id="addDir">add directory</Label>
+        </HBox>
+        <HBox styleClass="dirMenu-item-container">
+            <Label fx:id="deleteFile">delete file</Label>
+        </HBox>
+        <HBox styleClass="dirMenu-item-container">
+            <Label fx:id="renameFile">rename file</Label>
+        </HBox>
+    </VBox>
 </Pane>

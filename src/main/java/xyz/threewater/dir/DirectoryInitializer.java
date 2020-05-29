@@ -1,7 +1,6 @@
 package xyz.threewater.dir;
 
 import javafx.scene.Node;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import org.springframework.stereotype.Component;
 import xyz.threewater.enviroment.ProjectEnv;
@@ -18,7 +17,7 @@ public class DirectoryInitializer {
         this.projectEnv = projectEnv;
     }
 
-    public TreeItem<Node> getTreeItem(TabPane tabPane){
-        return directoryModel.getTreeItem(projectEnv.getProjectPath(),tabPane);
+    public TreeItem<Node> getTreeItem(){
+        return directoryModel.getTreeItem(projectEnv.getProjectPath());
     }
 }

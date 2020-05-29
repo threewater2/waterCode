@@ -17,10 +17,13 @@ import xyz.threewater.dir.DirectoryInitializer;
 //import xyz.threewater.editor.AutoCompletion;
 import xyz.threewater.enviroment.JavaFxComponent;
 import xyz.threewater.enviroment.MainClassList;
+import xyz.threewater.event.MouseEventInitializer;
 import xyz.threewater.function.ResizableInitializer;
 import xyz.threewater.plugin.git.GitLogInitializer;
 import xyz.threewater.plugin.maven.praser.MavenTreeInitializer;
 import xyz.threewater.run.RunProjectUI;
+
+import java.lang.reflect.Field;
 
 @Component
 public class WaterCodeController {
@@ -78,6 +81,16 @@ public class WaterCodeController {
     @FXML
     public Button debugProjectButton;
     @FXML
+    public VBox dirMenu;
+    @FXML
+    public Label addFile;
+    @FXML
+    public Label deleteFile;
+    @FXML
+    public Label renameFile;
+    @FXML
+    public Label addDir;
+    @FXML
     private TreeView<Node> dirTree;
     @FXML
     public TreeView<Node> mavenTree;
@@ -113,6 +126,7 @@ public class WaterCodeController {
     private final MainClassList mainClassList;
     private final RunProjectUI runProjectUI;
     private final JavaProjectDebuggerUI javaProjectDebuggerUI;
+    private final MouseEventInitializer mouseEventInitializer;
     //    private AutoCompletion autoCompletion;
 
     public WaterCodeController(DirectoryInitializer directoryInitializer,
@@ -124,7 +138,7 @@ public class WaterCodeController {
                                JavaFxComponent javaFxComponent,
                                CommandLineWindow commandLineWindow,
                                FocusAction focusAction,
-                               MainClassList mainClassList, RunProjectUI runProjectUI, JavaProjectDebuggerUI javaProjectDebuggerUI) {
+                               MainClassList mainClassList, RunProjectUI runProjectUI, JavaProjectDebuggerUI javaProjectDebuggerUI, MouseEventInitializer mouseEventInitializer) {
         this.directoryInitializer = directoryInitializer;
         this.windowBar = windowBar;
         this.mavenTreeInitializer=mavenTreeInitializer;
@@ -137,6 +151,7 @@ public class WaterCodeController {
 //        this.autoCompletion=autoCompletion;
         this.runProjectUI = runProjectUI;
         this.javaProjectDebuggerUI = javaProjectDebuggerUI;
+        this.mouseEventInitializer = mouseEventInitializer;
     }
 
     /**
@@ -147,7 +162,7 @@ public class WaterCodeController {
         addJavaFxComponent();
         //高度和宽度跟随父类
         //初始化文件目录树
-        TreeItem<Node> treeItem = directoryInitializer.getTreeItem(editorTabPane);
+        TreeItem<Node> treeItem = directoryInitializer.getTreeItem();
         dirTree.setRoot(treeItem);
         mavenTreeInitializer.initialize(mavenTree,output,bottomTabPane);
         //action 初始化
@@ -170,14 +185,16 @@ public class WaterCodeController {
         gitLogInitializer.initial(gitTab);
         runProjectUI.initial();
         javaProjectDebuggerUI.initialUI();
+        mouseEventInitializer.initial();
         //初始化代码提示组件
 //        autoCompletion.setCodeCompletion(codeCompletion);
     }
 
     public void setStage(Stage stage) {
         this.stage=stage;
+        javaFxComponent.set("stage",stage);
         //stage初始化完毕
-        stageInitialized.setValue(true);
+        stageInitialized.setValue( true);
     }
 
 
@@ -192,18 +209,20 @@ public class WaterCodeController {
     }
 
     private void addJavaFxComponent(){
-        javaFxComponent.set("codeCompletion",codeCompletion);
-        javaFxComponent.set("rightClickMenu",rightClickMenu);
-        javaFxComponent.set("dirTree",dirTree);
-        javaFxComponent.set("outPutTextArea",output);
-        javaFxComponent.set("mainClassListView",mainClassGroup);
-        javaFxComponent.set("mainClassButton",mainClassButton);
-        javaFxComponent.set("runProjectButton",runProjectButton);
-        javaFxComponent.set("debugProjectButton",debugProjectButton);
-        javaFxComponent.set("debugOutPut",debugOutPut);
-        //debug 按钮
-        javaFxComponent.set("stepOverButton",stepOverButton);
-        javaFxComponent.set("resumeProgramButton",resumeProgramButton);
-        javaFxComponent.set("debugVarListView",debugVarListView);
+        Class<? extends WaterCodeController> clazz = this.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        for(Field field:fields){
+            field.setAccessible(true);
+            FXML annotation = field.getAnnotation(FXML.class);
+            if(annotation==null) continue;
+            String name = field.getName();
+            Object value;
+            try {
+                value = field.get(this);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+            javaFxComponent.set(name,value);
+        }
     }
 }

@@ -2,23 +2,26 @@ package xyz.threewater.dir;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import xyz.threewater.editor.FileEditor;
+import xyz.threewater.enviroment.JavaFxComponent;
 
 import java.io.File;
+
 @Component
 public class DirectoryModel {
 
-    private TabPane editorTabPane;
+    //private static final Logger logger= LoggerFactory.getLogger(DirectoryModel.class);
+    private final FileLabelEvent fileLabelEvent;
 
-    private FileEditor fileEditor;
-
-    public DirectoryModel(FileEditor fileEditor) {
-        this.fileEditor = fileEditor;
+    public DirectoryModel(FileLabelEvent fileLabelEvent) {
+        this.fileLabelEvent=fileLabelEvent;
     }
 
-    public TreeItem<Node> getTreeItem(String path, TabPane tabPane){
-        this.editorTabPane=tabPane;
+    public TreeItem<Node> getTreeItem(String path){
         File rootDir=new File(path);
         return initDirectoryTree(rootDir, null);
     }
@@ -28,6 +31,8 @@ public class DirectoryModel {
         String fileName=dir.getName();
         FileLabel fileLabel=new FileLabel(dir,fileName);
         TreeItem<Node> treeItem=new TreeItem<>(fileLabel);
+        //为目录和文件添加通用的点击事件
+        fileLabelEvent.addLabelClickEvent(fileLabel,treeItem);
         if(root==null){
             root=treeItem;
         }else {
@@ -35,8 +40,6 @@ public class DirectoryModel {
         }
         //不是文件夹
         if(!dir.isDirectory()) {
-            //添加右侧导航树的点击事件
-            addLabelClickEvent(fileLabel);
             return root;
         }
         File[] files = dir.listFiles();
@@ -47,21 +50,4 @@ public class DirectoryModel {
         }
         return root;
     }
-
-    /**
-     * 读取磁盘中的文件，放到内存中,自动关闭原来的流,
-     * 当tab页面关闭时，保存文件
-     */
-    private void addLabelClickEvent(FileLabel fileLabel){
-        fileLabel.setOnMouseClicked(mouseEvent -> {
-            String name = fileLabel.getFile().getName();
-            Tab tab=new Tab(name,fileEditor.openFile(fileLabel.getFile()));
-            tab.setOnCloseRequest(e-> fileEditor.closeFile(fileLabel.getFile()));
-            editorTabPane.getTabs().addAll(tab);
-            SingleSelectionModel<Tab> selectionModel = editorTabPane.getSelectionModel();
-            selectionModel.select(tab);
-        });
-    }
-
-
 }

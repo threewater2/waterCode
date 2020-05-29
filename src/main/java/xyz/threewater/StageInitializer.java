@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import xyz.threewater.bar.WindowBar;
+import xyz.threewater.controller.WelcomeController;
 import xyz.threewater.enviroment.JavaFxComponent;
 import xyz.threewater.style.CSSHolder;
 
@@ -60,11 +61,12 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
         FXMLLoader fxmlLoader = new FXMLLoader(welcomeResource.getURL());
         fxmlLoader.setControllerFactory(applicationContext::getBean);
         Parent root1 = fxmlLoader.load();
+        WelcomeController controller = fxmlLoader.getController();
+        controller.onStageReady(stage);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Water Code");
         stage.setScene(new Scene(root1,600,400));
         stage.show();
-        component.set("welcomeStage",stage);
     }
 
 

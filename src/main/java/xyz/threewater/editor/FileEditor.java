@@ -39,7 +39,7 @@ public class FileEditor {
         return new VirtualizedScrollPane<>(javaEditor);
     }
 
-    public void closeFile(File file){
+    public void closeAndSaveFile(File file){
         saver.saveFile();
         saver.removeFile(file);
     }

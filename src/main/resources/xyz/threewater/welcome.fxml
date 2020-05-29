@@ -26,12 +26,32 @@
             </HBox>
         </top>
         <center>
-            <VBox styleClass="welcome-menu">
-                <Text styleClass="slogan" text="Welcome Use WaterCode!" />
-                <Button fx:id="create">create a new project</Button>
-                <Button fx:id="open">open existing project</Button>
-                <Button fx:id="config">config water code</Button>
-            </VBox>
+            <Group>
+                <!--主内容区-->
+                <VBox styleClass="welcome-menu" fx:id="indexContent">
+                    <Text styleClass="slogan" text="Welcome Use WaterCode!" />
+                    <Button fx:id="create">create a new project</Button>
+                    <Button fx:id="open">open existing project</Button>
+                    <Button fx:id="config">config water code</Button>
+                </VBox>
+                <!--创建新页面-->
+                <VBox fx:id="createContent" visible="false" styleClass="createContent">
+                    <Text styleClass="title">create new project:</Text>
+                    <HBox styleClass="projectName">
+                        <Label>project name:</Label>
+                        <TextField fx:id="projectName">demo</TextField>
+                    </HBox>
+                    <HBox styleClass="projectPath">
+                        <Label>project path:</Label>
+                        <TextField fx:id="projectPath">C:\Users\water\Desktop</TextField>
+                        <Button fx:id="selectProjectPath">...</Button>
+                    </HBox>
+                    <HBox styleClass="toolButton">
+                        <Button fx:id="previous">previous</Button>
+                        <Button fx:id="finish">finish</Button>
+                    </HBox>
+                </VBox>
+            </Group>
         </center>
     </BorderPane>
 </Pane>
