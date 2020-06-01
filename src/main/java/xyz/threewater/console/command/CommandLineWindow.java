@@ -56,7 +56,7 @@ public class CommandLineWindow {
             outPutTextArea=javaFxComponent.get("debugOutPut", TextArea.class);
             logger.debug("switch to debug mod out");
         }else {
-            outPutTextArea=javaFxComponent.get("outPutTextArea", TextArea.class);
+            outPutTextArea=javaFxComponent.get("output", TextArea.class);
             logger.debug("switch to normal mod out");
         }
         outPutTextArea.clear();

@@ -33,6 +33,7 @@ public class FileEditor {
     public Node openFile(File file){
         String text = FileUtil.file2String(file);
         JavaEditor javaEditor= new JavaEditor(text,file.getPath());
+        autoCompletion.initial(javaEditor);
         eventHandler.handleMouseClickEvent(javaEditor);
         rightClickMenu.bind(javaEditor);
         saver.addFile(file,javaEditor);
