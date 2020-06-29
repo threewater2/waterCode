@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import xyz.threewater.enviroment.JavaFxComponent;
 import xyz.threewater.function.StageResize;
 
 /**
@@ -22,6 +23,12 @@ public class WindowBar {
     private double deltaX;
     private double deltaY;
 
+    private final JavaFxComponent javaFxComponent;
+
+    public WindowBar(JavaFxComponent javaFxComponent) {
+        this.javaFxComponent = javaFxComponent;
+    }
+
     /**
      * 初始化窗口标题栏，包括窗口拖拽，窗口最大化，最小化和关闭操作
      * @param minButton 最小化按钮
@@ -34,6 +41,14 @@ public class WindowBar {
         initialWindowButton(stage,minButton,closeButton,maxButton);
         //直接调用会使Scene为null
         stage.setOnShown(e-> resizeStage(stage,titleBar));
+    }
+
+    public void initial(){
+        initialToolBar(javaFxComponent.get("minButton",Button.class),
+                       javaFxComponent.get("closeButton",Button.class),
+                       javaFxComponent.get("maxButton",Button.class),
+                       javaFxComponent.get("stage",Stage.class),
+                       javaFxComponent.get("titleBar",Pane.class));
     }
 
     /**

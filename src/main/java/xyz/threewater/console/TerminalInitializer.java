@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import xyz.threewater.enviroment.JavaFxComponent;
 
 @Component
 public class TerminalInitializer {
@@ -18,17 +19,21 @@ public class TerminalInitializer {
 
     TerminalBuilder terminalBuilder = new TerminalBuilder();
 
-    public TerminalInitializer(){
+    private final JavaFxComponent javaFxComponent;
+
+    public TerminalInitializer(JavaFxComponent javaFxComponent){
+        this.javaFxComponent = javaFxComponent;
     }
 
-    public void initialize(AnchorPane terminalAnchorPane,
-                           TabPane terminalTabPane,
-                           Button addTerminalButton){
+    public void initial(){
+        AnchorPane terminalAnchorPane = javaFxComponent.get("terminalAnchorPane", AnchorPane.class);
+        TabPane terminalTabPane = javaFxComponent.get("terminalTabPane", TabPane.class);
+        Button addTerminalButton = javaFxComponent.get("addTerminalButton", Button.class);
         configTerminal();
         initialNameGenerator();
-        initialAnchorPosition(terminalTabPane,addTerminalButton);
-        initialResizeEvent(terminalAnchorPane,terminalTabPane);
-        initialAddEvent(addTerminalButton,terminalTabPane);
+        initialAnchorPosition(terminalTabPane, addTerminalButton);
+        initialResizeEvent(terminalAnchorPane, terminalTabPane);
+        initialAddEvent(addTerminalButton, terminalTabPane);
         TerminalTab terminal = terminalBuilder.newTerminal();
         terminalTabPane.getTabs().add(terminal);
     }
@@ -38,7 +43,7 @@ public class TerminalInitializer {
      */
     public void initialNameGenerator(){
         terminalBuilder.setNameGenerator(new TabNameGenerator() {
-            String name="Console ";
+            final String name="Console ";
             int count=1;
             @Override
             public String next() {

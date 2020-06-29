@@ -196,7 +196,6 @@ public class JvmEventHandler {
         logger.debug("stepOver Request send Thread :{},",mainThead);
         List<StepRequest> stepRequests = vm.eventRequestManager().stepRequests();
         logger.debug("step requests size:{}",stepRequests.size());
-        System.out.println(stepRequests.size());
         //如果当前还含有step请求，就不添加新的step请求
         //上一个线程阻塞的原因可能是因为上一行执行时间太久，或者线程被阻塞
         if(stepRequests.size()!=0) return;
@@ -222,7 +221,6 @@ public class JvmEventHandler {
      * @return 当前栈帧所有可以访问的变量
      */
     public List<String> watchVariables(LocatableEvent event){
-        List<String> list=new ArrayList<>();
         //TODO 无法解决 AbsentInformationException
 //        try {
 //            StackFrame frame = event.thread().frame (0);
@@ -238,6 +236,6 @@ public class JvmEventHandler {
 //        } catch (IncompatibleThreadStateException | AbsentInformationException e) {
 //            logger.error("can not get localVariables",e);
 //        }
-        return list;
+        return new ArrayList<>();
     }
 }

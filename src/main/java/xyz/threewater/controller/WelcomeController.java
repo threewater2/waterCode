@@ -34,8 +34,6 @@ public class WelcomeController extends BaseController{
     public Button finish;
     @FXML
     public Button welcomeMinButton;
-//    @FXML
-//    public Button welcomeMaxButton;
     @FXML
     public Button welcomeCloseButton;
     @FXML
@@ -43,35 +41,18 @@ public class WelcomeController extends BaseController{
     private final JavaFxComponent javaFxComponent;
     private final WelcomeInitializer welcomeInitializer;
 
-    private Stage welcomeStage;
-
-    public WelcomeController(WelcomeInitializer welcomeInitializer, JavaFxComponent javaFxComponent) {
+    public WelcomeController(WelcomeInitializer welcomeInitializer,
+                             JavaFxComponent javaFxComponent) {
         this.welcomeInitializer = welcomeInitializer;
         this.javaFxComponent = javaFxComponent;
     }
-
 
     public void initialize(){
 
     }
 
-//    private void addJfxComponent(){
-//        javaFxComponent.set("welcomeStage",welcomeStage);
-//        javaFxComponent.set("open",open);
-//        javaFxComponent.set("create",create);
-//        javaFxComponent.set("config",config);
-//        javaFxComponent.set("indexContent",indexContent);
-//        javaFxComponent.set("projectName",projectName);
-//        javaFxComponent.set("createContent",createContent);
-//        javaFxComponent.set("projectPath",projectPath);
-//        javaFxComponent.set("selectProjectPath",selectProjectPath);
-//        javaFxComponent.set("previous",previous);
-//        javaFxComponent.set("finish",finish);
-//    }
-
     public void onStageReady(Stage stage){
-        welcomeStage=stage;
-        javaFxComponent.set("welcomeStage",welcomeStage);
+        javaFxComponent.set("welcomeStage", stage);
         addJavaFxComponent(javaFxComponent);
         welcomeInitializer.initial();
     }

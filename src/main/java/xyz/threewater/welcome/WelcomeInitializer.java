@@ -75,9 +75,7 @@ public class WelcomeInitializer {
                                  javaFxComponent.get("welcomeTitleBar",Pane.class));
         //创建新项目
         Button create=javaFxComponent.get("create",Button.class);
-        create.setOnMouseClicked(e->{
-            openCreateProjectPane();
-        });
+        create.setOnMouseClicked(e-> openCreateProjectPane());
         //打开已有项目事件
         Button open = javaFxComponent.get("open", Button.class);
         open.setOnMouseClicked(e-> openDir());
@@ -86,7 +84,7 @@ public class WelcomeInitializer {
     private void openDir(){
         Optional<String> projectPath = openFileChooser();
         if(!projectPath.isPresent()){
-            showAlert("not a directory");
+            showAlert();
             return;
         }
         //更改项目配置
@@ -134,7 +132,7 @@ public class WelcomeInitializer {
         selectProjectPath.setOnMouseClicked(e->{
             Optional<String> filePath = openFileChooser();
             if(!filePath.isPresent()){
-                showAlert("not a directory");
+                showAlert();
             }else {
                 projectPath.setText(filePath.get()+File.pathSeparator+projectName);
             }
@@ -170,8 +168,8 @@ public class WelcomeInitializer {
         return Optional.empty();
     }
 
-    private void showAlert(String contentText){
-        Alert alert=new Alert(Alert.AlertType.INFORMATION,contentText, ButtonType.OK);
+    private void showAlert(){
+        Alert alert=new Alert(Alert.AlertType.INFORMATION, "not a directory", ButtonType.OK);
         alert.show();
     }
 }

@@ -11,29 +11,25 @@ import org.springframework.stereotype.Component;
 import xyz.threewater.action.FocusAction;
 import xyz.threewater.bar.WindowBar;
 import xyz.threewater.console.TerminalInitializer;
-import xyz.threewater.console.command.CommandLineWindow;
 import xyz.threewater.debug.JavaProjectDebuggerUI;
 import xyz.threewater.dir.DirectoryInitializer;
-//import xyz.threewater.editor.AutoCompletion;
 import xyz.threewater.enviroment.JavaFxComponent;
 import xyz.threewater.enviroment.MainClassList;
 import xyz.threewater.event.MouseEventInitializer;
 import xyz.threewater.function.ResizableInitializer;
 import xyz.threewater.plugin.git.GitLogInitializer;
 import xyz.threewater.plugin.maven.MavenPlugin;
-import xyz.threewater.plugin.maven.praser.MavenTreeInitializer;
 import xyz.threewater.run.RunProjectUI;
 
 @Component
 public class WaterCodeController extends BaseController{
 
-
     @FXML
     public Button rerunProgramButton;
     @FXML
-    public ListView codeCompletion;
+    public ListView<Node> codeCompletion;
     @FXML
-    public ListView rightClickMenu;
+    public ListView<Node> rightClickMenu;
     @FXML
     public Pane root;
     @FXML
@@ -89,11 +85,9 @@ public class WaterCodeController extends BaseController{
     @FXML
     public Label addDir;
     @FXML
-    private TreeView<Node> dirTree;
+    public TreeView<Node> dirTree;
     @FXML
     public TreeView<Node> mavenTree;
-    @FXML
-    private TabPane editorTabPane;
     @FXML
     public HBox toolBar;
     @FXML
@@ -110,8 +104,10 @@ public class WaterCodeController extends BaseController{
     public Button iconButton;
     @FXML
     public TextArea output;
+    @FXML
+    public TabPane editorTabPane;
+
     private final BooleanProperty stageInitialized =new SimpleBooleanProperty(false);
-    private Stage stage;
 
     private final DirectoryInitializer directoryInitializer;
     private final WindowBar windowBar;
@@ -125,18 +121,19 @@ public class WaterCodeController extends BaseController{
     private final RunProjectUI runProjectUI;
     private final JavaProjectDebuggerUI javaProjectDebuggerUI;
     private final MouseEventInitializer mouseEventInitializer;
-    //    private AutoCompletion autoCompletion;
+
 
     public WaterCodeController(DirectoryInitializer directoryInitializer,
                                WindowBar windowBar,
-                               MavenTreeInitializer mavenTreeInitializer,
                                MavenPlugin mavenPlugin, TerminalInitializer terminalInitializer,
                                ResizableInitializer resizableInitializer,
                                GitLogInitializer gitLogInitializer,
                                JavaFxComponent javaFxComponent,
-                               CommandLineWindow commandLineWindow,
                                FocusAction focusAction,
-                               MainClassList mainClassList, RunProjectUI runProjectUI, JavaProjectDebuggerUI javaProjectDebuggerUI, MouseEventInitializer mouseEventInitializer) {
+                               MainClassList mainClassList,
+                               RunProjectUI runProjectUI,
+                               JavaProjectDebuggerUI javaProjectDebuggerUI,
+                               MouseEventInitializer mouseEventInitializer) {
         this.directoryInitializer = directoryInitializer;
         this.windowBar = windowBar;
         this.mavenPlugin = mavenPlugin;
@@ -146,7 +143,6 @@ public class WaterCodeController extends BaseController{
         this.javaFxComponent=javaFxComponent;
         this.focusAction=focusAction;
         this.mainClassList=mainClassList;
-//        this.autoCompletion=autoCompletion;
         this.runProjectUI = runProjectUI;
         this.javaProjectDebuggerUI = javaProjectDebuggerUI;
         this.mouseEventInitializer = mouseEventInitializer;
@@ -158,53 +154,34 @@ public class WaterCodeController extends BaseController{
     public void initialize(){
         //add to JavaFxComponent
         addJavaFxComponent(javaFxComponent);
-        //高度和宽度跟随父类
-        //初始化文件目录树
-        TreeItem<Node> treeItem = directoryInitializer.getTreeItem();
-        dirTree.setRoot(treeItem);
-        //maven依赖树初始化
-//        mavenTreeInitializer.initialize(mavenTree,output,bottomTabPane);
-        mavenPlugin.initial();
-        //action 初始化
-        focusAction.initial(bottomTabPane);
-        mainClassList.initial(mainClassButton,mainClassGroup);
         //当stage准备好的时候
         onStageReady();
     }
 
     public void onStageReady(){
         //初始化标题栏事件
-        stageInitialized.addListener((observable, oldValue, newValue) ->
-                windowBar.initialToolBar(minButton,closeButton,maxButton,stage,titleBar));
+        stageInitialized.addListener((observable, oldValue, newValue) -> windowBar.initial());
+        //初始化文件目录树
+        directoryInitializer.initial();
+        //maven依赖树初始化
+        mavenPlugin.initial();
+        //action 初始化
+        focusAction.initial();
+        mainClassList.initial();
         //Java伪终端初始化
-        terminalInitializer.initialize(terminalAnchorPane,terminalTabPane,addTerminalButton);
+        terminalInitializer.initial();
         //窗口拖拽初始化
-        resizableInitializer.initial(root,main,bottomTabPane,leftPane,rightTabPane,
-                terminalTabPane,mavenTree,dirTree,leftToolBar);
+        resizableInitializer.initial();
         //初始化git面板
-        gitLogInitializer.initial(gitTab);
+        gitLogInitializer.initial();
         runProjectUI.initial();
         javaProjectDebuggerUI.initialUI();
         mouseEventInitializer.initial();
-        //初始化代码提示组件
-//        autoCompletion.setCodeCompletion(codeCompletion);
     }
 
     public void setStage(Stage stage) {
-        this.stage=stage;
         javaFxComponent.set("stage",stage);
         //stage初始化完毕
         stageInitialized.setValue( true);
-    }
-
-
-    //getter setter
-
-    public ListView getCodeCompletion() {
-        return codeCompletion;
-    }
-
-    public void setCodeCompletion(ListView codeCompletion) {
-        this.codeCompletion = codeCompletion;
     }
 }

@@ -22,10 +22,7 @@ public class MavenCmdExecutor {
     }
 
     public CommandResult execute(MavenCmd mavenCmd,boolean skipTest) throws CommandExcuteException {
-        CommandResult commandResult= commandExecutor.executeCmd(getCmdWithArg(mavenCmd,skipTest));
-        System.out.println(commandResult.getExitCode());
-        System.out.println(commandResult.getOutPut());
-        return commandResult;
+        return commandExecutor.executeCmd(getCmdWithArg(mavenCmd,skipTest));
     }
 
     private String getCmdWithArg(MavenCmd mavenCmd,boolean skipTest){

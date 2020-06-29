@@ -17,7 +17,7 @@ public class JavaFxComponent {
     public <T> T get(String id,Class<T> type){
         Object bean=map.get(id);
         if(type != null && !type.isInstance(bean)){
-            throw new RuntimeException(id+"not found type component of:"+type.getName());
+            throw new RuntimeException(" id: "+id+" not found type component of:"+type.getName());
         }
         return (T)bean;
     }

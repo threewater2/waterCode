@@ -8,6 +8,7 @@ import javafx.scene.text.Text;
 import org.springframework.stereotype.Component;
 import xyz.threewater.console.command.CommandExecutor;
 import xyz.threewater.console.command.CommandResult;
+import xyz.threewater.enviroment.JavaFxComponent;
 import xyz.threewater.enviroment.ProjectEnv;
 import xyz.threewater.exception.CommandExcuteException;
 import java.util.Arrays;
@@ -22,11 +23,15 @@ public class GitLogInitializer {
 
     private final ProjectEnv projectEnv;
 
-    public GitLogInitializer(ProjectEnv projectEnv) {
+    private final JavaFxComponent javaFxComponent;
+
+    public GitLogInitializer(ProjectEnv projectEnv, JavaFxComponent javaFxComponent) {
         this.projectEnv = projectEnv;
+        this.javaFxComponent = javaFxComponent;
     }
 
-    public void initial(Tab gitTab) {
+    public void initial() {
+        Tab gitTab = javaFxComponent.get("gitTab", Tab.class);
         CommandResult result;
         try {
             result = executor.executeCmd(projectEnv.getGitCmd());

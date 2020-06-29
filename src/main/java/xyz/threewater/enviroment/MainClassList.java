@@ -1,14 +1,11 @@
 package xyz.threewater.enviroment;
 
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -25,15 +22,20 @@ import java.util.Optional;
 public class MainClassList {
     private final Logger logger= LoggerFactory.getLogger(MainClassList.class);
 
+    private final JavaFxComponent javaFxComponent;
 
     //全限定类名作为键，文件名作为值
     private final Map<String,String> classNameMap=new HashMap<>();
     private Button mainClassButton;
     private VBox mainClassGroup;
 
-    public void initial(Button mainClassButton, VBox mainClassGroup){
-        this.mainClassButton=mainClassButton;
-        this.mainClassGroup =mainClassGroup;
+    public MainClassList(JavaFxComponent javaFxComponent) {
+        this.javaFxComponent = javaFxComponent;
+    }
+
+    public void initial(){
+        this.mainClassButton=javaFxComponent.get("mainClassButton",Button.class);
+        this.mainClassGroup =javaFxComponent.get("mainClassGroup",VBox.class);
         initialEvent();
     }
     public void addMainClass(String fileName,String fullClassName){
@@ -46,14 +48,6 @@ public class MainClassList {
         hBox.getStyleClass().add("main-class-item");
         addItemClickEvent(hBox,fileName);
         mainClassGroup.getChildren().add(hBox);
-    }
-
-    public String getClassPath(String fullClassName){
-        return classNameMap.get(fullClassName);
-    }
-
-    public void remove(String fullClassName){
-        classNameMap.remove(fullClassName);
     }
 
     /**

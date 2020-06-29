@@ -41,9 +41,6 @@ public class BreakPointHolder {
     }
 
     public List<BreakPointBean> getWaitingBreakPoints(String fullClassName){
-        if("xyz.threewater.DebugDemo".equals(fullClassName)){
-            System.out.println("ff");
-        }
         List<BreakPointBean> breakPointBeans=new ArrayList<>();
         breakPoints.forEach(breakPointBean -> {
             if(breakPointBean.getFullClassName().equals(fullClassName)&&!breakPointBean.isUsed()){
