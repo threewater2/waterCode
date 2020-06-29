@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import xyz.threewater.build.JavaProjectBuilder;
+import xyz.threewater.event.FileSaver;
 import xyz.threewater.run.JavaProjectRunner;
 
 @Component
@@ -12,11 +13,13 @@ public class RunAndBuildAction {
     private final Logger logger= LoggerFactory.getLogger(RunAndBuildAction.class);
     private final JavaProjectBuilder javaProjectBuilder;
     private final JavaProjectRunner javaProjectRunner;
+    private final FileSaver fileSaver;
     private BuildStatus buildStatus=BuildStatus.DIRTY;
     private Thread buildThread;
-    public RunAndBuildAction(JavaProjectBuilder javaProjectBuilder, JavaProjectRunner javaProjectRunner) {
+    public RunAndBuildAction(JavaProjectBuilder javaProjectBuilder, JavaProjectRunner javaProjectRunner, FileSaver fileSaver) {
         this.javaProjectBuilder = javaProjectBuilder;
         this.javaProjectRunner = javaProjectRunner;
+        this.fileSaver = fileSaver;
     }
 
 
@@ -84,7 +87,7 @@ public class RunAndBuildAction {
     }
 
     public void projectBuildAndRunStarted(){
-
+        fileSaver.saveFile();
     }
 
 

@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class CursorRecover {
 
-    private static Logger logger=LoggerFactory.getLogger(CursorRecover.class);
+    private static final Logger logger=LoggerFactory.getLogger(CursorRecover.class);
 
     static void forChild(Region... regions){
        for(Region region:regions){

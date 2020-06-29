@@ -3,6 +3,7 @@ package xyz.threewater.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,7 @@ import xyz.threewater.enviroment.JavaFxComponent;
 import xyz.threewater.welcome.WelcomeInitializer;
 
 @Component
-public class WelcomeController {
+public class WelcomeController extends BaseController{
     @FXML
     public Button config;
     @FXML
@@ -31,9 +32,17 @@ public class WelcomeController {
     public Button previous;
     @FXML
     public Button finish;
-
+    @FXML
+    public Button welcomeMinButton;
+//    @FXML
+//    public Button welcomeMaxButton;
+    @FXML
+    public Button welcomeCloseButton;
+    @FXML
+    public Pane welcomeTitleBar;
     private final JavaFxComponent javaFxComponent;
     private final WelcomeInitializer welcomeInitializer;
+
     private Stage welcomeStage;
 
     public WelcomeController(WelcomeInitializer welcomeInitializer, JavaFxComponent javaFxComponent) {
@@ -46,23 +55,24 @@ public class WelcomeController {
 
     }
 
-    private void addJfxComponent(){
-        javaFxComponent.set("welcomeStage",welcomeStage);
-        javaFxComponent.set("open",open);
-        javaFxComponent.set("create",create);
-        javaFxComponent.set("config",config);
-        javaFxComponent.set("indexContent",indexContent);
-        javaFxComponent.set("projectName",projectName);
-        javaFxComponent.set("createContent",createContent);
-        javaFxComponent.set("projectPath",projectPath);
-        javaFxComponent.set("selectProjectPath",selectProjectPath);
-        javaFxComponent.set("previous",previous);
-        javaFxComponent.set("finish",finish);
-    }
+//    private void addJfxComponent(){
+//        javaFxComponent.set("welcomeStage",welcomeStage);
+//        javaFxComponent.set("open",open);
+//        javaFxComponent.set("create",create);
+//        javaFxComponent.set("config",config);
+//        javaFxComponent.set("indexContent",indexContent);
+//        javaFxComponent.set("projectName",projectName);
+//        javaFxComponent.set("createContent",createContent);
+//        javaFxComponent.set("projectPath",projectPath);
+//        javaFxComponent.set("selectProjectPath",selectProjectPath);
+//        javaFxComponent.set("previous",previous);
+//        javaFxComponent.set("finish",finish);
+//    }
 
     public void onStageReady(Stage stage){
         welcomeStage=stage;
-        addJfxComponent();
+        javaFxComponent.set("welcomeStage",welcomeStage);
+        addJavaFxComponent(javaFxComponent);
         welcomeInitializer.initial();
     }
 }

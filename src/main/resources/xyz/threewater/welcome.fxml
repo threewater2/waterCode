@@ -19,10 +19,10 @@
         <top>
             <!--无限延长间隔条-->
             <HBox fx:id="toolBar" styleClass="toolBar">
-                <Pane HBox.hgrow="ALWAYS"/>
-                <Button fx:id="minButton" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
-                <Button fx:id="maxButton" prefHeight="30.0" prefWidth="40.0" styleClass="max" />
-                <Button fx:id="closeButton" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
+                <Pane HBox.hgrow="ALWAYS" fx:id="welcomeTitleBar"/>
+                <Button fx:id="welcomeMinButton" prefHeight="30.0" prefWidth="40.0" styleClass="min" />
+<!--                <Button fx:id="welcomeMaxButton" prefHeight="30.0" prefWidth="40.0" styleClass="max" />-->
+                <Button fx:id="welcomeCloseButton" prefHeight="30.0" prefWidth="40.0" styleClass="close" />
             </HBox>
         </top>
         <center>

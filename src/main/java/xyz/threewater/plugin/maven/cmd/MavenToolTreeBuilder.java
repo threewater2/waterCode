@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import xyz.threewater.console.command.CommandResult;
+import xyz.threewater.enviroment.JavaFxComponent;
 import xyz.threewater.event.FileSaver;
 import xyz.threewater.exception.CommandExcuteException;
 
@@ -19,15 +20,18 @@ import java.io.IOException;
 @Component
 public class MavenToolTreeBuilder {
 
-    private Logger logger= LoggerFactory.getLogger(this.getClass());
+    private final Logger logger= LoggerFactory.getLogger(this.getClass());
 
-    private FileSaver fileSaver;
+    private final FileSaver fileSaver;
 
-    private MavenCmdExecutor executor;
+    private final MavenCmdExecutor executor;
 
-    public MavenToolTreeBuilder(FileSaver fileSaver,MavenCmdExecutor mavenCmdExecutor) {
+    private final JavaFxComponent javaFxComponent;
+
+    public MavenToolTreeBuilder(FileSaver fileSaver, MavenCmdExecutor mavenCmdExecutor, JavaFxComponent javaFxComponent) {
         this.executor=mavenCmdExecutor;
         this.fileSaver = fileSaver;
+        this.javaFxComponent = javaFxComponent;
     }
 
     @Value("classpath:/images/bar/setting-black.svg")
@@ -36,9 +40,9 @@ public class MavenToolTreeBuilder {
     private Node showResultNode;
     private TabPane bottomTabPane;
 
-    public TreeItem<Node> build(Node showResultNode, TabPane bottomTabPane){
-        this.showResultNode=showResultNode;
-        this.bottomTabPane=bottomTabPane;
+    public TreeItem<Node> build(){
+        this.showResultNode=javaFxComponent.get("output",TextArea.class);
+        this.bottomTabPane=javaFxComponent.get("bottomTabPane", TabPane.class);
         TreeItem<Node> root=new TreeItem<>(new Label("LifeCycle"));
         for(MavenCmd mavenCmd:MavenCmd.values()){
             ImageView icon=getSettingIcon();

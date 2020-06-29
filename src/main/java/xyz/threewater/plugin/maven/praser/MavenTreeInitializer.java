@@ -1,62 +1,69 @@
 package xyz.threewater.plugin.maven.praser;
 
-import javafx.scene.Node;
+import fr.dutra.tools.maven.deptree.core.InputType;
+import fr.dutra.tools.maven.deptree.core.Node;
+import fr.dutra.tools.maven.deptree.core.ParseException;
+import fr.dutra.tools.maven.deptree.core.Parser;
 import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import org.springframework.stereotype.Component;
+import xyz.threewater.console.command.CommandExecutor;
+import xyz.threewater.enviroment.JavaFxComponent;
 import xyz.threewater.enviroment.ProjectEnv;
-import xyz.threewater.plugin.maven.cmd.MavenToolTreeBuilder;
+import xyz.threewater.exception.CommandExcuteException;
+import xyz.threewater.exception.MavenTreeCmdExeception;
 
-import java.io.File;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class MavenTreeInitializer {
 
+    private final CommandExecutor commandExecutor;
     private final ProjectEnv projectEnv;
 
-    private MavenTreeBuilder treeBuilder;
-    private MavenToolTreeBuilder toolTreeBuilder;
-
-    public MavenTreeInitializer(ProjectEnv projectEnv, MavenTreeBuilder treeBuilder,
-                                MavenToolTreeBuilder toolTreeBuilder){
+    public MavenTreeInitializer(CommandExecutor commandExecutor, ProjectEnv projectEnv, JavaFxComponent javaFxComponent) {
+        this.commandExecutor = commandExecutor;
         this.projectEnv = projectEnv;
-        this.treeBuilder =treeBuilder;
-        this.toolTreeBuilder=toolTreeBuilder;
     }
 
-    @SuppressWarnings("unchecked")
-    public void initialize(TreeView<Node> treeView, Node showResultPane, TabPane bottomTabPane){
-        //不是一个maven项目
-        if(!isMavenProject()){
-            TreeItem<Node> root=new TreeItem<>(new Label("not a maven project"));
-            treeView.setRoot(root);
-            return;
+    public TreeItem<javafx.scene.Node> build(){
+        Node mavenNode = getMavenNode();
+        TreeItem<javafx.scene.Node> dependencies=new TreeItem<>(new Label("dependencies"));
+        resolveTreeNode(mavenNode,dependencies);
+        return dependencies;
+    }
+
+    private void resolveTreeNode(Node node, TreeItem<javafx.scene.Node> root){
+        TreeItem<javafx.scene.Node> child=new TreeItem<>(new Label(getDependencyStr(node)));
+        root.getChildren().add(child);
+        for (Node childNode:node.getChildNodes()){
+            resolveTreeNode(childNode,child);
         }
+    }
+
+    private String getDependencyStr(Node node){
+        String groupId = node.getGroupId();
+        String artifactId = node.getArtifactId();
+        String version = node.getVersion();
+        String scope = node.getScope();
+        return Stream.of(groupId, artifactId, version, scope)
+                .filter(s -> s != null && !s.isEmpty())
+                .collect(Collectors.joining(":"));
+    }
+
+    private Node getMavenNode(){
+        String cmd=projectEnv.getMaven()+" dependency:tree -DoutputFile=./mavenTree.txt -DoutputType=text";
         try {
-            TreeItem<Node> dependencyTree = treeBuilder.getDependencyTree(getProjectPath());
-            //maven命令树
-            TreeItem<Node> toolTree = toolTreeBuilder.build(showResultPane,bottomTabPane);
-            //maven依赖树
-            TreeItem<Node> root=new TreeItem<>(new Label(projectEnv.getProjectName()));
-            root.getChildren().addAll(toolTree,dependencyTree);
-            treeView.setRoot(root);
-        } catch (XmlParseException e) {
-            throw new RuntimeException(e);
+            commandExecutor.executeCmd(cmd);
+            InputType type = InputType.TEXT;
+            Reader r = new BufferedReader(new InputStreamReader(new FileInputStream(new File("./mavenTree.txt")), StandardCharsets.UTF_8));
+            Parser parser = type.newParser();
+            return parser.parse(r);
+        } catch (CommandExcuteException | FileNotFoundException | ParseException e) {
+            throw new MavenTreeCmdExeception("执行"+cmd+"失败",e);
         }
-    }
-
-    public String getProjectPath(){
-        return projectEnv.getProjectPath()+"/pom.xml";
-    }
-
-
-    /**
-     * 判断是不是maven项目
-     */
-    private boolean isMavenProject(){
-        File file=new File(getProjectPath());
-        return file.exists();
     }
 }

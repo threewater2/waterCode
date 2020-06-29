@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import xyz.threewater.controller.CreateProjectController;
+import xyz.threewater.bar.WindowBar;
 import xyz.threewater.controller.WaterCodeController;
 import xyz.threewater.enviroment.JavaFxComponent;
 import xyz.threewater.enviroment.ProjectEnv;
@@ -45,6 +46,7 @@ public class WelcomeInitializer {
     private final ApplicationContext applicationContext;
     private final CSSHolder cssFile;
     private final ProjectEnv projectEnv;
+    private final WindowBar windowBar;
 
 
     //jfx component initial
@@ -52,11 +54,12 @@ public class WelcomeInitializer {
     VBox indexContent;
     VBox createContent;
 
-    public WelcomeInitializer(JavaFxComponent javaFxComponent, ApplicationContext applicationContext, CSSHolder cssFile, ProjectEnv projectEnv) {
+    public WelcomeInitializer(JavaFxComponent javaFxComponent, ApplicationContext applicationContext, CSSHolder cssFile, ProjectEnv projectEnv, WindowBar windowBar) {
         this.javaFxComponent = javaFxComponent;
         this.applicationContext = applicationContext;
         this.cssFile = cssFile;
         this.projectEnv = projectEnv;
+        this.windowBar = windowBar;
     }
 
     public void initial(){
@@ -64,6 +67,12 @@ public class WelcomeInitializer {
         welcomeStage=javaFxComponent.get("welcomeStage",Stage.class);
         indexContent = javaFxComponent.get("indexContent", VBox.class);
         createContent = javaFxComponent.get("createContent", VBox.class);
+        //窗口初始化
+        windowBar.initialToolBar(javaFxComponent.get("welcomeMinButton",Button.class),
+                                 javaFxComponent.get("welcomeCloseButton",Button.class),
+                                 null,
+                                 javaFxComponent.get("welcomeStage",Stage.class),
+                                 javaFxComponent.get("welcomeTitleBar",Pane.class));
         //创建新项目
         Button create=javaFxComponent.get("create",Button.class);
         create.setOnMouseClicked(e->{

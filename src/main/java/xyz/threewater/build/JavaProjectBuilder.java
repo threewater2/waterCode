@@ -63,7 +63,13 @@ public class JavaProjectBuilder{
         clearOutDir();
         //没有classpath就不要-classpath参数
         String classPath="";
-        if(!classPath.isEmpty()){
+        String newClassPath="";
+        try {
+            newClassPath = FileUtils.readFileToString(new File(classPathFilePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(!newClassPath.isEmpty()){
             classPath="-classpath "+"@"+classPathFilePath;
         }
         String command = String.join(" ",
@@ -148,6 +154,12 @@ public class JavaProjectBuilder{
      */
     private void clearOutDir(){
         File file=new File(projectEnv.getOutPutPath());
-        file.deleteOnExit();
+        try {
+            FileUtils.deleteDirectory(file);
+            boolean mkdir = file.mkdir();
+            if(!mkdir) throw new RuntimeException("cannot mk dir");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

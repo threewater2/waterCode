@@ -37,6 +37,9 @@ public class FileUtil {
         saveFile(content,new File(path));
     }
 
+    public static void isEmpty(String filePath){
+    }
+
     public static boolean exist(String filePath){
         return new File(filePath).exists();
     }
